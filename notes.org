@@ -1,0 +1,407 @@
+#+language: ru
+#+latex_header: \usepackage{fontspec}
+#+latex_header: \usepackage[AUTO]{babel}
+#+latex_header: \usepackage{indentfirst}
+#+latex_header: \setmainfont{PT Astra Serif}
+#+latex_header: \usepackage[margin=1.5cm]{geometry}
+#+latex_header: \usepackage{amsthm}
+
+#+latex_header: \newtheorem{theorem}{Теорема}[section]
+#+latex_header: \newtheorem{lemma}[theorem]{Лемма}
+#+latex_header: \newtheorem{property}[theorem]{Свойство}
+
+#+latex_header: \theoremstyle{definition}
+#+latex_header: \newtheorem{definition}{Определение}[section]
+
+#+latex_header: \renewenvironment{proof}{{\noindent\bfseries Доказательство.}}{\hfill\textit{Что и требовалось доказать.}}
+
+# TODO: (setq org-latex-caption-above nil)
+
+* Матрицы
+** Определения
+#+begin_definition
+Матрица размером \(m \times n\) — таблица выражений, состоящая из \(m\) строк и \(n\) столбцов:
+
+\begin{equation*}
+    \underset{m \times n}{A} =
+    \begin{pmatrix}
+        a_{11} & a_{12} & \ldots & a_{1n} \\
+        a_{21} & a_{22} & \ldots & a_{2n} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{m1} & a_{m2} & \ldots & a_{mn}
+    \end{pmatrix}
+    = (a_{ij}).
+\end{equation*}
+#+end_definition
+
+#+begin_definition
+След матрицы — это сумма диагональных элементов матрицы. Операция взятия следа обозначается \(\mathrm{tr}\):
+
+\begin{equation*}
+    \underset{n \times n}{A} =
+    \begin{pmatrix}
+        a_{11} & a_{12} & \ldots & a_{1n} \\
+        a_{21} & a_{22} & \ldots & a_{2n} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{n1} & a_{n2} & \ldots & a_{nn}
+    \end{pmatrix};
+    = (a_{ij})
+    \qquad
+    \mathrm{tr} A = \sum_{i = 1}^n = a_{11} + a_{22} + \ldots + a_{nn}
+\end{equation*}
+#+end_definition
+
+** Виды матриц
+В зависимости от размерности, матрицы имеют названия, приведенные в следующей таблице.
+#+attr_latex: :align |c|c|c|c|
+| Размерность | Название      | Размерность | Название        |
+|-------------+---------------+-------------+-----------------|
+| \(m \times n\)   | прямоугольная | \(1 \times n\)   | матрица-строка  |
+| \(n \times n\)   | квадратная    | \(m \times 1\)   | матрица-столбец |
+
+Элементы квадратной матрицы, имеющие одинаковые индексы (\(a_{11}\), \(a_{22}\), \(\ldots\), \(a_{nn}\)), образуют /главную диагональ матрицы/. Диагональ, соединяющая элементы \(a_{1n}\), \(a_{2n}\), \(\ldots\), \(a_{n1}\), называется /побочной диагональю матрицы/.
+
+Квадратная матрица, у которой все элементы, расположенные выше (ниже) главной диагонали, равны нулю, называется /нижней/ (/верхней/) /треугольной матрицей/:
+#+begin_export latex
+\begin{equation*}
+    \text{нижняя:}
+    \quad
+    \begin{pmatrix}
+        a_{11} & 0 & \ldots & 0 \\
+        a_{21} & a_{22} & \ldots & 0 \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{n1} & a_{n2} & \ldots & a_{nn}
+    \end{pmatrix};
+    \qquad \qquad
+    \text{верхняя:}
+    \quad
+    \begin{pmatrix}
+        a_{11} & a_{12} & \ldots & a_{1n} \\
+        0      & a_{22} & \ldots & a_{2n} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        0      & 0 & \ldots & a_{nn}
+    \end{pmatrix}
+\end{equation*}
+#+end_export
+
+Квадратная матрица, имеющая ненулевые элементы только на главной диагонали, называется /диагональной/:
+#+begin_export latex
+\begin{equation*}
+    \mathrm{diag} \{ a_{11}, a_{22}, \ldots, a_{nn} \} =
+    \begin{pmatrix}
+        a_{11} & 0 & \ldots & 0 \\
+        0 & a_{22} & \ldots & 0 \\
+        \ldots & \ldots & \ldots & \ldots \\
+        0 & 0 & \ldots & a_{nn}
+    \end{pmatrix}
+\end{equation*}
+#+end_export
+
+Диагональная матрица, у которой все элементы главной диагонали равны единицам, называется /единичной/:
+#+begin_export latex
+\begin{equation*}
+    \underset{n \times n}{I} =
+    \begin{pmatrix}
+        1 & 0 & \ldots & 0 \\
+        0 & 1 & \ldots & 0 \\
+        \ldots & \ldots & \ldots & \ldots \\
+        0 & 0 & \ldots & 1
+    \end{pmatrix}
+\end{equation*}
+#+end_export
+
+Прямоугольная матрица, все элементы которой равны нулю, называется /нулевой/:
+#+begin_export latex
+\begin{equation*}
+    \underset{m \times n}{\Theta} =
+    \begin{pmatrix}
+        0 & 0 & \ldots & 0 \\
+        0 & 0 & \ldots & 0 \\
+        \ldots & \ldots & \ldots & \ldots \\
+        0 & 0 & \ldots & 0
+    \end{pmatrix}
+\end{equation*}
+#+end_export
+
+Матрица \(A^T\), у которой по отношению к матрице \(A\) элементы строк и столбцов поменялись местами, называется /транспонированной/ по отношению к \(A\):
+#+begin_export latex
+\begin{equation*}
+    \underset{m \times n}{A} =
+    \begin{pmatrix}
+        a_{11} & a_{21} & \ldots & a_{m1} \\
+        a_{12} & a_{22} & \ldots & a_{m2} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{1n} & a_{2n} & \ldots & a_{nm}
+    \end{pmatrix}
+    = \underset{m \times n}{A'}.
+\end{equation*}
+#+end_export
+
+Матрица, для которой справедливо равенство \(A = A^T\) называется /симметричной/.
+
+** Краткая запись различных видов матриц
+Перечисленные выше основные виды матриц характеризуются определенными свойствами ее элементов. Введем /символ Кронекера/:
+#+begin_export latex
+\begin{equation*}
+    \delta_{ij} =
+    \begin{cases}
+        1, \text{ если } i = j, \\
+        0, \text{ если } i \neq j
+    \end{cases}
+\end{equation*}
+#+end_export
+
+В таблице ниже приведены условия, с помощью которых можно выразить ранее приведеные свойства для квадратных матриц \(A = (a_{ij}) \; (i,j = \overline{1,n})\).
+#+attr_latex: :align |c|c|c|c|
+| Условие                      | Название            | Условие             | Название     |
+|------------------------------+---------------------+---------------------+--------------|
+| \(a_{ij} = 0\) при \(i > j\) | верхняя треугольная | \(a_{ij} = \delta_{ij}\) | единичная    |
+| \(a_{ij} = 0\) при \(i < j\) | нижняя треугольная  | \(a_{ij} = 0\)      | нулевая      |
+| \(a_{ij} = a_i \delta_{ij}\)      | диагональная        | \(a_{ij} = a_{ji}\) | симметричная |
+
+** Свойства транспонирования матриц
+
+#+begin_property
+\begin{equation*}
+    (A^T)^T = A
+\end{equation*}
+#+end_property
+
+#+begin_proof
+\begin{gather*}
+    A =
+    \begin{pmatrix}
+        a_{11} & a_{12} & \ldots & a_{1n} \\
+        a_{21} & a_{22} & \ldots & a_{2n} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{m1} & a_{m2} & \ldots & a_{mn}
+    \end{pmatrix}
+    \Rightarrow
+    A^T =
+    \begin{pmatrix}
+        a_{11} & a_{21} & \ldots & a_{m1} \\
+        a_{12} & a_{22} & \ldots & a_{m2} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{1n} & a_{2n} & \ldots & a_{mn}
+    \end{pmatrix}
+    \Rightarrow \\
+    \Rightarrow
+    (A^T)^T =
+    \begin{pmatrix}
+        a_{11} & a_{12} & \ldots & a_{1n} \\
+        a_{21} & a_{22} & \ldots & a_{2n} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{m1} & a_{m2} & \ldots & a_{mn}
+    \end{pmatrix}
+    = A
+\end{gather*}
+#+end_proof
+
+
+#+begin_property
+\begin{equation*}
+    (A + B)^T = A^T + B^T
+\end{equation*}
+#+end_property
+
+#+begin_proof
+\begin{equation*}
+    A =
+    \begin{pmatrix}
+        a_{11} & a_{12} & \ldots & a_{1n} \\
+        a_{21} & a_{22} & \ldots & a_{2n} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{m1} & a_{m2} & \ldots & a_{mn}
+    \end{pmatrix}
+    \qquad
+    B =
+    \begin{pmatrix}
+        b_{11} & b_{12} & \ldots & b_{1n} \\
+        b_{21} & b_{22} & \ldots & b_{2n} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        b_{m1} & b_{m2} & \ldots & b_{mn}
+    \end{pmatrix}
+\end{equation*}
+
+\begin{equation*}
+    A^T =
+    \begin{pmatrix}
+        a_{11} & a_{21} & \ldots & a_{m1} \\
+        a_{11} & a_{22} & \ldots & a_{2n} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{1n} & a_{2n} & \ldots & a_{mn}
+    \end{pmatrix}
+    \qquad
+    B^T =
+    \begin{pmatrix}
+        b_{11} & b_{21} & \ldots & b_{m1} \\
+        b_{11} & b_{22} & \ldots & b_{2n} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        b_{1n} & b_{2n} & \ldots & b_{mn}
+    \end{pmatrix}
+\end{equation*}
+
+\begin{equation*}
+    A + B =
+    \begin{pmatrix}
+        a_{11} + b_{11} & a_{12} + b_{12} & \ldots & a_{1n} + b_{1n} \\
+        a_{21} + b_{21} & a_{22} + b_{22} & \ldots & a_{2n} + b_{2n} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{m1} + b_{m1} & a_{m2} + b_{m2} & \ldots & a_{mn} + b_{mn}
+    \end{pmatrix}
+\end{equation*}
+
+\begin{equation*}
+    (A + B)^T =
+    \begin{pmatrix}
+        a_{11} + b_{11} & a_{21} + b_{21} & \ldots & a_{m1} + b_{m1} \\
+        a_{12} + b_{12} & a_{22} + b_{22} & \ldots & a_{m2} + b_{m2} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{1n} + b_{1n} & a_{2n} + b_{2n} & \ldots & a_{mn} + b_{mn}
+    \end{pmatrix}
+\end{equation*}
+
+\begin{equation*}
+    A^T + B^T =
+    \begin{pmatrix}
+        a_{11} + b_{11} & a_{21} + b_{21} & \ldots & a_{m1} + b_{m1} \\
+        a_{12} + b_{12} & a_{22} + b_{22} & \ldots & a_{m2} + b_{m2} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{1n} + b_{1n} & a_{2n} + b_{2n} & \ldots & a_{mn} + b_{mn}
+    \end{pmatrix}
+\end{equation*}
+#+end_proof
+
+#+begin_property
+\begin{equation*}
+    (\lambda A)^T = \lambda A^T
+\end{equation*}
+#+end_property
+
+#+begin_proof
+\begin{equation*}
+    A =
+    \begin{pmatrix}
+        a_{11} & a_{12} & \ldots & a_{1n} \\
+        a_{21} & a_{22} & \ldots & a_{2n} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{m1} & a_{m2} & \ldots & a_{mn}
+    \end{pmatrix}
+\end{equation*}
+
+\begin{equation*}
+    \lambda A =
+    \begin{pmatrix}
+        \lambda a_{11} & \lambda a_{12} & \ldots & \lambda a_{1n} \\
+        \lambda a_{21} & \lambda a_{22} & \ldots & \lambda a_{2n} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        \lambda a_{m1} & \lambda a_{m2} & \ldots & \lambda a_{mn}
+    \end{pmatrix}
+    \qquad
+    (\lambda A)^T =
+    \begin{pmatrix}
+        \lambda a_{11} & \lambda a_{21} & \ldots & \lambda a_{m1} \\
+        \lambda a_{12} & \lambda a_{22} & \ldots & \lambda a_{m2} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        \lambda a_{1n} & \lambda a_{m2} & \ldots & \lambda a_{mn}
+    \end{pmatrix}
+\end{equation*}
+
+\begin{equation*}
+    A^T =
+    \begin{pmatrix}
+        a_{11} & a_{21} & \ldots & a_{m1} \\
+        a_{12} & a_{22} & \ldots & a_{m2} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{1n} & a_{m2} & \ldots & a_{mn}
+    \end{pmatrix}
+    \qquad
+    \lambda A^T =
+    \begin{pmatrix}
+        \lambda a_{11} & \lambda a_{21} & \ldots & \lambda a_{m1} \\
+        \lambda a_{12} & \lambda a_{22} & \ldots & \lambda a_{m2} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        \lambda a_{1n} & \lambda a_{m2} & \ldots & \lambda a_{mn}
+    \end{pmatrix}
+\end{equation*}
+#+end_proof
+
+#+begin_property
+\begin{equation*}
+    (A \cdot B)^T = B^T \cdot A^T
+\end{equation*}
+#+end_property
+
+#+begin_proof
+\begin{equation*}
+    A =
+    \begin{pmatrix}
+        a_{11} & a_{12} & \ldots & a_{1n} \\
+        a_{21} & a_{22} & \ldots & a_{2n} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{m1} & a_{m2} & \ldots & a_{mn}
+    \end{pmatrix}
+    \qquad
+    B =
+    \begin{pmatrix}
+        b_{11} & b_{12} & \ldots & b_{1n} \\
+        b_{21} & b_{22} & \ldots & b_{2n} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        b_{m1} & b_{m2} & \ldots & b_{mn}
+    \end{pmatrix}
+\end{equation*}
+
+\begin{equation*}
+    A^T = C =
+    \begin{pmatrix}
+        c_{11} & c_{21} & \ldots & c_{m1} \\
+        c_{11} & c_{22} & \ldots & c_{2n} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        c_{1n} & c_{2n} & \ldots & c_{mn}
+    \end{pmatrix}
+    \qquad
+    B^T = D =
+    \begin{pmatrix}
+        d_{11} & d_{21} & \ldots & d_{m1} \\
+        d_{11} & d_{22} & \ldots & d_{2n} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        d_{1n} & d_{2n} & \ldots & d_{mn}
+    \end{pmatrix}
+    \qquad
+    \begin{cases}
+        a_{ij} = c_{ji} \\
+        b_{\alpha \beta} = d_{\beta \alpha}
+    \end{cases}
+\end{equation*}
+
+\begin{equation*}
+    A \cdot B = F =
+    \begin{pmatrix}
+        f_{11} & f_{21} & \ldots & f_{m1} \\
+        f_{11} & f_{22} & \ldots & f_{2n} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        f_{1n} & f_{2n} & \ldots & f_{mn}
+    \end{pmatrix}
+    \qquad
+    B^T \cdot A^T = G =
+    \begin{pmatrix}
+        g_{11} & g_{21} & \ldots & g_{m1} \\
+        g_{11} & g_{22} & \ldots & g_{2n} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        g_{1n} & g_{2n} & \ldots & g_{mn}
+    \end{pmatrix}
+\end{equation*}
+
+\begin{equation*}
+    g_{ji} =
+    \sum_{\alpha = 1}^k d_{j \alpha} c_{\alpha i} =
+    \sum_{\alpha = 1}^k b_{\alpha j} a_{i \alpha} =
+    \sum_{\alpha = 1}^k a_{i \alpha} b_{\alpha j} =
+    f_{ij}
+\end{equation*}
+
+\begin{equation*}
+    G = F^T \Rightarrow (A \cdot B)^T = B^T \cdot A^T
+\end{equation*}
+#+end_proof
+
