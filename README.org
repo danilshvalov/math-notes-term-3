@@ -1,6 +1,6 @@
 * 💾 Скачивание PDF
 
-Для скачивания PDF перейдите по [[https://github.com/danilshvalov/math-synopsis-term-3/blob/main/notes.pdf][ссылке]].
+Для скачивания PDF перейдите по [[https://github.com/danilshvalov/math-notes-term-3/raw/main/notes.pdf][ссылке]].
 
 * 🚧 Недоработки, правки и предложения
 Напишите мне в [[https://t.me/danilshvalov][Телеграме]] или в [[https://vk.com/danilshvalov][ВК]].
