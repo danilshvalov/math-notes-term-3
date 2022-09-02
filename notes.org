@@ -534,6 +534,7 @@
 
 
 ** Обратная матрица
+
 #+begin_definition
 Обратная матрица — это такая матрица \(A^{-1}\), при умножении которой на исходную матрицу \(A\) получается единичная матрица \(E\):
 
@@ -546,23 +547,23 @@
 Невырожденная матрица — это квадратная матрица, определитель которой отличен от нуля. В противном случае матрица называется вырожденной.
 #+end_definition
 
-
 #+begin_theorem
 Для всякой невырожденной матрицы \(A\) существует единственная обратная матрица.
 #+end_theorem
 
-#+begin_proof
-\begin{equation*}
-    \lets A =
-    \begin{pmatrix}
-        a_{11} & a_{12} & \ldots & a_{1n} \\
-        a_{21} & a_{22} & \ldots & a_{2n} \\
-        \ldots & \ldots & \ldots & \ldots \\
-        a_{i1} & a_{i2} & \ldots & a_{in} \\
-        \ldots & \ldots & \ldots & \ldots \\
-        a_{n1} & a_{n2} & \ldots & a_{nn}
-    \end{pmatrix};
-    \quad
-    \det = |A| \neq 0
-\end{equation*}
-#+end_proof
+# TODO: добавить доказательство теоремы
+# #+begin_proof
+# \begin{equation*}
+#     \lets A =
+#     \begin{pmatrix}
+#         a_{11} & a_{12} & \ldots & a_{1n} \\
+#         a_{21} & a_{22} & \ldots & a_{2n} \\
+#         \ldots & \ldots & \ldots & \ldots \\
+#         a_{i1} & a_{i2} & \ldots & a_{in} \\
+#         \ldots & \ldots & \ldots & \ldots \\
+#         a_{n1} & a_{n2} & \ldots & a_{nn}
+#     \end{pmatrix};
+#     \quad
+#     \det = |A| \neq 0
+# \end{equation*}
+# #+end_proof
