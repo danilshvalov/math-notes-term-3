@@ -1,4 +1,6 @@
 #+language: ru
+#+latex_class: extreport
+#+latex_class_options: [a4paper,12pt]
 #+latex_header: \usepackage{fontspec}
 #+latex_header: \usepackage[AUTO]{babel}
 #+latex_header: \usepackage{indentfirst}
@@ -13,7 +15,26 @@
 #+latex_header: \theoremstyle{definition}
 #+latex_header: \newtheorem{definition}{Определение}[section]
 
-#+latex_header: \renewenvironment{proof}{{\noindent\bfseries Доказательство.}}{\hfill\textit{Что и требовалось доказать.}}
+#+latex_header: \newcommand{\newpar}{$ $\par\nobreak\ignorespaces}
+#+latex_header: \renewenvironment{proof}{{\noindent\bfseries Доказательство.}}{\smallskip\newpar \hfill\textit{Что и требовалось доказать.}}
+
+#+latex_header: \usepackage[x11names]{xcolor}
+#+latex_header: \hypersetup{linktoc = all, colorlinks = true, urlcolor = DodgerBlue4, citecolor = PaleGreen1, linkcolor = black}
+
+#+begin_export latex
+\def\lets{%
+    \mathord{\setbox0=\hbox{$\exists$}%
+             \hbox{\kern 0.125\wd0%
+                   \vbox to \ht0{%
+                      \hrule width 0.75\wd0%
+                      \vfill%
+                      \hrule width 0.75\wd0}%
+                   \vrule height \ht0%
+                   \kern 0.125\wd0}%
+           }%
+}
+#+end_export
+
 
 # TODO: (setq org-latex-caption-above nil)
 
@@ -158,6 +179,51 @@
 | \(a_{ij} = 0\) при \(i > j\) | верхняя треугольная | \(a_{ij} = \delta_{ij}\) | единичная    |
 | \(a_{ij} = 0\) при \(i < j\) | нижняя треугольная  | \(a_{ij} = 0\)      | нулевая      |
 | \(a_{ij} = a_i \delta_{ij}\)      | диагональная        | \(a_{ij} = a_{ji}\) | симметричная |
+
+** Линейные операции
+Рассмотрим операции, справедливые для матриц с размерностью \(m \times n\).
+
+*** Сравнение матриц
+Две матрицы одинаковых размеров называются равными, если совпадают их элементы с одинаковыми индексами:
+\begin{equation*}
+    A = B \iff a_{ij} = b_{ij}
+\end{equation*}
+
+*** Сложение матриц
+Сложение матриц \(A + B\) есть операция нахождения матрицы \(C\), все элементы которой равны попарной сумме всех соответствующих элементов матриц \(A\) и \(B\):
+\begin{equation*}
+    C = A + B \iff c_{ij} = a_{ij} + b_{ij}
+\end{equation*}
+
+Свойства сложения матриц:
+- Коммутативность: \(A + B = B + A\)
+- Ассоциативность: \(A + B + C = (A + B) + C = A + (B + C)\)
+- Сложение с нулевой матрицей: \(A + \theta = \theta + A = A\)
+- Существование противоположной матрицы: \(A + A^{-1} = 0\)
+
+*** Умножение матрицы на число
+Умножение матрицы \(A\) на число \(\lambda \in \mathcal{K}\) заключается в построении матрицы \(\lambda A = (\lambda a_{ij})\).
+
+Свойства умножения матриц на число:
+- Ассоциативность: \((\lambda \beta) A = \lambda (\beta A)\)
+- Дистрибутивность: \((\lambda + \beta) A = \lambda A + \beta A\); \quad \(\lambda (A + B) = \lambda A + \lambda B\)
+- Умножение на единицу: \(1 \cdot A = A \cdot 1 = A\)
+
+*** Умножение матриц
+Умножение матриц — операция вычисления матрицы \(C\), каждый элемент которой равен сумме произведений элементов в соответствующей строке первого множителя и столбце второго:
+
+\begin{equation*}
+    c_{ij} = \sum_{k=1}^n a_{ik} b_{kj}
+\end{equation*}
+
+Количество столбцов в матрице \(A\) должно совпадать с количеством строк в матрице \(B\). Если матрица \(A\) имеет размерность \(m \times n\), B — \(n \times k\), то размерность их произведения \(AB = C\) есть \(m \times k\).
+
+Свойства умножения матриц:
+- Некоммутативность (в общем случае): \(AB \neq BA\)
+- Ассоциативность: \((AB)C = A(BC)\)
+- Коммутативность при умножении с единичной матрицей: \(AE = EA = A\)
+- Дистрибутивность: \((A + B) C = AC + BC\); \quad \(A (B + C) = AB + BC\)
+- Ассоциативность и коммутативность умножения на число: \((\lambda A) B = A (\lambda B) = \lambda (AB)\)
 
 ** Свойства транспонирования матриц
 
@@ -405,3 +471,98 @@
 \end{equation*}
 #+end_proof
 
+
+** Присоединенная матрица
+#+begin_definition
+Присоединенная матрица \(A^c\) — это транспонированная матрица алгебраических дополнений \(A_{ij}\) элементов \(a_{ij}\) матрицы \(A\):
+\begin{equation*}
+    A^c =
+    \begin{pmatrix}
+        A_{11} & A_{21} & \ldots & A_{n1} \\
+        A_{12} & A_{22} & \ldots & A_{n2} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        A_{1n} & A_{2n} & \ldots & A_{nn}
+    \end{pmatrix};
+\end{equation*}
+#+end_definition
+
+#+attr_latex: :options [Аннулирование]
+#+begin_theorem
+Сумма произведений  элементов любой строки (или столбца) на алгебраические дополнения элементов другой строки (столбца) равна нулю:
+\begin{equation*}
+    \sum_{k = 1}^n a_{ik} A_{jk} = 0, \quad (i \neq j);
+    \qquad
+    \sum_{k = 1}^n a_{ki} A_{kj} = 0, \quad (i \neq j).
+\end{equation*}
+#+end_theorem
+
+#+begin_proof
+Рассмотрим вспомогательную матрицу \(A'\), полученную из матрицы \(A\), заменой \(j\)-ой строки \(i\)-ой строкой:
+\begin{equation*}
+    A =
+    \begin{pmatrix}
+        a_{11} & a_{12} & \ldots & a_{1n} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{i1} & a_{i2} & \ldots & a_{in} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{j1} & a_{j2} & \ldots & a_{jn} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{n1} & a_{n2} & \ldots & a_{nn}
+    \end{pmatrix};
+    \qquad
+    A' =
+    \begin{pmatrix}
+        a_{11} & a_{12} & \ldots & a_{1n} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{i1} & a_{i2} & \ldots & a_{in} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{j1} & a_{j2} & \ldots & a_{jn} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{n1} & a_{n2} & \ldots & a_{nn}
+    \end{pmatrix}.
+\end{equation*}
+\begin{equation*}
+    \det A' = \sum_{k = 1}^n a_{jk} A'_{jk} = \sum_{k = 1}^n a_{ik} A'_{jk}.
+\end{equation*}
+Заметим, что алгебраическое дополнение элемента некоторой строки не зависит от элементов этой строки (поскольку при вычислении алгебраического дополнения эта строка просто вычеркивается). Однако матрицы \(A\) и \(A'\) отличаются только \(j\)-ой строкой, следовательно, \(A_{jk} = A'_{jk}\). Тогда
+\begin{equation*}
+   \det A' = \sum_{k = 1}^n a_{ik} A_{jk}.
+\end{equation*}
+Поскольку матрица \(A'\) имеет две одинаковые строки, ее определитель равен нулю. Аналогично доказывается случай со столбцами.
+#+end_proof
+
+
+
+** Обратная матрица
+#+begin_definition
+Обратная матрица — это такая матрица \(A^{-1}\), при умножении которой на исходную матрицу \(A\) получается единичная матрица \(E\):
+
+\begin{equation*}
+    AA^{-1} = A^{-1}A = E.
+\end{equation*}
+#+end_definition
+
+#+begin_definition
+Невырожденная матрица — это квадратная матрица, определитель которой отличен от нуля. В противном случае матрица называется вырожденной.
+#+end_definition
+
+
+#+begin_theorem
+Для всякой невырожденной матрицы \(A\) существует единственная обратная матрица.
+#+end_theorem
+
+#+begin_proof
+\begin{equation*}
+    \lets A =
+    \begin{pmatrix}
+        a_{11} & a_{12} & \ldots & a_{1n} \\
+        a_{21} & a_{22} & \ldots & a_{2n} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{i1} & a_{i2} & \ldots & a_{in} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{n1} & a_{n2} & \ldots & a_{nn}
+    \end{pmatrix};
+    \quad
+    \det = |A| \neq 0
+\end{equation*}
+#+end_proof
