@@ -7,6 +7,7 @@
 #+latex_header: \setmainfont{PT Astra Serif}
 #+latex_header: \usepackage[margin=1.5cm]{geometry}
 #+latex_header: \usepackage{amsthm}
+#+latex_header: \usepackage{enumitem}
 
 #+latex_header: \newtheorem{theorem}{Теорема}[section]
 #+latex_header: \newtheorem{lemma}[theorem]{Лемма}
@@ -20,6 +21,17 @@
 
 #+latex_header: \usepackage[x11names]{xcolor}
 #+latex_header: \hypersetup{linktoc = all, colorlinks = true, urlcolor = DodgerBlue4, citecolor = PaleGreen1, linkcolor = black}
+
+
+#+begin_export latex
+\setlist[itemize]{itemsep=0.5em,topsep=0em,parsep=0em}
+\setlist[enumerate]{itemsep=0.5em,topsep=0em,parsep=0em}
+
+\makeatletter
+\def\thm@space@setup{\thm@preskip=1pt
+\thm@postskip=1pt}
+\makeatother
+#+end_export
 
 #+begin_export latex
 \def\lets{%
@@ -239,7 +251,9 @@
 Примеры элементарных преобразований строк:
 - перестановка местами любых двух строк матрицы;
 - умножение любой строки матрицы на константу \(k \neq 0\), при этом определитель матрицы увеличивается в \(k\) раз;
-- прибавление к любой строке матрицы другой строки, умноженной на некоторую константу.
+- прибавление к любой строке матрицы другой строки, умноженной на некоторую константу;
+- удаление нулевых строк;
+- транспонирование.
 
 Аналогично определяются элементарные преобразования столбцов.
 
@@ -620,10 +634,49 @@
 Невырожденная матрица — это квадратная матрица, определитель которой отличен от нуля. В противном случае матрица называется вырожденной.
 #+end_definition
 
+** Норма матрицы
+#+begin_definition
+Нормой матрицы \(A \in \mathcal{K}^{m \times n}\) (обычно \(\mathcal{K} = \mathbb{R}\) или \(\mathcal{K} = \mathbb{C}\)) понимается неотрицательное число \(\|A\|\), удовлетворяющее следующим аксиомам:
+1. \(\|A\| \geq 0\);
+2. \(\|\lambda A\| = |\lambda| \|A\|\), где \(\lambda \in \mathbb{R}\) или \(\lambda \in \mathbb{C}\);
+3. \(\|A + B\| \leq \|A\| + \|B\|\), где \(A\) и \(B\) — матрицы, допускающие сложение;
+4. \(\|AB\| \leq \|A\| \|B\|\), где \(A\) и \(B\) — матрицы, допускающие умножение.
+#+end_definition
+
+#+begin_definition
+Норма \(\|A\|\) называется /мультипликативной/, если выполняются все 4 аксиомы, и /аддитивной/, если выполняются первые 3 аксиомы.
+#+end_definition
+
+#+begin_definition
+Если матрица удовлетворяет условию
+\[
+    \|\lambda A\| \leq |\lambda| \|A\|,
+\]
+то такая норма называются /согласованной/ с нормой вектора.
+#+end_definition
+
+Определим некоторые наиболее употребительные на практике матричные нормы:
+- Евклидова норма или норма Фробениуса:
+  \[
+    \|A\|_E = \sqrt{\sum_{i = 1}^m \sum_{j = 1}^n a_{ij}^2}.
+  \]
+- Столбцовая норма:
+  \[
+    \|A\|_1 = \max_{1 \leq j \leq n} \sum_{i = 1}^m |a_{ij}|.
+  \]
+- Строковая форма:
+  \[
+    \|A\|_\infty = \max_{1 \leq i \leq m} \sum_{j = 1}^n |a_{ij}|.
+  \]
+- Спектральная норма:
+  \[
+    \|A\|_2 = \sqrt{\max_i(\sigma_i)},
+  \]
+  где \(\sigma_i\) — собственные значения симметричной матрицы \(A^T A\).
+
 * Список задач :noexport:
 ** TODO Доказательство теоремы единственности обратной матрицы
 ** TODO Доказательства свойств обратной матрицы
 ** TODO Модуль матрицы
-** TODO Норма матрицы
-** TODO Ранг матрицы
+** TODO Дополнить ранг матрицы
 ** TODO Линейная независимость
