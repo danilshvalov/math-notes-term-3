@@ -8,6 +8,7 @@
 #+latex_header: \usepackage[margin=1.5cm]{geometry}
 #+latex_header: \usepackage{amsthm}
 #+latex_header: \usepackage{enumitem}
+#+latex_header: \usepackage{unicode-math}
 
 #+latex_header: \newtheorem{theorem}{Теорема}[section]
 #+latex_header: \newtheorem{lemma}[theorem]{Лемма}
@@ -22,10 +23,11 @@
 #+latex_header: \usepackage[x11names]{xcolor}
 #+latex_header: \hypersetup{linktoc = all, colorlinks = true, urlcolor = DodgerBlue4, citecolor = PaleGreen1, linkcolor = black}
 
-
 #+begin_export latex
 \setlist[itemize]{itemsep=0.5em,topsep=0em,parsep=0em}
 \setlist[enumerate]{itemsep=0.5em,topsep=0em,parsep=0em}
+
+\hypersetup{linktoc = all, colorlinks = true, urlcolor = DodgerBlue4, citecolor = PaleGreen1, linkcolor = blue}
 
 \makeatletter
 \def\thm@space@setup{\thm@preskip=1pt
@@ -47,8 +49,6 @@
 }
 #+end_export
 
-
-# TODO: (setq org-latex-caption-above nil)
 
 * Матрицы
 ** Определения
@@ -274,7 +274,7 @@
         \ldots & \ldots & \ldots & \ldots \\
         a_{m1} & a_{m2} & \ldots & a_{mn}
     \end{pmatrix}
-    \Rightarrow
+    \implies
     A^T =
     \begin{pmatrix}
         a_{11} & a_{21} & \ldots & a_{m1} \\
@@ -282,8 +282,8 @@
         \ldots & \ldots & \ldots & \ldots \\
         a_{1n} & a_{2n} & \ldots & a_{mn}
     \end{pmatrix}
-    \Rightarrow \\
-    \Rightarrow
+    \implies \\
+    \implies
     (A^T)^T =
     \begin{pmatrix}
         a_{11} & a_{12} & \ldots & a_{1n} \\
@@ -424,6 +424,7 @@
 \end{equation*}
 #+end_proof
 
+#+name: tr-matrix-mul
 #+begin_property
 \begin{equation*}
     (A \cdot B)^T = B^T \cdot A^T
@@ -499,7 +500,7 @@
 \end{equation*}
 
 \begin{equation*}
-    G = F^T \Rightarrow (A \cdot B)^T = B^T \cdot A^T
+    G = F^T \implies (A \cdot B)^T = B^T \cdot A^T
 \end{equation*}
 #+end_proof
 
@@ -583,11 +584,30 @@
 \end{equation*}
 #+end_property
 
+#+begin_proof
+\begin{equation*}
+    \det E = \det (A^{-1} A) = \det A^{-1} \det A
+    \quad \implies \quad
+    \det A^{-1} = \frac{\det E}{\det A} = \frac{1}{\det A} = (\det A)^{-1}.
+\end{equation*}
+#+end_proof
+
 #+begin_property
 \begin{equation*}
-    (A \cdot B)^{-1} = B^{-1} \cdot A^{-1}
+    (AB)^{-1} = B^{-1}A^{-1}
 \end{equation*}
 #+end_property
+
+#+begin_proof
+\begin{gather*}
+    \begin{cases}
+        B^{-1} A^{-1} AB = B^{-1} E B = E \\
+        AB B^{-1} A^{-1} = A E A^{-1} = E
+    \end{cases}
+    \implies
+    (AB)^{-1} = B^{-1} A^{-1}.
+\end{gather*}
+#+end_proof
 
 #+begin_property
 \begin{equation*}
@@ -595,17 +615,68 @@
 \end{equation*}
 #+end_property
 
+#+begin_proof
+Воспользуемся [[tr-matrix-mul][одним из свойств]] транспонированных матриц
+\begin{equation*}
+    \begin{cases}
+        (A^{-1})^T A^T = (A^{-1} A)^T = E^T = E \\
+        A^T (A^{-1})^T = (A A^{-1})^T = E^T = E
+    \end{cases}
+    \implies
+    (A^{-1})^T = A^T.
+\end{equation*}
+#+end_proof
+
 #+begin_property
 \begin{equation*}
     (A^{-1})^{-1} = A
 \end{equation*}
 #+end_property
 
+#+begin_proof
+\begin{gather*}
+    (A^{-1})^{-1} = A
+    \quad
+    \implies
+    \quad
+    (A^{-1})^{-1} A^{-1} A = A
+    \quad
+    \stackrel{2 \; \text{св.}}{\implies}
+    \quad
+    (A A^{-1})^{-1} A = A
+    \quad
+    \implies \\
+    \implies
+    \quad
+    (A A^{-1})^{-1} A = A
+    \quad
+    \implies
+    \quad
+    E^{-1} A = A
+    \quad
+    \implies
+    \quad
+    A = A
+\end{gather*}
+#+end_proof
+
 #+begin_property
 \begin{equation*}
-    (kA)^{-1} = k^{-1} A^{-1}
+    (\lambda A)^{-1} = \lambda^{-1} A^{-1}
 \end{equation*}
 #+end_property
+
+#+begin_proof
+\begin{equation*}
+    \begin{cases}
+        \lambda A \lambda^{-1} A^{-1} = 1E = E \\
+        \lambda^{-1} A^{-1} \lambda A = 1E = E
+    \end{cases}
+    \implies
+    (\lambda A)^{-1} = \lambda^{-1} A^{-1}.
+\end{equation*}
+#+end_proof
+
 
 
 #+begin_theorem
@@ -676,7 +747,6 @@
 
 * Список задач :noexport:
 ** TODO Доказательство теоремы единственности обратной матрицы
-** TODO Доказательства свойств обратной матрицы
 ** TODO Модуль матрицы
 ** TODO Дополнить ранг матрицы
 ** TODO Линейная независимость
