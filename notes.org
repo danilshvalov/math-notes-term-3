@@ -50,7 +50,7 @@
 #+end_export
 
 
-* Матрицы
+* Матрицы и определители
 ** Определения
 #+begin_definition
 Матрица размером \(m \times n\) — таблица выражений, состоящая из \(m\) строк и \(n\) столбцов:
@@ -239,7 +239,6 @@
 - Коммутативность при умножении с единичной матрицей: \(AE = EA = A\)
 - Дистрибутивность: \((A + B) C = AC + BC\); \quad \(A (B + C) = AB + BC\)
 - Ассоциативность и коммутативность умножения на число: \((\lambda A) B = A (\lambda B) = \lambda (AB)\)
-
 
 ** Элементарные преобразования
 #+begin_definition
@@ -504,6 +503,79 @@
 \end{equation*}
 #+end_proof
 
+** Вычисление определителей
+#+name: det-decomposition
+#+attr_latex: :options [о раздложении определителя]
+#+begin_theorem
+Определителем порядка \(n\), соответствующим квадратной матрице порядка \(n\), называется число, равное
+\[
+    \det A = \sum_{i = 1}^n a_{ij} A_{ij} = \sum_{j = 1}^n a_{ij} A_{ij} = \sum_{i = 1}^n (-1)^{i + j} a_{ij} M_{ij}.
+\]
+где
+- \(i, j \in (\overline{1,n})\);
+- \(A_{ij}\) — соответствующее алгебраическое дополнение \(a_{ij}\);
+- \(M_{ij}\) — соответствующий минор элемента \(a_{ij}\).
+#+end_theorem
+
+#+begin_proof
+Опираясь на основные свойства определителей, выпишем цепочку равенств:
+\begin{gather*}
+    \det A =
+    \begin{vmatrix}
+        a_{11} & \ldots & a_{1j} & \ldots & a_{1n} \\
+        a_{21} & \ldots & a_{2j} & \ldots & a_{2n} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{n1} & \ldots & a_{nj} & \ldots & a_{nn} \\
+    \end{vmatrix}
+    = \\ =
+    \begin{vmatrix}
+        a_{11} & \ldots & a_{1j} & \ldots & a_{1n} \\
+        a_{21} & \ldots & 0 & \ldots & a_{2n} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{n1} & \ldots & 0 & \ldots & a_{nn} \\
+    \end{vmatrix}
+    +
+    \begin{vmatrix}
+        a_{11} & \ldots & 0 & \ldots & a_{1n} \\
+        a_{21} & \ldots & a_{2j} & \ldots & a_{2n} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{n1} & \ldots & 0 & \ldots & a_{nn} \\
+    \end{vmatrix}
+    + \ldots +
+    \begin{vmatrix}
+        a_{11} & \ldots & 0 & \ldots & a_{1n} \\
+        a_{21} & \ldots & 0 & \ldots & a_{2n} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{n1} & \ldots & a_{nj} & \ldots & a_{nn} \\
+    \end{vmatrix}
+    = \\ =
+    \sum_{i = 1}^n
+    \begin{vmatrix}
+        a_{11} & \ldots & a_{1j - 1} & 0 & a_{1j + 1} & \ldots & a_{1n} \\
+        \ldots & \ldots & \ldots & \ldots & \ldots & \ldots \\
+        a_{i1} & \ldots & a_{ij - 1} & a_{ij} & a_{ij + 1} & \ldots & a_{in} \\
+        \ldots & \ldots & \ldots & \ldots & \ldots & \ldots \\
+        a_{n1} & \ldots & a_{nj - 1} & 0 & a_{nj + 1} & \ldots & a_{nn} \\
+    \end{vmatrix}
+    = \\ =
+    \sum_{i = 1}^n
+    \begin{vmatrix}
+        a_{ij} & a_{i1} & \ldots & a_{ij - 1} & a_{ij + 1} & \ldots & a_{in} \\
+        0 & a_{11} & \ldots & a_{1j - 1} & a_{1j + 1} & \ldots & a_{1n} \\
+        \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \\
+        0 & a_{i - 1,1} & \ldots & a_{i - 1,j - 1} & a_{i - 1,j + 1} & \ldots & a_{i - 1,n} \\
+        0 & a_{i + 1,1} & \ldots & a_{i + 1,j - 1} & a_{i + 1,j + 1} & \ldots & a_{i + 1,n} \\
+        \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \\
+        0 & a_{n1} & \ldots & a_{nj - 1} & a_{nj + 1} & \ldots & a_{nn}
+    \end{vmatrix}
+    =
+    \sum_{i = 1}^n (-1)^{i + j} a_{ij} M_{ij}.
+\end{gather*}
+Таким образом, часть теоремы доказана. Положим теперь \(A^T = (a'_{ij})\), где \(a'_{ji} = a_{ij}\). Заметим, что соответствующим элементу \(a'_{ji}\) в \(\det A^T\) будет \(M'_{ji} = M_{ij}\). Как было показано выше,
+\[
+    \det A = \det A^T = \sum_{j = 1}^n (-1)^{j + i} a'_{ji} M'_{ji} = \sum_{j = 1}^n (-1)^{i + j} a_{ij} M_{ij}.
+\]
+#+end_proof
 
 ** Присоединенная матрица
 #+begin_definition
@@ -563,8 +635,6 @@
 \end{equation*}
 Поскольку матрица \(A'\) имеет две одинаковые строки, ее определитель равен нулю. Аналогично доказывается случай со столбцами.
 #+end_proof
-
-
 
 ** Обратная матрица
 
@@ -677,7 +747,7 @@
 \end{equation*}
 #+end_proof
 
-
+*** Теоремы
 
 #+begin_theorem
 Для всякой невырожденной матрицы \(A\) существует единственная обратная матрица.
@@ -747,6 +817,5 @@
 
 * Список задач :noexport:
 ** TODO Доказательство теоремы единственности обратной матрицы
-** TODO Модуль матрицы
 ** TODO Дополнить ранг матрицы
 ** TODO Линейная независимость
