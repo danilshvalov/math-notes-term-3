@@ -9,6 +9,7 @@
 #+latex_header: \usepackage{amsthm}
 #+latex_header: \usepackage{enumitem}
 #+latex_header: \usepackage{unicode-math}
+#+latex_header: \usepackage[math]{cellspace}
 
 #+latex_header: \newtheorem{theorem}{Теорема}[section]
 #+latex_header: \newtheorem{lemma}[theorem]{Лемма}
@@ -591,6 +592,7 @@
 \end{equation*}
 #+end_definition
 
+#+name: det-cancellation
 #+attr_latex: :options [Аннулирование]
 #+begin_theorem
 Сумма произведений  элементов любой строки (или столбца) на алгебраические дополнения элементов другой строки (столбца) равна нулю:
@@ -635,6 +637,11 @@
 \end{equation*}
 Поскольку матрица \(A'\) имеет две одинаковые строки, ее определитель равен нулю. Аналогично доказывается случай со столбцами.
 #+end_proof
+
+** Невырожденная матрица
+#+begin_definition
+Невырожденная матрица — это квадратная матрица, определитель которой отличен от нуля. В противном случае матрица называется вырожденной.
+#+end_definition
 
 ** Обратная матрица
 
@@ -750,30 +757,107 @@
 *** Теоремы
 
 #+begin_theorem
-Для всякой невырожденной матрицы \(A\) существует единственная обратная матрица.
+Для всякой невырожденной матрицы \(A\) существует обратная матрица \(A^{-1}\) и притом только одна.
 #+end_theorem
 
-# TODO: добавить доказательство теоремы
-# #+begin_proof
-# \begin{equation*}
-#     \lets A =
-#     \begin{pmatrix}
-#         a_{11} & a_{12} & \ldots & a_{1n} \\
-#         a_{21} & a_{22} & \ldots & a_{2n} \\
-#         \ldots & \ldots & \ldots & \ldots \\
-#         a_{i1} & a_{i2} & \ldots & a_{in} \\
-#         \ldots & \ldots & \ldots & \ldots \\
-#         a_{n1} & a_{n2} & \ldots & a_{nn}
-#     \end{pmatrix};
-#     \quad
-#     \det = |A| \neq 0
-# \end{equation*}
-# #+end_proof
+#+begin_proof
+Сначала докажем существование обратной матрицы. Пусть нам дана следующая матрица \(A\), определитель которой не равен нулю:
+\begin{equation*}
+    A =
+    \begin{pmatrix}
+        a_{11} & a_{12} & \ldots & a_{1n} \\
+        a_{21} & a_{22} & \ldots & a_{2n} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{i1} & a_{i2} & \ldots & a_{in} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{n1} & a_{n2} & \ldots & a_{nn}
+    \end{pmatrix}
+\end{equation*}
 
-** Невырожденная матрица
-#+begin_definition
-Невырожденная матрица — это квадратная матрица, определитель которой отличен от нуля. В противном случае матрица называется вырожденной.
-#+end_definition
+Для этой матрицы построим [[*Присоединенная матрица][присоединенную матрицу]]:
+\begin{equation*}
+    A^c =
+    \begin{pmatrix}
+        A_{11} & A_{21} & \ldots & A_{n1} \\
+        A_{12} & A_{22} & \ldots & A_{n2} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        A_{1n} & A_{2n} & \ldots & A_{nn}
+    \end{pmatrix}
+\end{equation*}
+
+Перемножим матрицы \(A\) и \(A^c\):
+\begin{gather*}
+    A^c A =
+    \begin{pmatrix}
+        a_{11} & a_{12} & \ldots & a_{1n} \\
+        a_{21} & a_{22} & \ldots & a_{2n} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{i1} & a_{i2} & \ldots & a_{in} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{n1} & a_{n2} & \ldots & a_{nn}
+    \end{pmatrix}
+    \begin{pmatrix}
+        A_{11} & A_{21} & \ldots & A_{n1} \\
+        A_{12} & A_{22} & \ldots & A_{n2} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        A_{1n} & A_{2n} & \ldots & A_{nn}
+    \end{pmatrix}
+    = \\ =
+    \setlength{\cellspacetoplimit}{3pt}
+    \setlength{\cellspacebottomlimit}{3pt}
+    \begin{pmatrix}
+        \sum_{k = 1}^n A_{k1} a_{k1} & \sum_{k = 1}^n A_{k1} a_{k2} & \ldots & \sum_{k = 1}^n A_{k1} a_{kn} \\
+        \sum_{k = 1}^n A_{k2} a_{k1} & \sum_{k = 1}^n A_{k2} a_{k2} & \ldots & \sum_{k = 1}^n A_{k2} a_{kn} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        \sum_{k = 1}^n A_{kn} a_{k1} & \sum_{k = 1}^n A_{kn} a_{k2} & \ldots & \sum_{k = 1}^n A_{kn} a_{kn} \\
+    \end{pmatrix}
+\end{gather*}
+
+По [[det-decomposition][теореме о разложении определителя]] и [[det-cancellation][теореме аннулирования]]:
+\begin{equation*}
+    \begin{cases}
+        i = k \implies \sum_{k = 1}^n a_{ik} A_{jk} = \det A \\
+        i \neq k \implies \sum_{k = 1}^n a_{ik} A_{jk} = 0
+    \end{cases}
+\end{equation*}
+
+Тогда получим, что
+\begin{equation*}
+    A^c A =
+    \begin{pmatrix}
+        \det A & 0 & \ldots & 0 \\
+        0 & \det A & \ldots & 0 \\
+        \ldots & \ldots & \ldots & \ldots \\
+        0 & 0 & \ldots & \det A \\
+    \end{pmatrix}
+    = \det A
+    \begin{pmatrix}
+        1 & 0 & \ldots & 0 \\
+        0 & 1 & \ldots & 0 \\
+        \ldots & \ldots & \ldots & \ldots \\
+        0 & 0 & \ldots & 1 \\
+    \end{pmatrix}
+    = E \det A.
+\end{equation*}
+
+Аналогично доказывается случай \(A A^c\), Теперь докажем единственность обратной матрицы. Предположим, что существует две обратные матрицы: \(A^-1\) и \(\tilde{A}\). Тогда
+\begin{equation*}
+    \begin{cases}
+        AA^{-1} = A^{-1} A = E \\
+        A\tilde{A} = \tilde{A} A = E
+    \end{cases}
+    \implies
+    A^{-1} A \tilde{A} =
+    \begin{cases}
+        A^{-1} (A\tilde{A}) = A^{-1} E = A^{-1} \\
+        (A^{-1} A) \tilde{A} = E \tilde{A} = \tilde{A}
+    \end{cases}
+    \implies
+    A^{-1} = \tilde{A}.
+\end{equation*}
+
+Результат противоречит исходному предположению о существова- нии двух обратных матриц.
+#+end_proof
 
 ** Норма матрицы
 #+begin_definition
@@ -816,6 +900,5 @@
   где \(\sigma_i\) — собственные значения симметричной матрицы \(A^T A\).
 
 * Список задач :noexport:
-** TODO Доказательство теоремы единственности обратной матрицы
 ** TODO Дополнить ранг матрицы
 ** TODO Линейная независимость
