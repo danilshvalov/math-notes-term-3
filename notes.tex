@@ -19,6 +19,7 @@
 \usepackage{enumitem}
 \usepackage{unicode-math}
 \usepackage[math]{cellspace}
+\theoremstyle{definition}
 \newtheorem{theorem}{Теорема}[section]
 \newtheorem{lemma}[theorem]{Лемма}
 \newtheorem{property}[theorem]{Свойство}
@@ -37,6 +38,19 @@
     pdfkeywords={},
     pdfsubject={},
     pdflang={Russian}}
+
+
+% Define math operators
+\DeclareMathOperator{\rang}{rang}
+
+% Draw line in matrix
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+    \hskip -\arraycolsep
+    \let\@ifnextchar\new@ifnextchar
+    \array{#1}}
+\makeatother
+
 \begin{document}
 
 \tableofcontents
@@ -100,7 +114,7 @@
 \end{definition}
 
 \begin{definition}
-    Ранг матрицы — это наивысший порядок ненулевого минора. Ранг матрицы обозначается \(\mathrm{rang}\).
+    Ранг матрицы — это наивысший порядок ненулевого минора. Ранг матрицы обозначается \(\rang\).
 \end{definition}
 
 \section{Виды матриц}
@@ -941,18 +955,65 @@
           где \(\sigma_i\) — собственные значения симметричной матрицы \(A^T A\).
 \end{itemize}
 
+\section{Базисный минор}
 
-% * Raw
+\begin{definition}
+    Если \(\rang A = r\), то любой ненулевой минор порядка \(r\) называется \textit{базисным минором}, а его строки (столбцы) — \textit{базисными}.
+\end{definition}
 
-% #+begin_definition
-% Если \(\rang A = r\), то \(\forall\) ненулевой минор порядка \(r\) называется базисным минором, а его строки (столбцы) — базисными.
-% #+end_definition
+\begin{theorem}[о базисном миноре]
+    Базисные строки (столбцы) матрицы \(A\), соответствующие любому ее базисному минору \(M\), \textit{линейно независимы}. Любые строки (столбцы) матрицы \(A\), не входящие в \(M\), являются линейными комбинациями базисных строк (столбцов).
+\end{theorem}
 
-% #+attr_latex: :options [о базисном миноре]
-% #+begin_theorem
-% 1. Строки (столбцы) базисного минора линейно независимы.
-% 2. Любая строка (столбец) матрицы \(A\) является линейной комбинацией базисных строк (столбцов).
-% #+end_theorem
+% TODO: Добавить доказательство
+
+\section{Система линейных алгебраических уравнений}
+
+\begin{definition}
+    Система линейных алгебраических уравнений (СЛАУ, СЛУ) — система уравнений, каждое уравнение в которой является \textit{линейным} — алгебраическим уравнением первой степени.
+\end{definition}
+
+\begin{definition}
+    Расширенная матрица — матрица, которая получается при добавлении в качестве (n+1) столбца матрицу-столбец свободных членов. Приведем пример. Пусть дана матрица коэффициентов \(A\) и матрица свободных членов \(B\):
+    \begin{equation*}
+        A =
+        \begin{pmatrix}
+            a_{11} & a_{12} & \ldots & a_{1n} \\
+            a_{21} & a_{22} & \ldots & a_{2n} \\
+            \ldots & \ldots & \ldots & \ldots \\
+            a_{m1} & a_{m2} & \ldots & a_{mn} \\
+        \end{pmatrix};
+        \qquad \qquad
+        B =
+        \begin{pmatrix}
+            b_1    \\
+            b_2    \\
+            \ldots \\
+            b_m    \\
+        \end{pmatrix}.
+    \end{equation*}
+    Тогда расширенная матрица \(P\) будет иметь вид:
+    \begin{equation*}
+        P =
+        \begin{pmatrix}[cccc|c]
+            a_{11} & a_{12} & \ldots & a_{1n} & b_1    \\
+            a_{21} & a_{22} & \ldots & a_{2n} & b_2    \\
+            \ldots & \ldots & \ldots & \ldots & \ldots \\
+            a_{m1} & a_{m2} & \ldots & a_{mn} & b_m    \\
+        \end{pmatrix}.
+    \end{equation*}
+\end{definition}
+
+\begin{theorem}[Кронекера–Капелли]
+    Система линейных алгебраических уравнений будет совместной тогда и только тогда, когда ранг матрицы \(A\) ее коэффициентов и ранг расширенной матрицы \(P\) равны. Из этого утверждения следует, что для СЛАУ справедливо следующее:
+    \begin{itemize}
+        \item \(\rang A = \rang P = n\) — имеет единственное решение;
+        \item \(\rang A = \rang P < n\) — имеет бесконечное множество решений;
+        \item \(\rang A < \rang P\) — не имеет решений.
+    \end{itemize}
+\end{theorem}
+
+% TODO: добавить доказательства
 
 % #+begin_proof
 % Докажем первое утверждение от противного.
