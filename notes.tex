@@ -1,0 +1,1324 @@
+\documentclass[a4paper,12pt]{extbook}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{fontspec}
+\usepackage[russian]{babel}
+\usepackage{indentfirst}
+\setmainfont{PT Astra Serif}
+\usepackage[margin=1.5cm]{geometry}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{unicode-math}
+\usepackage[math]{cellspace}
+\newtheorem{theorem}{Теорема}[section]
+\newtheorem{lemma}[theorem]{Лемма}
+\newtheorem{property}[theorem]{Свойство}
+\theoremstyle{definition}
+\newtheorem{definition}{Определение}[section]
+\newcommand{\newpar}{$ $\par\nobreak\ignorespaces}
+\renewenvironment{proof}{{\noindent\bfseries Доказательство.}}{\smallskip\newpar \hfill\textit{Что и требовалось доказать.}}
+\usepackage[x11names]{xcolor}
+\hypersetup{linktoc = all, colorlinks = true, urlcolor = DodgerBlue4, citecolor = PaleGreen1, linkcolor = black}
+\author{Daniil Shvalov}
+\date{\today}
+\title{}
+\hypersetup{
+    pdfauthor={Daniil Shvalov},
+    pdftitle={},
+    pdfkeywords={},
+    pdfsubject={},
+    pdflang={Russian}}
+\begin{document}
+
+\tableofcontents
+
+\setlist[itemize]{itemsep=0.5em,topsep=0em,parsep=0em}
+\setlist[enumerate]{itemsep=0.5em,topsep=0em,parsep=0em}
+
+\hypersetup{linktoc = all, colorlinks = true, urlcolor = DodgerBlue4, citecolor = PaleGreen1, linkcolor = blue}
+
+\makeatletter
+\def\thm@space@setup{\thm@preskip=1pt
+    \thm@postskip=1pt}
+\makeatother
+
+\def\lets{%
+    \mathord{\setbox0=\hbox{$\exists$}%
+        \hbox{\kern 0.125\wd0%
+            \vbox to \ht0{%
+                \hrule width 0.75\wd0%
+                \vfill%
+                \hrule width 0.75\wd0}%
+            \vrule height \ht0%
+            \kern 0.125\wd0}%
+    }%
+}
+
+
+\chapter{Матрицы и определители}
+\label{sec:org37c4e21}
+\section{Определения}
+\label{sec:orgc3e0aac}
+\begin{definition}
+    Матрица размером \(m \times n\) — таблица выражений, состоящая из \(m\) строк и \(n\) столбцов:
+
+    \begin{equation*}
+        \underset{m \times n}{A} =
+        \begin{pmatrix}
+            a_{11} & a_{12} & \ldots & a_{1n} \\
+            a_{21} & a_{22} & \ldots & a_{2n} \\
+            \ldots & \ldots & \ldots & \ldots \\
+            a_{m1} & a_{m2} & \ldots & a_{mn}
+        \end{pmatrix}
+        = (a_{ij}).
+    \end{equation*}
+\end{definition}
+
+\begin{definition}
+    След матрицы — это сумма диагональных элементов матрицы. Операция взятия следа обозначается \(\mathrm{tr}\):
+    \begin{equation*}
+        \underset{n \times n}{A} =
+        \begin{pmatrix}
+            a_{11} & a_{12} & \ldots & a_{1n} \\
+            a_{21} & a_{22} & \ldots & a_{2n} \\
+            \ldots & \ldots & \ldots & \ldots \\
+            a_{n1} & a_{n2} & \ldots & a_{nn}
+        \end{pmatrix};
+        = (a_{ij})
+        \qquad
+        \mathrm{tr} A = \sum_{i = 1}^n = a_{11} + a_{22} + \ldots + a_{nn}
+    \end{equation*}
+\end{definition}
+
+\begin{definition}
+    Ранг матрицы — это наивысший порядок ненулевого минора. Ранг матрицы обозначается \(\mathrm{rang}\).
+\end{definition}
+
+\section{Виды матриц}
+\label{sec:orgbc2a2b4}
+В зависимости от размерности, матрицы имеют названия, приведенные в следующей таблице.
+\begin{center}
+    \begin{tabular}{|c|c|c|c|}
+        Размерность    & Название      & Размерность    & Название        \\
+        \hline
+        \(m \times n\) & прямоугольная & \(1 \times n\) & матрица-строка  \\
+        \(n \times n\) & квадратная    & \(m \times 1\) & матрица-столбец \\
+    \end{tabular}
+\end{center}
+
+Элементы квадратной матрицы, имеющие одинаковые индексы (\(a_{11}\), \(a_{22}\), \(\ldots\), \(a_{nn}\)), образуют \emph{главную диагональ матрицы}. Диагональ, соединяющая элементы \(a_{1n}\), \(a_{2n}\), \(\ldots\), \(a_{n1}\), называется \emph{побочной диагональю матрицы}.
+
+Квадратная матрица, у которой все элементы, расположенные выше (ниже) главной диагонали, равны нулю, называется \emph{нижней} (\emph{верхней}) \emph{треугольной матрицей}:
+\begin{equation*}
+    \text{нижняя:}
+    \quad
+    \begin{pmatrix}
+        a_{11} & 0      & \ldots & 0      \\
+        a_{21} & a_{22} & \ldots & 0      \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{n1} & a_{n2} & \ldots & a_{nn}
+    \end{pmatrix};
+    \qquad \qquad
+    \text{верхняя:}
+    \quad
+    \begin{pmatrix}
+        a_{11} & a_{12} & \ldots & a_{1n} \\
+        0      & a_{22} & \ldots & a_{2n} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        0      & 0      & \ldots & a_{nn}
+    \end{pmatrix}
+\end{equation*}
+
+Квадратная матрица, имеющая ненулевые элементы только на главной диагонали, называется \emph{диагональной}:
+\begin{equation*}
+    \mathrm{diag} \{ a_{11}, a_{22}, \ldots, a_{nn} \} =
+    \begin{pmatrix}
+        a_{11} & 0      & \ldots & 0      \\
+        0      & a_{22} & \ldots & 0      \\
+        \ldots & \ldots & \ldots & \ldots \\
+        0      & 0      & \ldots & a_{nn}
+    \end{pmatrix}
+\end{equation*}
+
+Диагональная матрица, у которой все элементы главной диагонали равны единицам, называется \emph{единичной}:
+\begin{equation*}
+    \underset{n \times n}{I} =
+    \begin{pmatrix}
+        1      & 0      & \ldots & 0      \\
+        0      & 1      & \ldots & 0      \\
+        \ldots & \ldots & \ldots & \ldots \\
+        0      & 0      & \ldots & 1
+    \end{pmatrix}
+\end{equation*}
+
+Прямоугольная матрица, все элементы которой равны нулю, называется \emph{нулевой}:
+\begin{equation*}
+    \underset{m \times n}{\Theta} =
+    \begin{pmatrix}
+        0      & 0      & \ldots & 0      \\
+        0      & 0      & \ldots & 0      \\
+        \ldots & \ldots & \ldots & \ldots \\
+        0      & 0      & \ldots & 0
+    \end{pmatrix}
+\end{equation*}
+
+Матрица \(A^T\), у которой по отношению к матрице \(A\) элементы строк и столбцов поменялись местами, называется \emph{транспонированной} по отношению к \(A\):
+\begin{equation*}
+    \underset{m \times n}{A} =
+    \begin{pmatrix}
+        a_{11} & a_{21} & \ldots & a_{m1} \\
+        a_{12} & a_{22} & \ldots & a_{m2} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{1n} & a_{2n} & \ldots & a_{nm}
+    \end{pmatrix}
+    = \underset{m \times n}{A'}.
+\end{equation*}
+
+Матрица, для которой справедливо равенство \(A = A^T\) называется \emph{симметричной}.
+
+\section{Краткая запись различных видов матриц}
+\label{sec:org87e2b11}
+Перечисленные выше основные виды матриц характеризуются определенными свойствами ее элементов. Введем \emph{символ Кронекера}:
+\begin{equation*}
+    \delta_{ij} =
+    \begin{cases}
+        1, \text{ если } i = j, \\
+        0, \text{ если } i \neq j
+    \end{cases}
+\end{equation*}
+
+В таблице ниже приведены условия, с помощью которых можно выразить ранее приведеные свойства для квадратных матриц \(A = (a_{ij}) \; (i,j = \overline{1,n})\).
+\begin{center}
+    \begin{tabular}{|c|c|c|c|}
+        Условие                      & Название            & Условие                  & Название     \\
+        \hline
+        \(a_{ij} = 0\) при \(i > j\) & верхняя треугольная & \(a_{ij} = \delta_{ij}\) & единичная    \\
+        \(a_{ij} = 0\) при \(i < j\) & нижняя треугольная  & \(a_{ij} = 0\)           & нулевая      \\
+        \(a_{ij} = a_i \delta_{ij}\) & диагональная        & \(a_{ij} = a_{ji}\)      & симметричная \\
+    \end{tabular}
+\end{center}
+
+\section{Линейные операции}
+\label{sec:org268ca8b}
+Рассмотрим операции, справедливые для матриц с размерностью \(m \times n\).
+
+\subsection{Сравнение матриц}
+\label{sec:org5bf4d2c}
+Две матрицы одинаковых размеров называются равными, если совпадают их элементы с одинаковыми индексами:
+\begin{equation*}
+    A = B \iff a_{ij} = b_{ij}
+\end{equation*}
+
+\subsection{Сложение матриц}
+\label{sec:org930f363}
+Сложение матриц \(A + B\) есть операция нахождения матрицы \(C\), все элементы которой равны попарной сумме всех соответствующих элементов матриц \(A\) и \(B\):
+\begin{equation*}
+    C = A + B \iff c_{ij} = a_{ij} + b_{ij}
+\end{equation*}
+
+Свойства сложения матриц:
+\begin{itemize}
+    \item Коммутативность: \(A + B = B + A\)
+    \item Ассоциативность: \(A + B + C = (A + B) + C = A + (B + C)\)
+    \item Сложение с нулевой матрицей: \(A + \theta = \theta + A = A\)
+    \item Существование противоположной матрицы: \(A + A^{-1} = 0\)
+\end{itemize}
+
+\subsection{Умножение матрицы на число}
+\label{sec:org006ca40}
+Умножение матрицы \(A\) на число \(\lambda \in \mathcal{K}\) заключается в построении матрицы \(\lambda A = (\lambda a_{ij})\).
+
+Свойства умножения матриц на число:
+\begin{itemize}
+    \item Ассоциативность: \((\lambda \beta) A = \lambda (\beta A)\)
+    \item Дистрибутивность: \((\lambda + \beta) A = \lambda A + \beta A\); \quad \(\lambda (A + B) = \lambda A + \lambda B\)
+    \item Умножение на единицу: \(1 \cdot A = A \cdot 1 = A\)
+\end{itemize}
+
+\subsection{Умножение матриц}
+\label{sec:org3cd53f8}
+Умножение матриц — операция вычисления матрицы \(C\), каждый элемент которой равен сумме произведений элементов в соответствующей строке первого множителя и столбце второго:
+
+\begin{equation*}
+    c_{ij} = \sum_{k=1}^n a_{ik} b_{kj}
+\end{equation*}
+
+Количество столбцов в матрице \(A\) должно совпадать с количеством строк в матрице \(B\). Если матрица \(A\) имеет размерность \(m \times n\), B — \(n \times k\), то размерность их произведения \(AB = C\) есть \(m \times k\).
+
+Свойства умножения матриц:
+\begin{itemize}
+    \item Некоммутативность (в общем случае): \(AB \neq BA\)
+    \item Ассоциативность: \((AB)C = A(BC)\)
+    \item Коммутативность при умножении с единичной матрицей: \(AE = EA = A\)
+    \item Дистрибутивность: \((A + B) C = AC + BC\); \quad \(A (B + C) = AB + BC\)
+    \item Ассоциативность и коммутативность умножения на число: \((\lambda A) B = A (\lambda B) = \lambda (AB)\)
+\end{itemize}
+
+\section{Элементарные преобразования}
+\label{sec:org11b71ac}
+\begin{definition}
+    Элементарные преобразования — это такие преобразования матрицы, в результате которых сохраняется эквивалентность матриц.
+\end{definition}
+
+Таким образом, элементарные преобразования не изменяют множество решений системы линейных алгебраических уравнений, которую представляет эта матрица. Элементарные операции обратимы. Обозначение \(A \sim B\) указывает на то, что матрица \(A\) может быть получена из матрицы \(B\) путем элементарных преобразований.
+
+Примеры элементарных преобразований строк:
+\begin{itemize}
+    \item перестановка местами любых двух строк матрицы;
+    \item умножение любой строки матрицы на константу \(k \neq 0\), при этом определитель матрицы увеличивается в \(k\) раз;
+    \item прибавление к любой строке матрицы другой строки, умноженной на некоторую константу;
+    \item удаление нулевых строк;
+    \item транспонирование.
+\end{itemize}
+
+Аналогично определяются элементарные преобразования столбцов.
+
+\section{Свойства транспонирования матриц}
+\label{sec:orgb619c51}
+
+\begin{property}
+    \begin{equation*}
+        (A^T)^T = A
+    \end{equation*}
+\end{property}
+
+\begin{proof}
+    \begin{gather*}
+        A =
+        \begin{pmatrix}
+            a_{11} & a_{12} & \ldots & a_{1n} \\
+            a_{21} & a_{22} & \ldots & a_{2n} \\
+            \ldots & \ldots & \ldots & \ldots \\
+            a_{m1} & a_{m2} & \ldots & a_{mn}
+        \end{pmatrix}
+        \implies
+        A^T =
+        \begin{pmatrix}
+            a_{11} & a_{21} & \ldots & a_{m1} \\
+            a_{12} & a_{22} & \ldots & a_{m2} \\
+            \ldots & \ldots & \ldots & \ldots \\
+            a_{1n} & a_{2n} & \ldots & a_{mn}
+        \end{pmatrix}
+        \implies \\
+        \implies
+        (A^T)^T =
+        \begin{pmatrix}
+            a_{11} & a_{12} & \ldots & a_{1n} \\
+            a_{21} & a_{22} & \ldots & a_{2n} \\
+            \ldots & \ldots & \ldots & \ldots \\
+            a_{m1} & a_{m2} & \ldots & a_{mn}
+        \end{pmatrix}
+        = A
+    \end{gather*}
+\end{proof}
+
+
+\begin{property}
+    \begin{equation*}
+        (A + B)^T = A^T + B^T
+    \end{equation*}
+\end{property}
+
+\begin{proof}
+    \begin{equation*}
+        A =
+        \begin{pmatrix}
+            a_{11} & a_{12} & \ldots & a_{1n} \\
+            a_{21} & a_{22} & \ldots & a_{2n} \\
+            \ldots & \ldots & \ldots & \ldots \\
+            a_{m1} & a_{m2} & \ldots & a_{mn}
+        \end{pmatrix}
+        \qquad
+        B =
+        \begin{pmatrix}
+            b_{11} & b_{12} & \ldots & b_{1n} \\
+            b_{21} & b_{22} & \ldots & b_{2n} \\
+            \ldots & \ldots & \ldots & \ldots \\
+            b_{m1} & b_{m2} & \ldots & b_{mn}
+        \end{pmatrix}
+    \end{equation*}
+
+    \begin{equation*}
+        A^T =
+        \begin{pmatrix}
+            a_{11} & a_{21} & \ldots & a_{m1} \\
+            a_{11} & a_{22} & \ldots & a_{2n} \\
+            \ldots & \ldots & \ldots & \ldots \\
+            a_{1n} & a_{2n} & \ldots & a_{mn}
+        \end{pmatrix}
+        \qquad
+        B^T =
+        \begin{pmatrix}
+            b_{11} & b_{21} & \ldots & b_{m1} \\
+            b_{11} & b_{22} & \ldots & b_{2n} \\
+            \ldots & \ldots & \ldots & \ldots \\
+            b_{1n} & b_{2n} & \ldots & b_{mn}
+        \end{pmatrix}
+    \end{equation*}
+
+    \begin{equation*}
+        A + B =
+        \begin{pmatrix}
+            a_{11} + b_{11} & a_{12} + b_{12} & \ldots & a_{1n} + b_{1n} \\
+            a_{21} + b_{21} & a_{22} + b_{22} & \ldots & a_{2n} + b_{2n} \\
+            \ldots          & \ldots          & \ldots & \ldots          \\
+            a_{m1} + b_{m1} & a_{m2} + b_{m2} & \ldots & a_{mn} + b_{mn}
+        \end{pmatrix}
+    \end{equation*}
+
+    \begin{equation*}
+        (A + B)^T =
+        \begin{pmatrix}
+            a_{11} + b_{11} & a_{21} + b_{21} & \ldots & a_{m1} + b_{m1} \\
+            a_{12} + b_{12} & a_{22} + b_{22} & \ldots & a_{m2} + b_{m2} \\
+            \ldots          & \ldots          & \ldots & \ldots          \\
+            a_{1n} + b_{1n} & a_{2n} + b_{2n} & \ldots & a_{mn} + b_{mn}
+        \end{pmatrix}
+    \end{equation*}
+
+    \begin{equation*}
+        A^T + B^T =
+        \begin{pmatrix}
+            a_{11} + b_{11} & a_{21} + b_{21} & \ldots & a_{m1} + b_{m1} \\
+            a_{12} + b_{12} & a_{22} + b_{22} & \ldots & a_{m2} + b_{m2} \\
+            \ldots          & \ldots          & \ldots & \ldots          \\
+            a_{1n} + b_{1n} & a_{2n} + b_{2n} & \ldots & a_{mn} + b_{mn}
+        \end{pmatrix}
+    \end{equation*}
+\end{proof}
+
+\begin{property}
+    \begin{equation*}
+        (\lambda A)^T = \lambda A^T
+    \end{equation*}
+\end{property}
+
+\begin{proof}
+    \begin{equation*}
+        A =
+        \begin{pmatrix}
+            a_{11} & a_{12} & \ldots & a_{1n} \\
+            a_{21} & a_{22} & \ldots & a_{2n} \\
+            \ldots & \ldots & \ldots & \ldots \\
+            a_{m1} & a_{m2} & \ldots & a_{mn}
+        \end{pmatrix}
+    \end{equation*}
+
+    \begin{equation*}
+        \lambda A =
+        \begin{pmatrix}
+            \lambda a_{11} & \lambda a_{12} & \ldots & \lambda a_{1n} \\
+            \lambda a_{21} & \lambda a_{22} & \ldots & \lambda a_{2n} \\
+            \ldots         & \ldots         & \ldots & \ldots         \\
+            \lambda a_{m1} & \lambda a_{m2} & \ldots & \lambda a_{mn}
+        \end{pmatrix}
+        \qquad
+        (\lambda A)^T =
+        \begin{pmatrix}
+            \lambda a_{11} & \lambda a_{21} & \ldots & \lambda a_{m1} \\
+            \lambda a_{12} & \lambda a_{22} & \ldots & \lambda a_{m2} \\
+            \ldots         & \ldots         & \ldots & \ldots         \\
+            \lambda a_{1n} & \lambda a_{m2} & \ldots & \lambda a_{mn}
+        \end{pmatrix}
+    \end{equation*}
+
+    \begin{equation*}
+        A^T =
+        \begin{pmatrix}
+            a_{11} & a_{21} & \ldots & a_{m1} \\
+            a_{12} & a_{22} & \ldots & a_{m2} \\
+            \ldots & \ldots & \ldots & \ldots \\
+            a_{1n} & a_{m2} & \ldots & a_{mn}
+        \end{pmatrix}
+        \qquad
+        \lambda A^T =
+        \begin{pmatrix}
+            \lambda a_{11} & \lambda a_{21} & \ldots & \lambda a_{m1} \\
+            \lambda a_{12} & \lambda a_{22} & \ldots & \lambda a_{m2} \\
+            \ldots         & \ldots         & \ldots & \ldots         \\
+            \lambda a_{1n} & \lambda a_{m2} & \ldots & \lambda a_{mn}
+        \end{pmatrix}
+    \end{equation*}
+\end{proof}
+
+\begin{property}
+    \begin{equation*}
+        (A \cdot B)^T = B^T \cdot A^T
+    \end{equation*}
+    \label{tr-matrix-mul}
+\end{property}
+
+\begin{proof}
+    \begin{equation*}
+        A =
+        \begin{pmatrix}
+            a_{11} & a_{12} & \ldots & a_{1n} \\
+            a_{21} & a_{22} & \ldots & a_{2n} \\
+            \ldots & \ldots & \ldots & \ldots \\
+            a_{m1} & a_{m2} & \ldots & a_{mn}
+        \end{pmatrix}
+        \qquad
+        B =
+        \begin{pmatrix}
+            b_{11} & b_{12} & \ldots & b_{1n} \\
+            b_{21} & b_{22} & \ldots & b_{2n} \\
+            \ldots & \ldots & \ldots & \ldots \\
+            b_{m1} & b_{m2} & \ldots & b_{mn}
+        \end{pmatrix}
+    \end{equation*}
+
+    \begin{equation*}
+        A^T = C =
+        \begin{pmatrix}
+            c_{11} & c_{21} & \ldots & c_{m1} \\
+            c_{11} & c_{22} & \ldots & c_{2n} \\
+            \ldots & \ldots & \ldots & \ldots \\
+            c_{1n} & c_{2n} & \ldots & c_{mn}
+        \end{pmatrix}
+        \qquad
+        B^T = D =
+        \begin{pmatrix}
+            d_{11} & d_{21} & \ldots & d_{m1} \\
+            d_{11} & d_{22} & \ldots & d_{2n} \\
+            \ldots & \ldots & \ldots & \ldots \\
+            d_{1n} & d_{2n} & \ldots & d_{mn}
+        \end{pmatrix}
+        \qquad
+        \begin{cases}
+            a_{ij} = c_{ji} \\
+            b_{\alpha \beta} = d_{\beta \alpha}
+        \end{cases}
+    \end{equation*}
+
+    \begin{equation*}
+        A \cdot B = F =
+        \begin{pmatrix}
+            f_{11} & f_{21} & \ldots & f_{m1} \\
+            f_{11} & f_{22} & \ldots & f_{2n} \\
+            \ldots & \ldots & \ldots & \ldots \\
+            f_{1n} & f_{2n} & \ldots & f_{mn}
+        \end{pmatrix}
+        \qquad
+        B^T \cdot A^T = G =
+        \begin{pmatrix}
+            g_{11} & g_{21} & \ldots & g_{m1} \\
+            g_{11} & g_{22} & \ldots & g_{2n} \\
+            \ldots & \ldots & \ldots & \ldots \\
+            g_{1n} & g_{2n} & \ldots & g_{mn}
+        \end{pmatrix}
+    \end{equation*}
+
+    \begin{equation*}
+        g_{ji} =
+        \sum_{\alpha = 1}^k d_{j \alpha} c_{\alpha i} =
+        \sum_{\alpha = 1}^k b_{\alpha j} a_{i \alpha} =
+        \sum_{\alpha = 1}^k a_{i \alpha} b_{\alpha j} =
+        f_{ij}
+    \end{equation*}
+
+    \begin{equation*}
+        G = F^T \implies (A \cdot B)^T = B^T \cdot A^T
+    \end{equation*}
+\end{proof}
+
+\section{Вычисление определителей}
+\label{sec:org6c787bc}
+\begin{theorem}[о раздложении определителя]
+    Определителем порядка \(n\), соответствующим квадратной матрице порядка \(n\), называется число, равное
+    \[
+        \det A = \sum_{i = 1}^n a_{ij} A_{ij} = \sum_{j = 1}^n a_{ij} A_{ij} = \sum_{i = 1}^n (-1)^{i + j} a_{ij} M_{ij}.
+    \]
+    где
+    \begin{itemize}
+        \item \(i, j \in (\overline{1,n})\);
+        \item \(A_{ij}\) — соответствующее алгебраическое дополнение \(a_{ij}\);
+        \item \(M_{ij}\) — соответствующий минор элемента \(a_{ij}\).
+    \end{itemize}
+    \label{det-decomposition}
+\end{theorem}
+
+\begin{proof}
+    Опираясь на основные свойства определителей, выпишем цепочку равенств:
+    \begin{gather*}
+        \det A =
+        \begin{vmatrix}
+            a_{11} & \ldots & a_{1j} & \ldots & a_{1n} \\
+            a_{21} & \ldots & a_{2j} & \ldots & a_{2n} \\
+            \ldots & \ldots & \ldots & \ldots          \\
+            a_{n1} & \ldots & a_{nj} & \ldots & a_{nn} \\
+        \end{vmatrix}
+        = \\ =
+        \begin{vmatrix}
+            a_{11} & \ldots & a_{1j} & \ldots & a_{1n} \\
+            a_{21} & \ldots & 0      & \ldots & a_{2n} \\
+            \ldots & \ldots & \ldots & \ldots          \\
+            a_{n1} & \ldots & 0      & \ldots & a_{nn} \\
+        \end{vmatrix}
+        +
+        \begin{vmatrix}
+            a_{11} & \ldots & 0      & \ldots & a_{1n} \\
+            a_{21} & \ldots & a_{2j} & \ldots & a_{2n} \\
+            \ldots & \ldots & \ldots & \ldots          \\
+            a_{n1} & \ldots & 0      & \ldots & a_{nn} \\
+        \end{vmatrix}
+        + \ldots +
+        \begin{vmatrix}
+            a_{11} & \ldots & 0      & \ldots & a_{1n} \\
+            a_{21} & \ldots & 0      & \ldots & a_{2n} \\
+            \ldots & \ldots & \ldots & \ldots          \\
+            a_{n1} & \ldots & a_{nj} & \ldots & a_{nn} \\
+        \end{vmatrix}
+        = \\ =
+        \sum_{i = 1}^n
+        \begin{vmatrix}
+            a_{11} & \ldots & a_{1j - 1} & 0      & a_{1j + 1} & \ldots & a_{1n} \\
+            \ldots & \ldots & \ldots     & \ldots & \ldots     & \ldots          \\
+            a_{i1} & \ldots & a_{ij - 1} & a_{ij} & a_{ij + 1} & \ldots & a_{in} \\
+            \ldots & \ldots & \ldots     & \ldots & \ldots     & \ldots          \\
+            a_{n1} & \ldots & a_{nj - 1} & 0      & a_{nj + 1} & \ldots & a_{nn} \\
+        \end{vmatrix}
+        = \\ =
+        \sum_{i = 1}^n
+        \begin{vmatrix}
+            a_{ij} & a_{i1}      & \ldots & a_{ij - 1}      & a_{ij + 1}      & \ldots & a_{in}        \\
+            0      & a_{11}      & \ldots & a_{1j - 1}      & a_{1j + 1}      & \ldots & a_{1n}        \\
+            \ldots & \ldots      & \ldots & \ldots          & \ldots          & \ldots & \ldots      & \\
+            0      & a_{i - 1,1} & \ldots & a_{i - 1,j - 1} & a_{i - 1,j + 1} & \ldots & a_{i - 1,n}   \\
+            0      & a_{i + 1,1} & \ldots & a_{i + 1,j - 1} & a_{i + 1,j + 1} & \ldots & a_{i + 1,n}   \\
+            \ldots & \ldots      & \ldots & \ldots          & \ldots          & \ldots & \ldots      & \\
+            0      & a_{n1}      & \ldots & a_{nj - 1}      & a_{nj + 1}      & \ldots & a_{nn}
+        \end{vmatrix}
+        =
+        \sum_{i = 1}^n (-1)^{i + j} a_{ij} M_{ij}.
+    \end{gather*}
+    Таким образом, часть теоремы доказана. Положим теперь \(A^T = (a'_{ij})\), где \(a'_{ji} = a_{ij}\). Заметим, что соответствующим элементу \(a'_{ji}\) в \(\det A^T\) будет \(M'_{ji} = M_{ij}\). Как было показано выше,
+    \[
+        \det A = \det A^T = \sum_{j = 1}^n (-1)^{j + i} a'_{ji} M'_{ji} = \sum_{j = 1}^n (-1)^{i + j} a_{ij} M_{ij}.
+    \]
+\end{proof}
+
+\section{Присоединенная матрица}
+\label{sec:org9f4f382}
+\begin{definition}
+    Присоединенная матрица \(A^c\) — это транспонированная матрица алгебраических дополнений \(A_{ij}\) элементов \(a_{ij}\) матрицы \(A\):
+    \begin{equation*}
+        A^c =
+        \begin{pmatrix}
+            A_{11} & A_{21} & \ldots & A_{n1} \\
+            A_{12} & A_{22} & \ldots & A_{n2} \\
+            \ldots & \ldots & \ldots & \ldots \\
+            A_{1n} & A_{2n} & \ldots & A_{nn}
+        \end{pmatrix};
+    \end{equation*}
+\end{definition}
+
+\begin{theorem}[Аннулирование]
+    Сумма произведений  элементов любой строки (или столбца) на алгебраические дополнения элементов другой строки (столбца) равна нулю:
+    \begin{equation*}
+        \sum_{k = 1}^n a_{ik} A_{jk} = 0, \quad (i \neq j);
+        \qquad
+        \sum_{k = 1}^n a_{ki} A_{kj} = 0, \quad (i \neq j).
+    \end{equation*}
+    \label{det-cancellation}
+\end{theorem}
+
+\begin{proof}
+    Рассмотрим вспомогательную матрицу \(A'\), полученную из матрицы \(A\), заменой \(j\)-ой строки \(i\)-ой строкой:
+    \begin{equation*}
+        A =
+        \begin{pmatrix}
+            a_{11} & a_{12} & \ldots & a_{1n} \\
+            \ldots & \ldots & \ldots & \ldots \\
+            a_{i1} & a_{i2} & \ldots & a_{in} \\
+            \ldots & \ldots & \ldots & \ldots \\
+            a_{j1} & a_{j2} & \ldots & a_{jn} \\
+            \ldots & \ldots & \ldots & \ldots \\
+            a_{n1} & a_{n2} & \ldots & a_{nn}
+        \end{pmatrix};
+        \qquad
+        A' =
+        \begin{pmatrix}
+            a_{11} & a_{12} & \ldots & a_{1n} \\
+            \ldots & \ldots & \ldots & \ldots \\
+            a_{i1} & a_{i2} & \ldots & a_{in} \\
+            \ldots & \ldots & \ldots & \ldots \\
+            a_{j1} & a_{j2} & \ldots & a_{jn} \\
+            \ldots & \ldots & \ldots & \ldots \\
+            a_{n1} & a_{n2} & \ldots & a_{nn}
+        \end{pmatrix}.
+    \end{equation*}
+    \begin{equation*}
+        \det A' = \sum_{k = 1}^n a_{jk} A'_{jk} = \sum_{k = 1}^n a_{ik} A'_{jk}.
+    \end{equation*}
+    Заметим, что алгебраическое дополнение элемента некоторой строки не зависит от элементов этой строки (поскольку при вычислении алгебраического дополнения эта строка просто вычеркивается). Однако матрицы \(A\) и \(A'\) отличаются только \(j\)-ой строкой, следовательно, \(A_{jk} = A'_{jk}\). Тогда
+    \begin{equation*}
+        \det A' = \sum_{k = 1}^n a_{ik} A_{jk}.
+    \end{equation*}
+    Поскольку матрица \(A'\) имеет две одинаковые строки, ее определитель равен нулю. Аналогично доказывается случай со столбцами.
+\end{proof}
+
+\section{Невырожденная матрица}
+\label{sec:org110d88a}
+\begin{definition}
+    Невырожденная матрица — это квадратная матрица, определитель которой отличен от нуля. В противном случае матрица называется вырожденной.
+\end{definition}
+
+\section{Обратная матрица}
+\label{sec:org866276c}
+
+\begin{definition}
+    Обратная матрица — это такая матрица \(A^{-1}\), при умножении которой на исходную матрицу \(A\) получается единичная матрица \(E\):
+
+    \begin{equation*}
+        AA^{-1} = A^{-1}A = E.
+    \end{equation*}
+\end{definition}
+
+\subsection{Свойства обратной матрицы}
+\label{sec:org7ec2f44}
+
+\begin{property}
+    \begin{equation*}
+        \det A^{-1} = (\det A)^{-1}
+    \end{equation*}
+\end{property}
+
+\begin{proof}
+    \begin{equation*}
+        \det E = \det (A^{-1} A) = \det A^{-1} \det A
+        \quad \implies \quad
+        \det A^{-1} = \frac{\det E}{\det A} = \frac{1}{\det A} = (\det A)^{-1}.
+    \end{equation*}
+\end{proof}
+
+\begin{property}
+    \begin{equation*}
+        (AB)^{-1} = B^{-1}A^{-1}
+    \end{equation*}
+\end{property}
+
+\begin{proof}
+    \begin{gather*}
+        \begin{cases}
+            B^{-1} A^{-1} AB = B^{-1} E B = E \\
+            AB B^{-1} A^{-1} = A E A^{-1} = E
+        \end{cases}
+        \implies
+        (AB)^{-1} = B^{-1} A^{-1}.
+    \end{gather*}
+\end{proof}
+
+\begin{property}
+    \begin{equation*}
+        (A^T)^{-1} = (A^{-1})^T
+    \end{equation*}
+\end{property}
+
+\begin{proof}
+    Воспользуемся \hyperref[tr-matrix-mul]{одним из свойств} транспонированных матриц
+    \begin{equation*}
+        \begin{cases}
+            (A^{-1})^T A^T = (A^{-1} A)^T = E^T = E \\
+            A^T (A^{-1})^T = (A A^{-1})^T = E^T = E
+        \end{cases}
+        \implies
+        (A^{-1})^T = A^T.
+    \end{equation*}
+\end{proof}
+
+\begin{property}
+    \begin{equation*}
+        (A^{-1})^{-1} = A
+    \end{equation*}
+\end{property}
+
+\begin{proof}
+    \begin{gather*}
+        (A^{-1})^{-1} = A
+        \quad
+        \implies
+        \quad
+        (A^{-1})^{-1} A^{-1} A = A
+        \quad
+        \stackrel{2 \; \text{св.}}{\implies}
+        \quad
+        (A A^{-1})^{-1} A = A
+        \quad
+        \implies \\
+        \implies
+        \quad
+        (A A^{-1})^{-1} A = A
+        \quad
+        \implies
+        \quad
+        E^{-1} A = A
+        \quad
+        \implies
+        \quad
+        A = A
+    \end{gather*}
+\end{proof}
+
+\begin{property}
+    \begin{equation*}
+        (\lambda A)^{-1} = \lambda^{-1} A^{-1}
+    \end{equation*}
+\end{property}
+
+\begin{proof}
+    \begin{equation*}
+        \begin{cases}
+            \lambda A \lambda^{-1} A^{-1} = 1E = E \\
+            \lambda^{-1} A^{-1} \lambda A = 1E = E
+        \end{cases}
+        \implies
+        (\lambda A)^{-1} = \lambda^{-1} A^{-1}.
+    \end{equation*}
+\end{proof}
+
+\subsection{Теоремы}
+\label{sec:org46113a8}
+
+\begin{theorem}
+    Для всякой невырожденной матрицы \(A\) существует обратная матрица \(A^{-1}\) и притом только одна.
+\end{theorem}
+
+\begin{proof}
+    Сначала докажем существование обратной матрицы. Пусть нам дана следующая матрица \(A\), определитель которой не равен нулю:
+    \begin{equation*}
+        A =
+        \begin{pmatrix}
+            a_{11} & a_{12} & \ldots & a_{1n} \\
+            a_{21} & a_{22} & \ldots & a_{2n} \\
+            \ldots & \ldots & \ldots & \ldots \\
+            a_{i1} & a_{i2} & \ldots & a_{in} \\
+            \ldots & \ldots & \ldots & \ldots \\
+            a_{n1} & a_{n2} & \ldots & a_{nn}
+        \end{pmatrix}
+    \end{equation*}
+
+    Для этой матрицы построим \hyperref[sec:org9f4f382]{присоединенную матрицу}:
+    \begin{equation*}
+        A^c =
+        \begin{pmatrix}
+            A_{11} & A_{21} & \ldots & A_{n1} \\
+            A_{12} & A_{22} & \ldots & A_{n2} \\
+            \ldots & \ldots & \ldots & \ldots \\
+            A_{1n} & A_{2n} & \ldots & A_{nn}
+        \end{pmatrix}
+    \end{equation*}
+
+    Перемножим матрицы \(A\) и \(A^c\):
+    \begin{gather*}
+        A^c A =
+        \begin{pmatrix}
+            a_{11} & a_{12} & \ldots & a_{1n} \\
+            a_{21} & a_{22} & \ldots & a_{2n} \\
+            \ldots & \ldots & \ldots & \ldots \\
+            a_{i1} & a_{i2} & \ldots & a_{in} \\
+            \ldots & \ldots & \ldots & \ldots \\
+            a_{n1} & a_{n2} & \ldots & a_{nn}
+        \end{pmatrix}
+        \begin{pmatrix}
+            A_{11} & A_{21} & \ldots & A_{n1} \\
+            A_{12} & A_{22} & \ldots & A_{n2} \\
+            \ldots & \ldots & \ldots & \ldots \\
+            A_{1n} & A_{2n} & \ldots & A_{nn}
+        \end{pmatrix}
+        = \\ =
+        \setlength{\cellspacetoplimit}{3pt}
+        \setlength{\cellspacebottomlimit}{3pt}
+        \begin{pmatrix}
+            \sum_{k = 1}^n A_{k1} a_{k1} & \sum_{k = 1}^n A_{k1} a_{k2} & \ldots & \sum_{k = 1}^n A_{k1} a_{kn} \\
+            \sum_{k = 1}^n A_{k2} a_{k1} & \sum_{k = 1}^n A_{k2} a_{k2} & \ldots & \sum_{k = 1}^n A_{k2} a_{kn} \\
+            \ldots                       & \ldots                       & \ldots & \ldots                       \\
+            \sum_{k = 1}^n A_{kn} a_{k1} & \sum_{k = 1}^n A_{kn} a_{k2} & \ldots & \sum_{k = 1}^n A_{kn} a_{kn} \\
+        \end{pmatrix}
+    \end{gather*}
+
+    По \hyperref[det-decomposition]{теореме о разложении определителя} и \hyperref[det-cancellation]{теореме аннулирования}:
+    \begin{equation*}
+        \begin{cases}
+            i = k \implies \sum_{k = 1}^n a_{ik} A_{jk} = \det A \\
+            i \neq k \implies \sum_{k = 1}^n a_{ik} A_{jk} = 0
+        \end{cases}
+    \end{equation*}
+
+    Тогда получим, что
+    \begin{equation*}
+        A^c A =
+        \begin{pmatrix}
+            \det A & 0      & \ldots & 0      \\
+            0      & \det A & \ldots & 0      \\
+            \ldots & \ldots & \ldots & \ldots \\
+            0      & 0      & \ldots & \det A \\
+        \end{pmatrix}
+        = \det A
+        \begin{pmatrix}
+            1      & 0      & \ldots & 0      \\
+            0      & 1      & \ldots & 0      \\
+            \ldots & \ldots & \ldots & \ldots \\
+            0      & 0      & \ldots & 1      \\
+        \end{pmatrix}
+        = E \det A.
+    \end{equation*}
+
+    Значит обратная матрица равна
+    \begin{equation*}
+        A^{-1} = \frac{A^c}{\det A}.
+    \end{equation*}
+
+    Аналогично доказывается случай \(A A^c\), Теперь докажем единственность обратной матрицы. Предположим, что существует две обратные матрицы: \(A^{-1}\) и \(\tilde{A}\). Тогда
+    \begin{equation*}
+        \begin{cases}
+            AA^{-1} = A^{-1} A = E \\
+            A\tilde{A} = \tilde{A} A = E
+        \end{cases}
+        \implies
+        A^{-1} A \tilde{A} =
+        \begin{cases}
+            A^{-1} (A\tilde{A}) = A^{-1} E = A^{-1} \\
+            (A^{-1} A) \tilde{A} = E \tilde{A} = \tilde{A}
+        \end{cases}
+        \implies
+        A^{-1} = \tilde{A}.
+    \end{equation*}
+
+    Результат противоречит исходному предположению о существовании двух обратных матриц.
+\end{proof}
+
+\section{Норма матрицы}
+\label{sec:org5cea476}
+\begin{definition}
+    Нормой матрицы \(A \in \mathcal{K}^{m \times n}\) (обычно \(\mathcal{K} = \mathbb{R}\) или \(\mathcal{K} = \mathbb{C}\)) понимается неотрицательное число \(\|A\|\), удовлетворяющее следующим аксиомам:
+    \begin{enumerate}
+        \item \(\|A\| \geq 0\);
+        \item \(\|\lambda A\| = |\lambda| \|A\|\), где \(\lambda \in \mathbb{R}\) или \(\lambda \in \mathbb{C}\);
+        \item \(\|A + B\| \leq \|A\| + \|B\|\), где \(A\) и \(B\) — матрицы, допускающие сложение;
+        \item \(\|AB\| \leq \|A\| \|B\|\), где \(A\) и \(B\) — матрицы, допускающие умножение.
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+    Норма \(\|A\|\) называется \emph{мультипликативной}, если выполняются все 4 аксиомы, и \emph{аддитивной}, если выполняются первые 3 аксиомы.
+\end{definition}
+
+\begin{definition}
+    Если матрица удовлетворяет условию
+    \[
+        \|\lambda A\| \leq |\lambda| \|A\|,
+    \]
+    то такая норма называются \emph{согласованной} с нормой вектора.
+\end{definition}
+
+Определим некоторые наиболее употребительные на практике матричные нормы:
+\begin{itemize}
+    \item Евклидова норма или норма Фробениуса:
+          \[
+              \|A\|_E = \sqrt{\sum_{i = 1}^m \sum_{j = 1}^n a_{ij}^2}.
+          \]
+    \item Столбцовая норма:
+          \[
+              \|A\|_1 = \max_{1 \leq j \leq n} \sum_{i = 1}^m |a_{ij}|.
+          \]
+    \item Строковая форма:
+          \[
+              \|A\|_\infty = \max_{1 \leq i \leq m} \sum_{j = 1}^n |a_{ij}|.
+          \]
+    \item Спектральная норма:
+          \[
+              \|A\|_2 = \sqrt{\max_i(\sigma_i)},
+          \]
+          где \(\sigma_i\) — собственные значения симметричной матрицы \(A^T A\).
+\end{itemize}
+
+
+% * Raw
+
+% #+begin_definition
+% Если \(\rang A = r\), то \(\forall\) ненулевой минор порядка \(r\) называется базисным минором, а его строки (столбцы) — базисными.
+% #+end_definition
+
+% #+attr_latex: :options [о базисном миноре]
+% #+begin_theorem
+% 1. Строки (столбцы) базисного минора линейно независимы.
+% 2. Любая строка (столбец) матрицы \(A\) является линейной комбинацией базисных строк (столбцов).
+% #+end_theorem
+
+% #+begin_proof
+% Докажем первое утверждение от противного.
+
+% \begin{equation*}
+%     A =
+%     \begin{pmatrix}
+%         a_{11} & a_{12} & \ldots & a_{1n} \\
+%         a_{21} & a_{22} & \ldots & a_{2n} \\
+%         \ldots & \ldots & \ldots & \ldots \\
+%         a_{m1} & a_{m2} & \ldots & a_{mn} \\
+%     \end{pmatrix}
+% \end{equation*}
+
+% Если базисные строки линейно независимы, тогда выполняется (\(A_i\) — базисный минор)
+% \begin{equation*}
+%     A_i = \alpha_1 A_{1} + \ldots + \alpha_{i - 1} A_{i - 1} + \alpha_{i + 1} A_{i + 1} + \ldots \alpha_{m} A_{m}
+%     \implies
+%     \det A_i = 0.
+% \end{equation*}
+% Получили противоречие с определением базисного минора.
+
+% \begin{equation*}
+%     \underset{m \times n}{A} =
+%     \begin{pmatrix}
+%         a_{11} & \ldots & a_{1r} & \ldots & a_{1n} \\
+%         a_{21} & \ldots & a_{2r} & \ldots & a_{2n} \\
+%         \ldots & \ldots & \ldots & \ldots & \ldots \\
+%         a_{r1} & \ldots & a_{rr} & \ldots & a_{rn} \\
+%         \ldots & \ldots & \ldots & \ldots & \ldots \\
+%         a_{m1} & \ldots & a_{mr} & \ldots & a_{mn} \\
+%     \end{pmatrix}
+% \end{equation*}
+
+% Докажем второе утверждение. Рассмотрим произвольный определитель \((r+1)\)-го порядка (к базисному определителю добавили \(\forall i\)-ю строку и \(j\)-й столбец):
+% \begin{equation*}
+%     \det =
+%     \begin{pmatrix}
+%         a_{11} & \ldots & a_{1r} & a_{1j} \\
+%         a_{21} & \ldots & a_{2r} & a_{2j} \\
+%         \ldots & \ldots & \ldots & \ldots \\
+%         a_{r1} & \ldots & a_{rr} & a_{rj} \\
+%         a_{i1} & \ldots & a_{ir} & a_{ij} \\
+%     \end{pmatrix}
+% \end{equation*}
+
+% - Если \(i \leq r\) (\(j \leq r\)), то определитель содержит две одинаковых строки (столбца), а значит этот определитель равен нулю.
+% - Если \(i > r\) (\(j > r\)), то порядок минора равен \((r + 1)\), а значит определитель такого минора равен нулю.
+
+% Вычислим определитель разложением по \(j\)-му столбцу:
+% \begin{equation*}
+%     \det = a_{1j} A_{1j} + a_{2j} A_{2j} + \ldots + a_{rj} A_{rj} + a_{ij} A_{ij} = 0
+% \end{equation*}
+
+% Так как \(A_{ij}\) — базисный минор, неравный нулю, следовательно
+% \begin{equation*}
+%     a_{ij} = -\frac{A_{1j}}{A_{ij}} a_{1j} - \frac{A_{2j}}{A_{ij}} a_{2j} - \ldots - \frac{A_{rj}}{A_{ij}} a_{rj}.
+% \end{equation*}
+
+% \(a_{ij}\) (элемент \(i\)-й строки) — есть линейная комбинация элементов \(r\) базисных строк.
+% #+end_proof
+
+% ** Матричная запись СЛАУ
+% \begin{equation*}
+%     \underset{m \times n}{A} =
+%     \begin{pmatrix}
+%         a_{11} & a_{12} & \ldots & a_{1n} \\
+%         a_{21} & a_{22} & \ldots & a_{2n} \\
+%         \ldots & \ldots & \ldots & \ldots \\
+%         a_{m1} & a_{m2} & \ldots & a_{mn} \\
+%     \end{pmatrix};
+%     \qquad \qquad
+%     \underset{n \times 1}{X} =
+%     \begin{pmatrix}
+%         x_1 \\
+%         x_2 \\
+%         \ldots \\
+%         x_n
+%     \end{pmatrix};
+%     \qquad \qquad
+%     \underset{m \times 1}{B} =
+%     \begin{pmatrix}
+%         b_1 \\
+%         b_2 \\
+%         \ldots \\
+%         b_m
+%     \end{pmatrix}.
+% \end{equation*}
+
+% \begin{equation*}
+%     \underset{m \times n}{A} \underset{n \times 1}{X} = \underset{m \times 1}{B}
+%     \implies
+%     X = A^{-1} B.
+% \end{equation*}
+
+% ** Теоремы
+
+% #+attr_latex: :options [Кронекера-Капелли]
+% #+begin_theorem
+% \(AX = B\) совместна тогда и только тогда, когда \(\rang A = \rang (A \ B) = \rang P\) (расширенная матрица):
+% \begin{equation*}
+%     P =
+%     \begin{pmatrix}
+%         a_{11} & a_{12} & \ldots & a_{1n} & b_1 \\
+%         a_{21} & a_{22} & \ldots & a_{2n} & b_2 \\
+%         \ldots & \ldots & \ldots & \ldots & \ldots \\
+%         a_{m1} & a_{m2} & \ldots & a_{mn} & b_m \\
+%     \end{pmatrix};
+% \end{equation*}
+
+% - Если \(\rang A = \rang P = n\), то система \(AX = B\) имеет единственное решение.
+% - Если \(\rang A = \rang P < n\), то система \(AX = B\) имеет бесконечное множество решений.
+% - Если \(\rang A < \rang P\), то система \(AX = B\) несовместна.
+% #+end_theorem
+
+
+% ** Однородные СЛУ
+% # TODO: добавить определение однородной СЛУ
+
+% \begin{equation*}
+%     \begin{cases}
+%         a_{11} x_{1} + a_{12} x_{2} + \ldots + a_{1n} x_{n} = 0 \\
+%         a_{21} x_{1} + a_{22} x_{2} + \ldots + a_{2n} x_{n} = 0 \\
+%         \ldots + \ldots + \ldots + \ldots \\
+%         a_{m1} x_{1} + a_{m2} x_{2} + \ldots + a_{mn} x_{n} = 0 \\
+%     \end{cases}
+% \end{equation*}
+
+% Всегда есть тривиальное решение \(x_1 = x_2 = \ldots = x_n = 0\) (нулевое).
+
+% - если \(\rang A = n\) (\(\det A \neq 0\)) — единственное решение;
+% - если \(\rang A < n\) (\(\det A = 0\)) — бесконечное множество решений, т. е. есть ненулевое решение.
+
+% Замечание. Если \(X\) и \(Y\) — решения ОСЛУ, то любая линейная комбинация \(\alpha X + \beta Y\) — тоже решение.
+
+% #+begin_definition
+% Фундаментальная система решений (ФСР) — это совокупность ненулевых решений ОСЛУ \(x_1; x_2; \ldots; x_k\), если
+% 1. \(x_1; x_2; \ldots; x_k\) линейно независимы;
+% 2. любое другое ненулевое решение \(x\) ОСЛУ может быть представлено линейной комбинацией \(x_1; x_2; \ldots; x_k\), то есть общее решение ОСЛУ
+%    \begin{equation*}
+%         x = \alpha_1 x_1 + \alpha_2 x_2 + \ldots + \alpha_k x_k,
+%         \quad
+%         \alpha_i \in R.
+%    \end{equation*}
+% #+end_definition
+
+
+% #+attr_latex: :options [о ФСР]
+% #+begin_theorem
+% Если ранг \(r\) матрицы коэффициентов ОСЛУ меньше числа неизвестных, то эта система имеет ФСР размерностью \((n - r)\).
+% #+end_theorem
+
+% #+begin_proof
+% Выразим \(r\) базисных переменных через \((n - r)\) свободных:
+% \begin{equation*}
+%     \begin{cases}
+%         a_{11} x_1 + \ldots + a_{1r} x_r = - a_{1,r + 1} x_{r + 1} - \ldots - a_{1n} x_n \\
+%         \ldots + \ldots + \ldots = \ldots - \ldots - \ldots \\
+%         a_{r1} x_1 + \ldots + a_{rr} x_r = - a_{r,r + 1} x_{r + 1} - \ldots - a_{rn} x_n \\
+%     \end{cases}
+% \end{equation*}
+
+% Базисный минор
+% \begin{equation*}
+%     M_r =
+%     \begin{vmatrix}
+%         a_{11} & a_{12} & \ldots & a_{1r} \\
+%         a_{21} & a_{22} & \ldots & a_{2r} \\
+%         \ldots & \ldots & \ldots & \ldots \\
+%         a_{r1} & a_{r2} & \ldots & a_{rr} \\
+%     \end{vmatrix}
+%     \neq 0.
+% \end{equation*}
+
+% Базисные переменные \(x_1; \ldots; x_r\) находятся однозначно, если остальным свободным \(x_{r + 1}, \ldots, x_n\) придать числовые значения.
+
+% \begin{equation*}
+%     \underbrace{
+%         \begin{pmatrix}
+%             1 \\
+%             0 \\
+%             \ldots \\
+%             0
+%         \end{pmatrix}
+%         \quad
+%         \begin{pmatrix}
+%             0 \\
+%             1 \\
+%             \ldots \\
+%             0
+%         \end{pmatrix}
+%         \quad
+%         \begin{pmatrix}
+%             0 \\
+%             0 \\
+%             \ldots \\
+%             1
+%         \end{pmatrix}
+%     }{\text{всего \((n - r)\) наборов}}
+% \end{equation*}
+
+% Подставив первый набор (\(x_{r + 1} = 1, x_{r + 2} = 0, \ldots, x_n = 0\)), получим
+% \begin{equation*}
+%     \begin{cases}
+%         a_{11} x_1 + \ldots + a_{1r} x_r = -a_{1, r + 1} \\
+%         \ldots + \ldots & \ldots = \ldots \\
+%         a_{11} x_1 + \ldots + a_{rr} x_r = -a_{r, r + 1} \\
+%     \end{cases}
+% \end{equation*}
+
+% Эта система имеет единственное решение. Так сделаем для каждого набора и получим
+% \begin{equation*}
+%     X_1 =
+%     \begin{pmatrix}
+%         x_1^1 \\
+%         x_2^1 \\
+%         \ldots \\
+%         x_r^1 \\
+%         1 \\
+%         0 \\
+%         \ldots \\
+%         0
+%     \end{pmatrix};
+%     \quad
+%     X_2 =
+%     \begin{pmatrix}
+%         x_1^2 \\
+%         x_2^2 \\
+%         \ldots \\
+%         x_r^2 \\
+%         1 \\
+%         0 \\
+%         \ldots \\
+%         0
+%     \end{pmatrix};
+%     \quad
+%     \ldots
+%     \quad
+%     X_{n - r} =
+%     \begin{pmatrix}
+%         x_1^{n - r} \\
+%         x_2^{n - r} \\
+%         \ldots \\
+%         x_r^{n - r} \\
+%         1 \\
+%         0 \\
+%         \ldots \\
+%         0
+%     \end{pmatrix};
+% \end{equation*}
+
+% Полученная система будет являться ФСР (линейно независима).
+
+% Докажем линейную независимость \(X_1, \ldots, X_{n - r}\). Рассмотрим линейную комбинацию:
+% \begin{equation*}
+%     \alpha_1 X_1 + \ldots \alpha_{n - r} X_{n - r} = 0.
+% \end{equation*}
+
+% Матрица коэффициентов
+% \begin{equation*}
+%     \begin{pmatrix}
+%         x_1^1 & \ldots & x_1^{n - r} \\
+%         \ldots & \ldots & \ldots \\
+%         x_r^1 & \ldots & x_r^{n - r} \\
+%         1 & \ldots & 0 \\
+%         \ldots & \ldots & \ldots \\
+%         0 & \ldots & 1 \\
+%     \end{pmatrix}
+% \end{equation*}
+
+% Минор с единицами и нулями \(M_{n - r} = 1 \neq 0\). Определитель не равен нулю, значит ОСЛУ имеет единственное тривиальное решение. Следовательно \(X_1, \ldots, X_{n - r}\) — линейно независима.
+
+% Рассмотрим произвольное решение:
+% \begin{equation*}
+%     X =
+%     \begin{pmatrix}
+%         x_1 \\
+%         \ldots \\
+%         x_r \\
+%         x_{r + 1} \\
+%         \ldots \\
+%         x_n
+%     \end{pmatrix};
+%     \qquad
+% \end{equation*}
+% и матрицу \(Y\)
+% \begin{equation*}
+%     Y = X - x_{r + 1} X_1 - x_{r + 2} X_2 - \ldots - x_n X_{n - r}.
+% \end{equation*}
+% \begin{equation*}
+%     Y =
+%     \begin{pmatrix}
+%         x_1 \\
+%         x_2 \\
+%         x_r \\
+%         x_{r + 1} \\
+%         \ldots \\
+%         x_n
+%     \end{pmatrix}
+%     - x_{r + 1}
+%     \begin{pmatrix}
+%         x_1^1 \\
+%         x_2^1 \\
+%         x_r^1 \\
+%         1 \\
+%         \ldots \\
+%         0
+%     \end{pmatrix}
+%     - \ldots - x_n
+%     \begin{pmatrix}
+%         x_1^{n - r} \\
+%         x_2^{n - r} \\
+%         x_r^{n - r} \\
+%         0 \\
+%         \ldots \\
+%         1
+%     \end{pmatrix}
+% \end{equation*}
+
+% \(Y\) — столбец решений ОСЛУ. Значит решение равносильной системы \((*)\) (однородная и имеет единственное решение), следовательно
+% \begin{equation*}
+%     Y =
+%     \begin{pmatrix}
+%         0 \\
+%         \ldots \\
+%         0
+%     \end{pmatrix}
+% \end{equation*}
+
+% Тогда
+% \begin{equation*}
+%     X = x_{r + 1} X_1 + x_{r + 2} X_2 + \ldots + x_n X_{n - r}.
+% \end{equation*}
+% #+end_proof
+
+% ** Линейные векторные пространства
+% #+begin_definition
+% Множество \(L\) называется линейным векторным пространством, если выполнены следующие условия
+% 1. в \(L\) определена операция сложения элементов: \(\forall x, y \in L\) определено отображение \((x, y) \rightarrow z\), где \(z = x + y\), обладающая свойствами
+%    1. \(x + y = y + x\)
+%    2. \((x + y) + z = x + (y + z)\)
+%    3. \(0 \in L: \forall x \in L \implies x + 0 = 0 + x = 0\) (нулевой элемент)
+%    4. \(\forall x \in L \; \exists (-x) \in L \implies x + (-x) = 0\) (противоположный элемент)
+% 2. В \(L\) определена операция умножения на \(\mathbb{R}\) (\(\mathbb{C}\)) числа, т. е. \(\forall \lambda \in \mathbb{R}\) (\(\lambda \in \mathbb{C}\)) \(\forall x \in L : (\lambda, x) \rightarrow y \in L\):
+%    1. \(1 \cdot x = x \cdot 1 = x\)
+%    2. \(\lambda (\mu x) = (\lambda \mu) x\)
+%    3. \(\lambda (x + y) = \lambda x + \lambda y\)
+%    4. \((\lambda + \mu) x = \lambda x + \mu x\)
+% #+end_definition
+
+% Примеры линейных пространств
+% - множество \(\mathbb{R}\)
+% - множество всех матриц
+% - множество всех многочленов \(P_n (x) = a_0 x^n + a_1 x^{n - 1} + \ldots + a_n\), \(a_i \in \mathbb{R}\), \(i = \overline{1, n}\)
+% - \(n\)-мерное пространство арифметических векторов \(A_n\) \(n = 1, 2, \ldots\)
+% - множество всех функций, интегрируемых на \([a, b]\)
+
+% Система векторов \(\{x_1, \ldots, x_s\} \sub L\) называется линейно зависимой, если
+% \begin{equation*}
+%     \exists \lambda_1, \ldots, \lambda_s \text{(не равные одновременно 0)}:
+%     \lambda_1 x_1 + \ldots + \lambda_s x_s = 0
+% \end{equation*}
+
+% Пусть \(Q \sub L\) — произвольное множество векторов, тогда упорядоченная система векторов \(E = (e_1, e_2, \ldots, e_s)\) называется базисом в \(Q\), если
+% 1. \(e_k \in Q; k = \overline{1, s}\)
+% 2. система \(E = (e_1, e_2, \ldots, e_s)\) линейно независима
+% 3. \(\forall x \in Q \; \exists x_1, \ldots, x_5\), что \(x = \sum_{k = 1}^s x_k e_k\)
+
+\end{document}
