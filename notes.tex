@@ -3,6 +3,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{graphicx}
 \usepackage{longtable}
+\usepackage{tabularray}
 \usepackage{wrapfig}
 \usepackage{rotating}
 \usepackage[normalem]{ulem}
@@ -51,6 +52,10 @@
     \array{#1}}
 \makeatother
 
+% Add new table align types
+\newcommand{\PreserveBackslash}[1]{\let\temp=\\#1\let\\=\temp}
+\newcolumntype{C}[1]{>{\PreserveBackslash\centering}p{#1}}
+
 \begin{document}
 
 \tableofcontents
@@ -83,7 +88,7 @@
 \section{Определения}
 \label{sec:orgc3e0aac}
 \begin{definition}
-    Матрица размером \(m \times n\) — таблица выражений, состоящая из \(m\) строк и \(n\) столбцов:
+    Матрица размером \(m \times n\) — это таблица выражений, состоящая из \(m\) строк и \(n\) столбцов:
 
     \begin{equation*}
         \underset{m \times n}{A} =
@@ -974,6 +979,7 @@
 \end{definition}
 
 \begin{definition}
+    \label{def:augmented-matrix}
     Расширенная матрица — матрица, которая получается при добавлении в качестве (n+1) столбца матрицу-столбец свободных членов. Приведем пример. Пусть дана матрица коэффициентов \(A\) и матрица свободных членов \(B\):
     \begin{equation*}
         A =
@@ -1004,6 +1010,41 @@
     \end{equation*}
 \end{definition}
 
+СЛАУ можно записать в матричном виде:
+\begin{equation*}
+    \underset{m \times n}{A} =
+    \begin{pmatrix}
+        a_{11} & a_{12} & \ldots & a_{1n} \\
+        a_{21} & a_{22} & \ldots & a_{2n} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{m1} & a_{m2} & \ldots & a_{mn} \\
+    \end{pmatrix};
+    \qquad
+    \underset{n \times 1}{X} =
+    \begin{pmatrix}
+        x_1    \\
+        x_2    \\
+        \ldots \\
+        x_n
+    \end{pmatrix};
+    \qquad
+    \underset{m \times 1}{B} =
+    \begin{pmatrix}
+        b_1    \\
+        b_2    \\
+        \ldots \\
+        b_m
+    \end{pmatrix}.
+\end{equation*}
+
+\begin{equation*}
+    AX = B
+    \implies
+    A^{1} A X = A^{-1} B
+    \implies
+    X = A^{-1} B.
+\end{equation*}
+
 \begin{theorem}[Кронекера–Капелли]
     Система линейных алгебраических уравнений будет совместной тогда и только тогда, когда ранг матрицы \(A\) ее коэффициентов и ранг расширенной матрицы \(P\) равны. Из этого утверждения следует, что для СЛАУ справедливо следующее:
     \begin{itemize}
@@ -1014,6 +1055,81 @@
 \end{theorem}
 
 % TODO: добавить доказательства
+
+\chapter{Векторное пространство}
+
+\section{Определение}
+
+\begin{definition}
+    Векторным (линейным) пространством называется множество \(L\) произвольных элементов, называемых векторами, если для них:
+    \begin{itemize}
+        \item определена операция \textbf{сложения} векторов \(L \times L \to L\), сопоставляющая каждой паре элементов \((x, y) \in L\) единственный элемент множества \(L\), называемый их суммой и обозначаемый \(x + y\);
+        \item определена операция \textbf{умножения} векторов на скаляры \(F \times L \to L\) (\(F\) — множество скаляров), сопоставляющая каждому элементу \(\lambda \in F\) и каждому элементу \(x \in L\) единственный элемент множества \(L\), обозначаемый \(\lambda \cdot x\) или \(\lambda x\).
+    \end{itemize}
+
+    Эти операции должны удовлетворять \hyperref[sec:vector-space-axiom]{восьми аксиомам векторного пространства}.
+\end{definition}
+
+\section{Аксиомы векторного пространства}
+\label{sec:vector-space-axiom}
+
+\subsection{Аксиомы сложения}
+
+\begin{center}
+    \SetTblrInner{rowsep=4pt,colsep=2pt}
+    \begin{tblr}{| Q[c,7cm,valign=m] | Q[c,8.5cm,valign=m] |}
+        \hline
+        \textbf{Наименование}                   & \textbf{Формула}                                             \\
+        \hline
+        Коммутативность                         & \(\forall x, y \in L \implies x + y = y + x\)                \\
+        \hline
+        Ассоциативность                         & \(\forall x, y, z \in L \implies x + (y + z) = (x + y) + z\) \\
+        \hline
+        Существование нейтрального элемента     & \(\exists 0 \in L: x + 0 = 0 + x = x\)                       \\
+        \hline
+        Существование противоположного элемента & \(\forall x \in L \; \exists (-x) \in L: x + (-x) = 0\)      \\
+        \hline
+    \end{tblr}
+\end{center}
+
+\subsection{Аксиомы умножения}
+
+\begin{center}
+    \SetTblrInner{rowsep=4pt,colsep=2pt}
+    \begin{tblr}{| Q[c,7cm,valign=m] | Q[c,8.5cm,valign=m] |}
+        \hline
+        \textbf{Наименование}                           & \textbf{Формула}                           \\
+        \hline
+        Ассоциативность                                 & \(\alpha (\beta x) = (\alpha \beta)x\)     \\
+        \hline
+        Дистрибутивность относительно сложения скаляров & \((\alpha + \beta)x = \alpha x + \beta x\) \\
+        \hline
+        Дистрибутивность относительно сложения векторов & \(\alpha (x + y) = \alpha x + \alpha y\)   \\
+        \hline
+        Существование нейтрального элемента             & \(1 \cdot x  = x\)                         \\
+        \hline
+    \end{tblr}
+\end{center}
+
+
+% Примеры линейных пространств
+% - множество \(\mathbb{R}\)
+% - множество всех матриц
+% - множество всех многочленов \(P_n (x) = a_0 x^n + a_1 x^{n - 1} + \ldots + a_n\), \(a_i \in \mathbb{R}\), \(i = \overline{1, n}\)
+% - \(n\)-мерное пространство арифметических векторов \(A_n\) \(n = 1, 2, \ldots\)
+% - множество всех функций, интегрируемых на \([a, b]\)
+
+% Система векторов \(\{x_1, \ldots, x_s\} \sub L\) называется линейно зависимой, если
+% \begin{equation*}
+%     \exists \lambda_1, \ldots, \lambda_s \text{(не равные одновременно 0)}:
+%     \lambda_1 x_1 + \ldots + \lambda_s x_s = 0
+% \end{equation*}
+
+% Пусть \(Q \sub L\) — произвольное множество векторов, тогда упорядоченная система векторов \(E = (e_1, e_2, \ldots, e_s)\) называется базисом в \(Q\), если
+% 1. \(e_k \in Q; k = \overline{1, s}\)
+% 2. система \(E = (e_1, e_2, \ldots, e_s)\) линейно независима
+% 3. \(\forall x \in Q \; \exists x_1, \ldots, x_5\), что \(x = \sum_{k = 1}^s x_k e_k\)
+
 
 % #+begin_proof
 % Докажем первое утверждение от противного.
@@ -1076,38 +1192,6 @@
 % \(a_{ij}\) (элемент \(i\)-й строки) — есть линейная комбинация элементов \(r\) базисных строк.
 % #+end_proof
 
-% ** Матричная запись СЛАУ
-% \begin{equation*}
-%     \underset{m \times n}{A} =
-%     \begin{pmatrix}
-%         a_{11} & a_{12} & \ldots & a_{1n} \\
-%         a_{21} & a_{22} & \ldots & a_{2n} \\
-%         \ldots & \ldots & \ldots & \ldots \\
-%         a_{m1} & a_{m2} & \ldots & a_{mn} \\
-%     \end{pmatrix};
-%     \qquad \qquad
-%     \underset{n \times 1}{X} =
-%     \begin{pmatrix}
-%         x_1 \\
-%         x_2 \\
-%         \ldots \\
-%         x_n
-%     \end{pmatrix};
-%     \qquad \qquad
-%     \underset{m \times 1}{B} =
-%     \begin{pmatrix}
-%         b_1 \\
-%         b_2 \\
-%         \ldots \\
-%         b_m
-%     \end{pmatrix}.
-% \end{equation*}
-
-% \begin{equation*}
-%     \underset{m \times n}{A} \underset{n \times 1}{X} = \underset{m \times 1}{B}
-%     \implies
-%     X = A^{-1} B.
-% \end{equation*}
 
 % ** Теоремы
 
@@ -1349,37 +1433,5 @@
 % \end{equation*}
 % #+end_proof
 
-% ** Линейные векторные пространства
-% #+begin_definition
-% Множество \(L\) называется линейным векторным пространством, если выполнены следующие условия
-% 1. в \(L\) определена операция сложения элементов: \(\forall x, y \in L\) определено отображение \((x, y) \rightarrow z\), где \(z = x + y\), обладающая свойствами
-%    1. \(x + y = y + x\)
-%    2. \((x + y) + z = x + (y + z)\)
-%    3. \(0 \in L: \forall x \in L \implies x + 0 = 0 + x = 0\) (нулевой элемент)
-%    4. \(\forall x \in L \; \exists (-x) \in L \implies x + (-x) = 0\) (противоположный элемент)
-% 2. В \(L\) определена операция умножения на \(\mathbb{R}\) (\(\mathbb{C}\)) числа, т. е. \(\forall \lambda \in \mathbb{R}\) (\(\lambda \in \mathbb{C}\)) \(\forall x \in L : (\lambda, x) \rightarrow y \in L\):
-%    1. \(1 \cdot x = x \cdot 1 = x\)
-%    2. \(\lambda (\mu x) = (\lambda \mu) x\)
-%    3. \(\lambda (x + y) = \lambda x + \lambda y\)
-%    4. \((\lambda + \mu) x = \lambda x + \mu x\)
-% #+end_definition
-
-% Примеры линейных пространств
-% - множество \(\mathbb{R}\)
-% - множество всех матриц
-% - множество всех многочленов \(P_n (x) = a_0 x^n + a_1 x^{n - 1} + \ldots + a_n\), \(a_i \in \mathbb{R}\), \(i = \overline{1, n}\)
-% - \(n\)-мерное пространство арифметических векторов \(A_n\) \(n = 1, 2, \ldots\)
-% - множество всех функций, интегрируемых на \([a, b]\)
-
-% Система векторов \(\{x_1, \ldots, x_s\} \sub L\) называется линейно зависимой, если
-% \begin{equation*}
-%     \exists \lambda_1, \ldots, \lambda_s \text{(не равные одновременно 0)}:
-%     \lambda_1 x_1 + \ldots + \lambda_s x_s = 0
-% \end{equation*}
-
-% Пусть \(Q \sub L\) — произвольное множество векторов, тогда упорядоченная система векторов \(E = (e_1, e_2, \ldots, e_s)\) называется базисом в \(Q\), если
-% 1. \(e_k \in Q; k = \overline{1, s}\)
-% 2. система \(E = (e_1, e_2, \ldots, e_s)\) линейно независима
-% 3. \(\forall x \in Q \; \exists x_1, \ldots, x_5\), что \(x = \sum_{k = 1}^s x_k e_k\)
 
 \end{document}
