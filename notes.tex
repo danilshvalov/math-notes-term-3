@@ -20,12 +20,17 @@
 \usepackage{enumitem}
 \usepackage{unicode-math}
 \usepackage[math]{cellspace}
+
+
 \theoremstyle{definition}
-\newtheorem{theorem}{Теорема}[section]
+\newtheorem{theorem}{Теорема}[chapter]
+\newtheorem{corollary}{Следствие}[theorem]
 \newtheorem{lemma}[theorem]{Лемма}
 \newtheorem{property}[theorem]{Свойство}
 \theoremstyle{definition}
-\newtheorem{definition}{Определение}[section]
+\newtheorem{definition}{Определение}[chapter]
+
+
 \newcommand{\newpar}{$ $\par\nobreak\ignorespaces}
 \renewenvironment{proof}{{\noindent\bfseries Доказательство.}}{\smallskip\newpar \hfill\textit{Что и требовалось доказать.}}
 \usepackage[x11names]{xcolor}
@@ -1045,6 +1050,7 @@
     X = A^{-1} B.
 \end{equation*}
 
+% TODO: доказательство следствий
 \begin{theorem}[Кронекера–Капелли]
     Система линейных алгебраических уравнений будет совместной тогда и только тогда, когда ранг матрицы \(A\) ее коэффициентов и ранг расширенной матрицы \(P\) равны. Из этого утверждения следует, что для СЛАУ справедливо следующее:
     \begin{itemize}
@@ -1054,7 +1060,77 @@
     \end{itemize}
 \end{theorem}
 
-% TODO: добавить доказательства
+\begin{proof}
+    \newpar
+    \textbf{Необходимость}. Пусть система совместна, тогда найдутся такие числа \(\alpha_1, \alpha_2, \ldots, \alpha_n\), что при подстановке которых в систему мы получим \(m\) тождеств, которые можно записать в виде одного векторного тождества:
+    \begin{equation*}
+        \alpha_1
+        \begin{pmatrix}
+            a_{11} \\
+            a_{21} \\
+            \ldots \\
+            a_{m1}
+        \end{pmatrix}
+        +
+        \alpha_2
+        \begin{pmatrix}
+            a_{12} \\
+            a_{22} \\
+            \ldots \\
+            a_{m2}
+        \end{pmatrix}
+        + \ldots +
+        \alpha_n
+        \begin{pmatrix}
+            a_{1n} \\
+            a_{2n} \\
+            \ldots \\
+            a_{mn}
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            b_1    \\
+            b_2    \\
+            \ldots \\
+            b_m
+        \end{pmatrix}
+    \end{equation*}
+    Следовательно, вектор-столбец свободных членов \(B\) является линейной комбинацией вектор-столбцов матрицы \(A\), тогда добавление его к системе векторов-столбцов матрицы \(A\) не меняет ранга системы. Отсюда \(\rang A = \rang R\).
+
+    \textbf{Достаточность}. Пусть \(\rang A = \rang P = r\), следовательно существует линейно независимая подсистема из \(r\) векторов-столбцов матрицы \(A\). Она же будет содержаться и в матрице \(P\). Так как эта система максимальна, то вектор-столбец свободных членов \(B\) будет выражаться через эти \(r\) векторов-столбцов. Следовательно, вектор-столбец свободных членов \(B\) можно представить в виде линейной комбинации всех векторов-столбцов матрицы \(A\), т. е. найдутся такие числа \(\alpha_1, \alpha_2, \ldots, \alpha_n\), что вектор-столбец будет представлен в виде:
+    \begin{equation*}
+        \begin{pmatrix}
+            b_1    \\
+            b_2    \\
+            \ldots \\
+            b_m
+        \end{pmatrix}
+        =
+        \alpha_1
+        \begin{pmatrix}
+            a_{11} \\
+            a_{21} \\
+            \ldots \\
+            a_{m1}
+        \end{pmatrix}
+        +
+        \alpha_2
+        \begin{pmatrix}
+            a_{12} \\
+            a_{22} \\
+            \ldots \\
+            a_{m2}
+        \end{pmatrix}
+        + \ldots +
+        \alpha_n
+        \begin{pmatrix}
+            a_{1n} \\
+            a_{2n} \\
+            \ldots \\
+            a_{mn}
+        \end{pmatrix}
+    \end{equation*}
+\end{proof}
 
 \chapter{Векторное пространство}
 
@@ -1069,6 +1145,16 @@
 
     Эти операции должны удовлетворять \hyperref[sec:vector-space-axiom]{восьми аксиомам векторного пространства}.
 \end{definition}
+
+\noindent Примеры линейных пространств:
+\begin{itemize}
+    \item множество \(\mathbb{R}\)
+    \item множество всех матриц
+    \item множество всех многочленов \(P_n (x) = a_0 x^n + a_1 x^{n - 1} + \ldots + a_n\), \(a_i \in \mathbb{R}\), \(i = \overline{1, n}\)
+    \item \(n\)-мерное пространство арифметических векторов \(A_n\) \(n = 1, 2, \ldots\)
+    \item множество всех функций, интегрируемых на \([a, b]\)
+\end{itemize}
+
 
 \section{Аксиомы векторного пространства}
 \label{sec:vector-space-axiom}
@@ -1111,25 +1197,20 @@
     \end{tblr}
 \end{center}
 
+\section{Линейная зависимость и независимость векторов}
 
-% Примеры линейных пространств
-% - множество \(\mathbb{R}\)
-% - множество всех матриц
-% - множество всех многочленов \(P_n (x) = a_0 x^n + a_1 x^{n - 1} + \ldots + a_n\), \(a_i \in \mathbb{R}\), \(i = \overline{1, n}\)
-% - \(n\)-мерное пространство арифметических векторов \(A_n\) \(n = 1, 2, \ldots\)
-% - множество всех функций, интегрируемых на \([a, b]\)
-
-% Система векторов \(\{x_1, \ldots, x_s\} \sub L\) называется линейно зависимой, если
-% \begin{equation*}
-%     \exists \lambda_1, \ldots, \lambda_s \text{(не равные одновременно 0)}:
-%     \lambda_1 x_1 + \ldots + \lambda_s x_s = 0
-% \end{equation*}
+\begin{definition}
+    Система из \(k\) векторов \(\vec{a}_1, \vec{a}_2, \ldots, \vec{a}_k\) называется \textbf{линейно зависимой}, если существуют такие числа \(\alpha_1, \alpha_2, \ldots, \alpha_k\), не равные нулю одновременно, что
+    \begin{equation*}
+        \alpha_1 \vec{a}_1 + \alpha_2 \vec{a}_2 + \ldots + \alpha_k \vec{a}_k = 0.
+    \end{equation*}
+    Если это равенство справедливо только при \(\alpha_1 = \alpha_2 = \ldots = \alpha_k\), тогда эта система называется \textbf{линейно независимой}.
+\end{definition}
 
 % Пусть \(Q \sub L\) — произвольное множество векторов, тогда упорядоченная система векторов \(E = (e_1, e_2, \ldots, e_s)\) называется базисом в \(Q\), если
 % 1. \(e_k \in Q; k = \overline{1, s}\)
 % 2. система \(E = (e_1, e_2, \ldots, e_s)\) линейно независима
 % 3. \(\forall x \in Q \; \exists x_1, \ldots, x_5\), что \(x = \sum_{k = 1}^s x_k e_k\)
-
 
 % #+begin_proof
 % Докажем первое утверждение от противного.
@@ -1193,25 +1274,9 @@
 % #+end_proof
 
 
-% ** Теоремы
 
-% #+attr_latex: :options [Кронекера-Капелли]
-% #+begin_theorem
-% \(AX = B\) совместна тогда и только тогда, когда \(\rang A = \rang (A \ B) = \rang P\) (расширенная матрица):
-% \begin{equation*}
-%     P =
-%     \begin{pmatrix}
-%         a_{11} & a_{12} & \ldots & a_{1n} & b_1 \\
-%         a_{21} & a_{22} & \ldots & a_{2n} & b_2 \\
-%         \ldots & \ldots & \ldots & \ldots & \ldots \\
-%         a_{m1} & a_{m2} & \ldots & a_{mn} & b_m \\
-%     \end{pmatrix};
-% \end{equation*}
 
-% - Если \(\rang A = \rang P = n\), то система \(AX = B\) имеет единственное решение.
-% - Если \(\rang A = \rang P < n\), то система \(AX = B\) имеет бесконечное множество решений.
-% - Если \(\rang A < \rang P\), то система \(AX = B\) несовместна.
-% #+end_theorem
+
 
 
 % ** Однородные СЛУ
