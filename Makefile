@@ -1,7 +1,8 @@
 .PHONY: build
 
 build:
+	rm -f notes.aux notes.log notes.out notes.toc
 	lualatex notes.tex
 	lualatex notes.tex
 	lualatex notes.tex
-	rm notes.aux notes.log notes.out notes.toc
+	rm -f notes.aux notes.log notes.out notes.toc
