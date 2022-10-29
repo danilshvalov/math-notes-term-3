@@ -1,4 +1,4 @@
-\documentclass[a4paper,12pt]{extbook}
+\documentclass[a5paper, 11pt]{extbook}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{graphicx}
@@ -15,12 +15,19 @@
 \usepackage[russian]{babel}
 \usepackage{indentfirst}
 \setmainfont{PT Astra Serif}
-\usepackage[margin=1.5cm]{geometry}
+\usepackage[
+    left=10mm,
+    right=10mm,
+    top=15mm,
+    bottom=15mm
+]{geometry}
 \usepackage{amsthm}
 \usepackage{enumitem}
 \usepackage{unicode-math}
 \usepackage[math]{cellspace}
+\usepackage{mathtools}
 
+\pagestyle{plain}
 
 \theoremstyle{definition}
 \newtheorem{theorem}{Теорема}[chapter]
@@ -48,6 +55,9 @@
 
 % Define math operators
 \DeclareMathOperator{\rang}{rang}
+\DeclareMathOperator{\Ima}{Im}
+\DeclareMathOperator{\defect}{def}
+
 
 % Draw line in matrix
 \makeatletter
@@ -251,10 +261,22 @@
 
 Свойства сложения матриц:
 \begin{itemize}
-    \item Коммутативность: \(A + B = B + A\)
-    \item Ассоциативность: \(A + B + C = (A + B) + C = A + (B + C)\)
-    \item Сложение с нулевой матрицей: \(A + \theta = \theta + A = A\)
-    \item Существование противоположной матрицы: \(A + A^{-1} = 0\)
+    \item Коммутативность:
+          \[
+              A + B = B + A.
+          \]
+    \item Ассоциативность:
+          \[
+              A + B + C = (A + B) + C = A + (B + C).
+          \]
+    \item Сложение с нулевой матрицей:
+          \[
+              A + \theta = \theta + A = A.
+          \]
+    \item Существование противоположной матрицы:
+          \[
+              A + A^{-1} = 0.
+          \]
 \end{itemize}
 
 \subsection{Умножение матрицы на число}
@@ -263,9 +285,21 @@
 
 Свойства умножения матриц на число:
 \begin{itemize}
-    \item Ассоциативность: \((\lambda \beta) A = \lambda (\beta A)\)
-    \item Дистрибутивность: \((\lambda + \beta) A = \lambda A + \beta A\); \quad \(\lambda (A + B) = \lambda A + \lambda B\)
-    \item Умножение на единицу: \(1 \cdot A = A \cdot 1 = A\)
+    \item Ассоциативность:
+          \[
+              (\lambda \beta) A = \lambda (\beta A).
+          \]
+    \item Дистрибутивность:
+          \[
+              (\lambda + \beta) A = \lambda A + \beta A.
+          \]
+          \[
+              \lambda (A + B) = \lambda A + \lambda B.
+          \]
+    \item Умножение на единицу:
+          \[
+              1 \cdot A = A \cdot 1 = A.
+          \]
 \end{itemize}
 
 \subsection{Умножение матриц}
@@ -280,11 +314,29 @@
 
 Свойства умножения матриц:
 \begin{itemize}
-    \item Некоммутативность (в общем случае): \(AB \neq BA\)
-    \item Ассоциативность: \((AB)C = A(BC)\)
-    \item Коммутативность при умножении с единичной матрицей: \(AE = EA = A\)
-    \item Дистрибутивность: \((A + B) C = AC + BC\); \quad \(A (B + C) = AB + BC\)
-    \item Ассоциативность и коммутативность умножения на число: \((\lambda A) B = A (\lambda B) = \lambda (AB)\)
+    \item Некоммутативность (в общем случае):
+          \[
+              AB \neq BA.
+          \]
+    \item Ассоциативность:
+          \[
+              (AB)C = A(BC).
+          \]
+    \item Коммутативность при умножении с единичной матрицей:
+          \[
+              AE = EA = A.
+          \]
+    \item Дистрибутивность:
+          \[
+              (A + B) C = AC + BC.
+          \]
+          \[
+              A (B + C) = AB + BC.
+          \]
+    \item Ассоциативность и коммутативность умножения на число:
+          \[
+              (\lambda A) B = A (\lambda B) = \lambda (AB).
+          \]
 \end{itemize}
 
 \section{Элементарные преобразования}
@@ -516,7 +568,9 @@
             \ldots & \ldots & \ldots & \ldots \\
             d_{1n} & d_{2n} & \ldots & d_{mn}
         \end{pmatrix}
-        \qquad
+    \end{equation*}
+
+    \begin{equation*}
         \begin{cases}
             a_{ij} = c_{ji} \\
             b_{\alpha \beta} = d_{\beta \alpha}
@@ -594,14 +648,14 @@
             \ldots & \ldots & \ldots & \ldots          \\
             a_{n1} & \ldots & 0      & \ldots & a_{nn} \\
         \end{vmatrix}
-        + \ldots +
+        + \ldots + \\ +
         \begin{vmatrix}
             a_{11} & \ldots & 0      & \ldots & a_{1n} \\
             a_{21} & \ldots & 0      & \ldots & a_{2n} \\
             \ldots & \ldots & \ldots & \ldots          \\
             a_{n1} & \ldots & a_{nj} & \ldots & a_{nn} \\
         \end{vmatrix}
-        = \\ =
+        =
         \sum_{i = 1}^n
         \begin{vmatrix}
             a_{11} & \ldots & a_{1j - 1} & 0      & a_{1j + 1} & \ldots & a_{1n} \\
@@ -717,11 +771,10 @@
 \end{property}
 
 \begin{proof}
-    \begin{equation*}
-        \det E = \det (A^{-1} A) = \det A^{-1} \det A
-        \quad \implies \quad
-        \det A^{-1} = \frac{\det E}{\det A} = \frac{1}{\det A} = (\det A)^{-1}.
-    \end{equation*}
+    \begin{gather*}
+        \det E = \det (A^{-1} A) = \det A^{-1} \det A \\
+        \det A^{-1} = \frac{\det E}{\det A} = \frac{1}{\det A} = (\det A)^{-1}
+    \end{gather*}
 \end{proof}
 
 \begin{property}
@@ -902,7 +955,7 @@
     \end{equation*}
 
     Аналогично доказывается случай \(A A^c\), Теперь докажем единственность обратной матрицы. Предположим, что существует две обратные матрицы: \(A^{-1}\) и \(\tilde{A}\). Тогда
-    \begin{equation*}
+    \begin{gather*}
         \begin{cases}
             AA^{-1} = A^{-1} A = E \\
             A\tilde{A} = \tilde{A} A = E
@@ -913,9 +966,9 @@
             A^{-1} (A\tilde{A}) = A^{-1} E = A^{-1} \\
             (A^{-1} A) \tilde{A} = E \tilde{A} = \tilde{A}
         \end{cases}
-        \implies
+        \implies \\ \implies
         A^{-1} = \tilde{A}.
-    \end{equation*}
+    \end{gather*}
 
     Результат противоречит исходному предположению о существовании двух обратных матриц.
 \end{proof}
@@ -1062,7 +1115,11 @@
 
 \begin{proof}
     \newpar
-    \textbf{Необходимость}. Пусть система совместна, тогда найдутся такие числа \(\alpha_1, \alpha_2, \ldots, \alpha_n\), что при подстановке которых в систему мы получим \(m\) тождеств, которые можно записать в виде одного векторного тождества:
+    \textbf{Необходимость}. Пусть система совместна, тогда найдутся такие числа
+    \[
+        \alpha_1, \alpha_2, \ldots, \alpha_n,
+    \]
+    что при подстановке которых в систему мы получим \(m\) тождеств, которые можно записать в виде одного векторного тождества:
     \begin{equation*}
         \alpha_1
         \begin{pmatrix}
@@ -1207,41 +1264,45 @@
 
 \subsection{Аксиомы сложения}
 
-\begin{center}
-    \SetTblrInner{rowsep=4pt,colsep=2pt}
-    \begin{tblr}{| Q[c,7cm,valign=m] | Q[c,8.5cm,valign=m] |}
-        \hline
-        \textbf{Наименование}                   & \textbf{Формула}                                             \\
-        \hline
-        Коммутативность                         & \(\forall x, y \in L \implies x + y = y + x\)                \\
-        \hline
-        Ассоциативность                         & \(\forall x, y, z \in L \implies x + (y + z) = (x + y) + z\) \\
-        \hline
-        Существование нейтрального элемента     & \(\exists 0 \in L: x + 0 = 0 + x = x\)                       \\
-        \hline
-        Существование противоположного элемента & \(\forall x \in L \; \exists (-x) \in L: x + (-x) = 0\)      \\
-        \hline
-    \end{tblr}
-\end{center}
+\begin{enumerate}
+    \item Коммутативность:
+          \[
+              \forall x, y \in L \implies x + y = y + x.
+          \]
+    \item Ассоциативность:
+          \[
+              \forall x, y, z \in L \implies x + (y + z) = (x + y) + z.
+          \]
+    \item Существование нейтрального элемента:
+          \[
+              \exists 0 \in L: x + 0 = 0 + x = x.
+          \]
+    \item Существование противоположного элемента:
+          \[
+              \forall x \in L \; \exists (-x) \in L: x + (-x) = 0.
+          \]
+\end{enumerate}
 
 \subsection{Аксиомы умножения}
 
-\begin{center}
-    \SetTblrInner{rowsep=4pt,colsep=2pt}
-    \begin{tblr}{| Q[c,7cm,valign=m] | Q[c,8.5cm,valign=m] |}
-        \hline
-        \textbf{Наименование}                           & \textbf{Формула}                           \\
-        \hline
-        Ассоциативность                                 & \(\alpha (\beta x) = (\alpha \beta)x\)     \\
-        \hline
-        Дистрибутивность относительно сложения скаляров & \((\alpha + \beta)x = \alpha x + \beta x\) \\
-        \hline
-        Дистрибутивность относительно сложения векторов & \(\alpha (x + y) = \alpha x + \alpha y\)   \\
-        \hline
-        Существование нейтрального элемента             & \(1 \cdot x  = x\)                         \\
-        \hline
-    \end{tblr}
-\end{center}
+\begin{enumerate}
+    \item Ассоциативность:
+          \[
+              \alpha (\beta x) = (\alpha \beta)x.
+          \]
+    \item Дистрибутивность относительно сложения скаляров:
+          \[
+              (\alpha + \beta)x = \alpha x + \beta x.
+          \]
+    \item Дистрибутивность относительно сложения векторов:
+          \[
+              \alpha (x + y) = \alpha x + \alpha y.
+          \]
+    \item Существование нейтрального элемента:
+          \[
+              1 \cdot x  = x.
+          \]
+\end{enumerate}
 
 \section{Линейная зависимость и независимость векторов}
 
@@ -1592,15 +1653,487 @@
 
 % TODO -----------------------------------------------------
 
-% \section{Линейные операторы}
+\chapter{Линейные операторы}
 
-% \begin{definition}
-%     Линейным оператором в линейном векторном пространстве \(L\) называется всякое отображение \(A: L \to L\), которое обладает следующими свойствами:
-%     \begin{enumerate}
-%         \item \(A (\lambda x) = \lambda Ax\)
-%         \item \(A (x + y) = Ax + Ay\)
-%     \end{enumerate}
-% \end{definition}
+\section{Определение линейного оператора}
+
+\begin{definition}
+    Правило \(f\), по которому каждому элементу \(x\) некоторого непустого множества \(X\) ставится в соответствие единственный элемент \(y\) непустого множества \(Y\), называют \textbf{отображением} (или \textbf{оператором}) множества \(X\) в множество \(Y\). Результат \(y\) применения оператора \(f\) к элементу \(x\) обозначают
+    \[
+        y = f(x)
+    \]
+    и говорят, что оператор \(f\), действует из \(X\) в \(Y\) или отображает \(X\) в \(Y\), записывая это в виде
+    \[
+        f: X \to Y.
+    \]
+    Элемент \(y\) называют \textbf{образом} элемента \(x\) при действии оператора \(f\), а элемент \(x\) — \textbf{прообразом} элемента \(y\).
+\end{definition}
+
+\begin{definition}
+    Пусть \(V\) и \(W\) — линейные пространства (либо оба вещественные, либо оба комплексные). Тогда отображение \(\mathcal{A}: V \to W\) называют \textbf{линейным отображением} или \textbf{линейным оператором}, если выполняются следующие условия:
+    \begin{enumerate}
+        \item \(\forall x \in V; \forall \lambda \in \mathbb{R} \implies \mathcal{A} (\lambda x) = \lambda \mathcal{A} x\);
+        \item \(\forall x_1, x_2 \in X \implies \mathcal{A} x + \mathcal{A} y\).
+    \end{enumerate}
+    Эти два условия можно объединить:
+    \[
+        \forall x_1, x_2 \in V; \forall \alpha, \beta \in \mathbb{R}
+        \implies
+        \mathcal{A} (\alpha x_1 + \beta x_2) = \alpha \mathcal{A} x_1 + \beta \mathcal{A} x_2.
+    \]
+\end{definition}
+
+\begin{definition}
+    Линейные операторы \(\mathcal{A}: V \to W\) и \(\mathcal{B}: V \to W\) называют \textbf{равными}, если
+    \[
+        \forall x, y \in V
+        \implies
+        \mathcal{A} x = \mathcal{B} x.
+    \]
+\end{definition}
+
+\begin{definition}
+    Линейный оператор \(\mathcal{A}\), который осуществляет отображение линейного пространства \(V\) в себя, также называют \textbf{линейным преобразованием} линейного пространства. В этом случае говорят, что линейный оператор \(\mathcal{A}\) действует в линейном пространстве \(V\), и записывают
+    \[
+        \mathcal{A}: V \to V.
+    \]
+\end{definition}
+
+\begin{definition}
+    Оператор \(E: V \to V\) называется \textbf{тождественным}, если
+    \[
+        \forall x \in V \implies E x = x.
+    \]
+\end{definition}
+
+\begin{definition}
+    Оператор \(\Theta: V \to V\) называется \textbf{нулевым}, если
+    \[
+        \forall x \in V \implies \Theta x = \theta.
+    \]
+\end{definition}
+
+\begin{definition}
+    Линейный оператор \(\mathcal{A}\) называют \textbf{невырожденным}, если из равенства \(\mathcal{A} x = \theta\) следует, что \(x = \theta\). В противном случае линейный оператор \(\mathcal{A}\) называют \textbf{вырожденным}.
+\end{definition}
+
+\section{Примеры линейных операторов}
+
+\subsection{Преобразование подобия}
+
+Каждому элементу \(x\) из пространства \(V\) по некоторому правилу ставится в соответствие элемент \(\lambda x\) из \(V\) (\(\lambda \neq 0\) и фиксировано), т. е. имеет место равенство \(\mathcal{A} x = \lambda x\).
+
+\subsection{Оператор поворота}
+
+Оператора поворота на угол \(\varphi\), действующий в пространстве \(V^2\) векторов на плоскости, поворачивает каждый вектор на угол \(\varphi\). Поворот происходит против хода часовой стрелки, если \(\varphi > 0\), и по ходу часовой стрелки, если \(\varphi < 0\).
+
+\subsection{Оператор дифференцирования}
+
+Оператор дифференцирования \(\dfrac{d}{dx}\), действующий в линейном пространстве \(K^n\) многочленов одной переменной \(x\) степени, не превосходящей \(n \in \mathbb{N}\). Каждому многочлену \(P(x)\) ставится в соответствие его производная \(P'(x)\), являющаяся многочленом степени не выше \(n - 1\), т. е. \(P'(x)\) — элемент того же пространства \(K^n\):
+\[
+    \frac{d}{dx} P(x) = P'(x).
+\]
+Заметим, что производная суммы функций равна сумме производных, а при умножении функции на число производная этой функции умножается на это число.
+
+\subsection{Оператор интегрирования}
+
+Пусть задано пространство, в котором элементами являются непрерывные функции \(\varphi(t), t \in [0, 1]\). Положим, что
+\[
+    \mathcal{A} \varphi(t) = \int\limits_0^t \varphi(\tau) d\tau.
+\]
+Преобразование \(\mathcal{A}\) — линейное, поскольку в силу свойств определенного интеграла имеем
+\[
+    \mathcal{A} (\varphi_1 + \varphi_2) =
+    \int\limits_0^t [\varphi_1(\tau) + \varphi_2(\tau)] d\tau =
+    \int\limits_0^t \varphi_1(\tau) d\tau + \int\limits_0^t \varphi_2(\tau) d\tau =
+    \mathcal{A} \varphi_1 + \mathcal{A} \varphi_2;
+\]
+
+\[
+    \mathcal{A} (\alpha \varphi) =
+    \int\limits_0^t \alpha \varphi(\tau) d\tau = \alpha \int\limits_0^t \varphi(\tau) d\tau = \alpha \mathcal{A} \varphi.
+\]
+
+\subsection{Матричный оператор}
+
+Рассмотрим \(n\)-мерное арифметическое пространство \(\mathbb{R}^n\) (пространство матриц-столбцов высотой \(n\)) и прямоугольную матрицу \(\mathcal{A}\) размером \(m \times n\). Каждому столбцу \(X \in \mathbb{R}^n\) поставим в соответствие столбец \(\mathcal{A} X\), имеющий высоту \(m\). Таким образом, определено отображение \(\mathcal{A}: \mathbb{R}^n \to \mathbb{R}^m\), которое является линейным в силу свойств умножения матриц.
+
+\section{Образ и ядро линейного оператора}
+
+\begin{definition}
+    \textbf{Образом} линейного оператора \(\mathcal{A}: V \to W\) называют множество всех элементов \(y \in W\) таких, что \(\mathcal{A} x = y\) для некоторого \(x \in V\). Образ обозначается через \(\Ima \mathcal{A}\):
+    \[
+        \Ima \mathcal{A} = \{y: y = \mathcal{A} x; x \in V\}.
+    \]
+\end{definition}
+
+\begin{definition}
+    \textbf{Ядром} линейного оператора \(\mathcal{A}: V \to W\) называют множество всех элементов \(x \in V\) таких, что \(\mathcal{A}(x) = \theta\). Ядро обозначается через \(\ker \mathcal{A}\):
+    \[
+        \ker \mathcal{A} = \{x: \mathcal{A} x = \theta; x \in V\}.
+    \]
+\end{definition}
+
+\begin{theorem}
+    Для любого линейного оператора \(\mathcal{A}: V \to W\) образ \(\Ima A\) и ядро \(\ker A\) являются линейными подпространствами в пространствах \(W\) и \(V\) соответственно.
+\end{theorem}
+
+\begin{proof}
+    Пусть \(y_1\) и \(y_2\) — элементы из \(\Ima \mathcal{A}\). Значит
+    \[
+        \exists x_1, x_2 \in V: \mathcal{A} x_1 = y_1, \mathcal{A} x_2 = y_2.
+    \]
+    Из соотношения
+    \[
+        \lambda_1 y_1 + \lambda_2 y_2 =
+        \lambda_1 \mathcal{A} x_1 + \lambda_2 \mathcal{A} x_2 =
+        \mathcal{A} (\lambda_1 x_1 + \lambda_2 x_2)
+    \]
+    следует, что произвольная комбинация элементов \(y_1\) и \(y_2\) также лежит в \(\Ima \mathcal{A}\).
+
+    В тоже время, если \(x_1, x_2 \in \ker \mathcal{A}\), что означает выполнение соотношений \(\mathcal{A} x_1 = \theta\) и \(\mathcal{A} x_2 = \theta\), то
+    \[
+        \mathcal{A} (\lambda_1 x_1 + \lambda_2) = \lambda_1 \mathcal{A} x_1 + \lambda_2 \mathcal{A} x_2 = \theta + \theta = \theta,
+    \]
+    т. е. множество \(\ker A\) замкнуто относительно линейных операций и потому является линейных подпространством.
+\end{proof}
+
+\begin{definition}
+    Размерность образа \(\Ima \mathcal{A}\) линейного оператора \(\mathcal{A}\) называют \textbf{рангом} этого линейного оператора. Обозначают через \(\rang A\).
+\end{definition}
+
+\begin{definition}
+    Размерность ядра \(\ker \mathcal{A}\) линейного оператора \(\mathcal{A}\) называют \textbf{дефектом} этого линейного оператора. Обозначают через \(\defect \mathcal{A}\).
+\end{definition}
+
+\begin{theorem}
+    Для любого линейного оператора \(\mathcal{A}: V \to W\) справедливо равенство
+    \[
+        \rang \mathcal{A} + \defect \mathcal{A} = \dim V.
+    \]
+\end{theorem}
+
+\begin{theorem}[построение линейного оператора]
+    Пусть \(V\) и \(W\) — линейные пространства, \(\{e\} = (e_1, e_2, \ldots, e_n)\) — базис пространства \(V\), а \(g_1, g_2, \ldots, g_n\) — произвольные элементы из пространства \(W\). Тогда
+    \[
+        \exists! \mathcal{A}: V \to W : \mathcal{A} e_i = g_i, i = \overline{1, n}.
+    \]
+\end{theorem}
+
+\begin{proof}
+    Докажем существование. Разложим произвольный элемент \(x \in V\) по базису \(\{e\}\) пространства \(V\):
+    \[
+        x = x_1 e_1 + x_2 e_2 + \ldots + x_n e_n = \sum_{i = 1}^n x_i e_i.
+    \]
+    Построим отображение \(\mathcal{A}: V \to W\) по следующему правилу:
+    \[
+        \mathcal{A} x =
+        \mathcal{A} (x_1 e_1 + \ldots + x_n e_n) =
+        x_1 (\mathcal{A} e_1) + \ldots + x_n (\mathcal{A} e_n) =
+        \sum_{i = 1}^n x_i (\mathcal{A} e_i) = \sum_{i = 1}^n x_i g_i,
+    \]
+    т. е., зная элементы \(\mathcal{A} e_i\) можно найти образ любого элемента \(x\) линейного пространства \(V\).
+
+    Убедимся в линейности оператора \(\mathcal{A}\). Пусть
+    \[
+        x = \sum_{i = 1}^n x_i e_i;
+        \qquad
+        y = \sum_{i = 1}^n y_i e_i.
+    \]
+    Тогда:
+    \[
+        \mathcal{A} (\alpha x + \beta y) =
+        \sum_{i = 1}^n (\alpha x_i + \beta y_i) g_i =
+        \alpha \sum_{i = 1}^n x_i g_i + \beta \sum_{i = 1}^n y_i g_i =
+        \alpha \mathcal{A} x + \beta \mathcal{A} y.
+    \]
+    Условие линейности оператора выполняется.
+
+    Докажем единственность. Предположим, что
+    \[
+        \exists \mathcal{B}: V \to W : \mathcal{B} e_i = g_i, i = \overline{1, n}.
+    \]
+    Тогда
+    \[
+        \mathcal{A} x =
+        \sum_{i = 1}^n x_i g_i =
+        \sum_{i = 1}^n x_i \mathcal{B} e_i =
+        \mathcal{B} \Big( \sum_{i = 1}^n x_i e_i \Big) =
+        \mathcal{B} x.
+    \]
+    Операторы \(\mathcal{A}\) и \(\mathcal{B}\) совпадают.
+\end{proof}
+
+\section{Матрица линейного оператора}
+
+Пусть задан линейный оператор \(\mathcal{A}: V \to V\), т. е. линейное преобразование \(n\)-мерного линейного пространства в себя: \(y = \mathcal{A} x\). Найдем связь между координатами элемента \(x \in V\) и координатами его образа \(y \in V\).
+
+Выберем в пространстве \(V\) базис \(\{e\} = (e_1, e_2, \ldots, e_n)\), и пусть \(x = x_1 e_1 + x_2 e_2 + \ldots + x_n e_n\). Тогда в силу линейности преобразований \(\mathcal{A}\) имеем
+\[
+    \mathcal{A} x =
+    x_1 (\mathcal{A} e_1) + x_2 (\mathcal{A} e_2) + \ldots + x_n (\mathcal{A} e_n) =
+    \sum_{i = 1}^n x_i (\mathcal{A} e_i).
+\]
+
+Поскольку \(\mathcal{A} e_i\) (\(i = \overline{1,n}\)) — это тоже элемент из \(V\), то и \(\mathcal{A} e_i\) можно разложить по базису:
+\[
+    \mathcal{A} e_i =
+    a_{1i} e_1 + a_{2i} e_2 + \ldots + a_{ni} e_n =
+    \sum_{k = 1}^n a_{ki} e_k, \quad i = \overline{1, n}.
+\]
+Тогда получим
+\[
+    \mathcal{A} x =
+    \sum_{i = 1}^n x_i (A e_i) =
+    \sum_{i = 1}^ n x_i \sum_{k = 1}^n a_{ki} e_k =
+    \sum_{k = 1}^ n \Big( \sum_{i = 1}^n a_{ki} x_i \Big) e_k.
+\]
+
+В силу единственности разложения элемента по базисным элементам \(e_1, e_2, \ldots, e_n\), получим
+\[
+    \mathcal{A} x =
+    y_1 e_1 + y_2 e_2 + \ldots + y_n e_n =
+    \sum_{i = 1}^n y_i e_i,
+\]
+где \(y_1, y_2, \ldots, y_n\) — координаты преобразованного элемента \(\mathcal{A} x\) в базисе \(\{e\}\). Тогда получим
+\[
+    y_k = \sum_{i = 1}^n a_{ik} x_i,
+\]
+или в развернутом виде:
+\[
+    \begin{cases}
+        y_1 = a_{11} x_1 + a_{12} x_2 + \ldots + a_{1n} x_n \\
+        y_2 = a_{21} x_1 + a_{22} x_2 + \ldots + a_{2n} x_n \\
+        \dotfill                                            \\
+        y_n = a_{n1} x_1 + a_{n2} x_2 + \ldots + a_{nn} x_n \\
+    \end{cases}
+\]
+Эта формула представляет линейное преобразование \(y = \mathcal{A} x\) в координатной форме.
+
+Элементам \(x\) и \(y\) поставим в соответствие матрицы-столбцы \(X\) и \(Y\), образованные из координат этих элементов в базисе \(\{e\}\):
+\[
+    X =
+    \begin{pmatrix}
+        x_1    \\
+        x_2    \\
+        \ldots \\
+        x_n
+    \end{pmatrix},
+    \quad
+    Y =
+    \begin{pmatrix}
+        y_1    \\
+        y_2    \\
+        \ldots \\
+        y_n
+    \end{pmatrix}.
+\]
+Тогда полученная система уравнений в развернутой матричной форме примет вид
+\[
+    \begin{pmatrix}
+        y_1    \\
+        y_2    \\
+        \ldots \\
+        y_n
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        a_{11} & a_{12} & \ldots & a_{1n} \\
+        a_{21} & a_{22} & \ldots & a_{2n} \\
+        \ldots & \ldots & \ldots & \ldots \\
+        a_{n1} & a_{n2} & \ldots & a_{nn} \\
+    \end{pmatrix}
+    \begin{pmatrix}
+        x_1    \\
+        x_2    \\
+        \ldots \\
+        x_n
+    \end{pmatrix}
+\]
+или, в сокращенной форме,
+\[
+    Y = AX.
+\]
+Здесь \(A\) — квадратная матрица, у которой \(i\)-й столбец образован коэффициентами разложения элемента \(\mathcal{A} e_i\) по базису \(\{e\}\).
+
+Таким образом, показано, что при заданном базисе любое линейное преобразование можно представить, и притом единственным способом, в матричной форме, т. е. по своей структуре линейный оператор есть некоторая матрица.
+
+\begin{definition}
+    Матрицу \(A\), составленную из координатных столбцов элементов \(\mathcal{A} e_i\) (\(i = \overline{1, n}\)) в базисе \(\{e\} = (e_1, e_2, \ldots, e_n)\) называют \textbf{матрицей линейного оператора} \(\mathcal{A}\) в базисе \(\{e\}\).
+\end{definition}
+
+\begin{definition}
+    Матрица линейного оператора \(\mathcal{A}: V \to V\) называется \textbf{квадратной}, если ее порядок совпадает с размерностью линейного пространства \(V\).
+\end{definition}
+
+\begin{theorem}
+    Каждая квадратная матрица \(A\) порядка \(n\) может рассматриваться как матрица некоторого линейного оператора \(\mathcal{A}\), следовательно, всякое преобразование вида \(Y = AX\) является линейным преобразованием.
+\end{theorem}
+
+\begin{proof}
+    В силу свойств операции умножения матриц:
+    \[
+        \forall X_1, X_2, \lambda_1, \lambda_2
+        \implies
+        A(\lambda_1 X_1 + \lambda_2 X_2) = \lambda_1 A X_1 + \lambda_2 A X_2.
+    \]
+
+    Таким образом, при фиксированном базисе между линейным преобразованием и матрицей линейного преобразования установлено взаимно-однозначное соответствие, что позволяет отождествлять преобразование \(\mathcal{A}\) с его матрицей \(A\) и записывать линейное преобразование \(y = \mathcal{A} x\) в матричной форме \(Y = AX\) или в координатной форме.
+\end{proof}
+
+\begin{theorem}
+    Ранг матрицы \(A\) линейного оператора \(\mathcal{A}: V \to V\) совпадает с рангом этого оператора.
+\end{theorem}
+
+\begin{proof}
+    Пусть \(\{e\} = (e_1, e_2, \ldots, e_n)\) — некоторый базис линейного пространства \(V\). Образ \(\Ima \mathcal{A}\) линейного оператора \(\mathcal{A}\) представляет собой \textbf{линейную оболочку} системы элементов \(\mathcal{A} e_1, \mathcal{A} e_2, \ldots, \mathcal{A} e_n\), то есть
+    \[
+        \Ima \mathcal{A} = L(\mathcal{A} e_1, \mathcal{A} e_2, \ldots, \mathcal{A} e_n).
+    \]
+
+    При этом \(\rang \mathcal{A}\) равен максимальному число линейно независимых элементов в системе \(\mathcal{A} e_1, \mathcal{A} e_2, \ldots, \mathcal{A} e_n\) и совпадает с максимальным числом линейно независимых столбцов в матрице \(A\), т. е. с ее рангом. Таким образом,
+    \[
+        \rang A = \rang \mathcal{A}.
+    \]
+\end{proof}
+
+\section{Примеры матриц линейных операторов}
+
+\subsection{Нулевой оператор}
+
+Пусть \(\Theta : V \to V\) — нулевой оператор. Матрицей такого оператора независимо от выбора базиса является нулевая матрица \(\theta\) соответствующего типа. Действительно, в случае нулевого оператора любой элемент будет нулевым. Поэтому матрица нулевого оператора в любом базисе состоит из нулевых столбцов.
+
+\subsection{Тождественный оператор}
+
+Пусть \(\mathcal{E}: V \to V\) — тождественный оператор, действующий согласно правилу
+\[
+    \forall x \implies \mathcal{E} x = x
+\]
+Тогда \(\mathcal{E} e_i = e_i\) для всех \(i = \overline{1, n}\) и, следовательно, матрица оператора \(\mathcal{E}\) в любом базисе является единичной:
+\[
+    E =
+    \begin{pmatrix}
+        1      & 0      & \ldots & 0      \\
+        0      & 1      & \ldots & 0      \\
+        \ldots & \ldots & \ldots & \ldots \\
+        0      & 0      & \ldots & 1      \\
+    \end{pmatrix}
+\]
+
+\subsection{Поворот трехмерного пространства}
+
+Пусть \(\mathcal{A}\) — поворот трехмерного пространства на угол \(\varphi\) вокруг оси \(Oz\). Если \(e_1, e_2, e_2\) — единичные векторы прямоугольной декартовой системы координат, то
+\begin{gather*}
+    \mathcal{A} e_1 = \cos \varphi \cdot e_1 + \sin \varphi \cdot e_2; \\
+    \mathcal{A} e_2 = - \sin \varphi \cdot e_1 + \cos \varphi \cdot e_2; \\
+    \mathcal{A} e_3 = e_3
+\end{gather*}
+и, значит, матрица этого оператора будет иметь вид
+\[
+    A =
+    \begin{pmatrix}
+        \cos \varphi & - \sin \varphi & 0 \\
+        \sin \varphi & \cos \varphi   & 0 \\
+        0            & 0              & 1
+    \end{pmatrix}
+\]
+
+\section{Действия над линейными операторами}
+
+\subsection{Сложение линейных операторов}
+
+\begin{lemma}
+    Пусть \(\mathcal{A}: V \to W\) и \(\mathcal{B}: V \to W\) — линейные операторы. Тогда \textbf{суммой линейных операторов} \(\mathcal{A}\) и \(\mathcal{B}\) называют оператор \(\mathcal{C}: V \to W\) такой, что
+    \[
+        \forall x \in V
+        \implies
+        \mathcal{C} x = \mathcal{A} x + \mathcal{B} x.
+    \]
+\end{lemma}
+
+\begin{proof}
+    Линейность оператора \(\mathcal{C}\) можно доказать следующим образом:
+    \begin{gather*}
+        \mathcal{C} (\lambda_1 x + \lambda_2 y) =
+        \mathcal{A} (\lambda_1 x + \lambda_2 y) + B (\lambda_1 x + \lambda_2 y) = \\ =
+        \lambda_1 (\mathcal{A} x + \mathcal{B} x) + \lambda_2 (\mathcal{A} y + \mathcal{B} y) =
+        \lambda_1 \mathcal{C} x + \lambda_2 \mathcal{C} y.
+    \end{gather*}
+\end{proof}
+
+\subsection{Свойства сложения линейных операторов}
+
+\begin{property}
+    \[
+        \mathcal{A} + \mathcal{B} = \mathcal{B} + \mathcal{A}
+    \]
+\end{property}
+
+\begin{property}
+    \[
+        (\mathcal{A} + \mathcal{B}) + \mathcal{C} = \mathcal{A} + (\mathcal{B} + \mathcal{C}).
+    \]
+\end{property}
+
+\begin{property}
+    \[
+        \mathcal{A} + \Theta = \mathcal{A}.
+    \]
+\end{property}
+
+\begin{property}
+    \[
+        \mathcal{A} + (- \mathcal{A}) = \Theta.
+    \]
+\end{property}
+
+\subsection{Умножение оператора на число}
+
+\begin{lemma}
+    \textbf{Произведением линейного оператора} \(\mathcal{A}: V \to W\) и числа \(\alpha\) называют такой оператор \(\mathcal{B}: V \to W\), что \[
+        \forall x \in V
+        \implies
+        \mathcal{B} x = \alpha \mathcal{A} x.
+    \]
+\end{lemma}
+
+\begin{proof}
+    Линейность оператора \(\mathcal{B}\) можно доказать следующим образом:
+    \[
+        \mathcal{B} (\lambda_1 x_1 + \lambda_2 x_2) =
+        \alpha \mathcal{A} (\lambda_1 x_1 + \lambda_2 x_2) =
+        \lambda_1 (\alpha \mathcal{A} x_1) + \lambda_2 (\alpha \mathcal{A} x_2) =
+        \lambda_1 \mathcal{B} x_1 + \lambda_2 \mathcal{B} x_2.
+    \]
+\end{proof}
+
+\subsection{Свойства умножения линейного оператора на число}
+
+\begin{property}
+    \[
+        1 \cdot \mathcal{A} = \mathcal{A}.
+    \]
+\end{property}
+
+\begin{property}
+    \[
+        \alpha (\beta \mathcal{A}) = (\alpha \beta) \mathcal{A}.
+    \]
+\end{property}
+
+\begin{property}
+    \[
+        (\alpha + \beta) \mathcal{A} = \alpha \mathcal{A} + \beta \mathcal{A}.
+    \]
+\end{property}
+
+\begin{property}
+    \[
+        \alpha (\mathcal{A} + \mathcal{B}) = \alpha \mathcal{A} + \alpha \mathcal{B}.
+    \]
+\end{property}
+
+% \section{Матрицы линейного оператора в разных базисах}
 
 % Пусть \(A\) — линейный оператор в конечномерном пространстве \(L_{n}\) и \(B = (e_{1}, \ldots, e_{n})\) — некоторый фиксированный базис. Разложим векторы \(A_{e_{k}}\) \(k = \overline{1, k}\) по базису \(B\):
 % \begin{equation*}
@@ -1627,36 +2160,6 @@
 % %     Ax = \xi_{1} Ae_{1} + \ldots + \xi_{n} Ae_{n} = \xi_{1} g_{1} + \ldots + \xi_{n} g_{n}.
 % %   \end{equation*}
 
-% \begin{definition}
-%     Множество всех векторов \(Ax, x \in L\) называется образом оператора \(A\)
-%     \begin{equation*}
-%         Im A = {y: y = Ax; x \in L}.
-%     \end{equation*}
-% \end{definition}
-
-% \begin{definition}
-%     Множество всех векторов \(x \in L\) для которых \(Ax = 0\) называется ядром оператора \(A\).
-%     \begin{equation*}
-%         Ker A = {x: Ax = 0, x \in L}
-%     \end{equation*}
-% \end{definition}
-
-% Образ и ядро линейного оператора является подпространством в \(L\).
-
-% Размерность образа: \(\dim (Im A) = r_{A}\) называется рангом оператора \(A\).
-
-% Размерность ядра \(\dim (Ker A) = n_{a}\) называется дефектом оператора \(A\).
-
-% Размерность пространства \(L_{n}\): \(r_{A} + n_{A} = n\).
-
-% Ядро линейного оператора:
-% \[
-%     \ker(A) = {X \in L: AX = 0}.
-% \]
-
-% \begin{definition}
-%     Линейный оператор называется \textbf{вырожденным}, если ядро этого оператора не равно нулю.
-% \end{definition}
 
 % \begin{definition}
 %     Матрица \(A\) называется \textbf{подобной} матрице \(B\), если существует такая невырожденная матрица \(C\), что
@@ -1670,6 +2173,581 @@
 % \end{definition}
 
 % TODO: сопряженный и самосопряженный вектор
+
+
+% \section{Квадратичная форма}
+
+% Квадратичной формой \(f(x_1, x_2, \ldots, x_n)\) \(n\) переменных называется
+% \begin{align}
+%     \sum_{i = 1}^n \sum_{j = 1}^n a_{ij} x_i x_j =
+%     \sum_{n}^{j = 1} a_{ii} x_i^2 + \sum_{i < j} a_{ij} x_i x_j.
+% \end{align}
+
+% \(a_{ij}\) — коэффициенты квадратичной формы; числа, среди которых хотя бы одно отлично от нуля.
+
+% Квадратичная форма имеет канонический вид, если \(a_{ij} = 0\) при \(i \neq j\).
+
+% \[
+%     \sum_{i = 1}^n \sum_{j = 1}^n = a_{ij} x_i x_j =
+%     a_{11} x_1^2 + a_{22} x_2^2 + \ldots + a_{nn} x_n^2.
+% \]
+
+% Так как \(x_i x_j = x_j x_i\), то и \(a_{ij} = a_{ji}\) (считается).
+
+% \[
+%     f(x_1, x_2, x_3) =
+%     a_{11} x_1^2 + 2 a_{12} x_1 x_2 + 2_{13} x_1 x_3 + 2 a_{23} x_2 x_3 + a_{22} x_2^2 + a_{33} x_3^2 =
+%     X^T A X.
+% \]
+
+% Симметричная (\(a_{ij} = a_{ji}\))
+% \[
+%     A =
+%     \begin{pmatrix}
+%         a_{11} & a_{12} & a_{13} \\
+%         a_{12} & a_{22} & a_{23} \\
+%         a_{13} & a_{23} & a_{33}
+%     \end{pmatrix}
+% \]
+
+% Канонический вид
+% \[
+%     A' =
+%     \begin{pmatrix}
+%         a_{11}' & 0       & 0      \\
+%         0       & a_{22}' & 0      \\
+%         0       & 0       & a_{33}
+%     \end{pmatrix}
+% \]
+
+% \[
+%     f(x_1, x_2, x_3) = a_{11}' x_1^n + a_{22}' x_2^2 + a_{33}' x_3^2.
+% \]
+
+% \section{Приведение квадратичной формы к каноническому виду}
+
+% Рассмотрим \(f(x_1, x_2, \ldots, x_n) = X^T A X\). \(T\) — преобразование координат, \(T\) — ортогональная матрица:
+% \[
+%     T^{-1} = T^T.
+% \]
+
+% \[
+%     \det T = \pm 1.
+% \]
+
+% \[
+%     X = TX'.
+% \]
+
+% \[
+%     f(x_1', x_2', \ldots, x_n') = X^T A X = (TX')^T A (TX') = (X')^T T^T A T X' = (X')^T A' X',
+% \]
+% где \(A' = T^T A T = T^{-1} A T\).
+
+% \[
+%     (A')^T = (T^T A T)^T = (T^T (A T))^T (AT)^T (T^T)^T = T^T A^T T = A'
+%     \implies
+%     (A')^T = A'
+% \]
+% Значит \(A'\) — симметрическая матрица. Следовательно, ей соответствует самосопряженный оператор. Если базис этого оператора будет состоять из единичных векторов, тогда матрица получится диагональной (т. е. на диагонали собственные числа).
+
+% \section{Алгоритм приведения квадратичной формы к каноническому виду}
+
+% \begin{enumerate}
+%     \item найти собственные числа матрицы \(A\);
+%     \item найти собственные векторы и нормировать их;
+%     \item составить матрицу преобразования координат \(T = (\hat{e}_1, \hat{e}_2, \ldots, \hat{e}_n)\) так, чтобы \(\det T = 1\);
+%     \item найти матрицу канонической формы (\(\lambda_i\) - собственные числа матрицы \(A\)):
+%           \[
+%               A' = T^T A T =
+%               \begin{pmatrix}
+%                   \lambda_1 & 0         & \ldots & 0         \\
+%                   0         & \lambda_2 & \ldots & 0         \\
+%                   \ldots    & \ldots    & \ldots & \ldots    \\
+%                   0         & 0         & \ldots & \lambda_n \\
+%               \end{pmatrix};
+%           \]
+%     \item канонический вид: \(f(x_1, x_2, \ldots, x_n) = \lambda_1 x_1^2 + \lambda_2 x_2^2 + \ldots + \lambda_n x_n^2\).
+% \end{enumerate}
+
+% \[
+%     f(x_1, x_2) = x_1 x_2
+% \]
+
+% \[
+%     A =
+%     \begin{pmatrix}
+%         0           & \frac{1}{2} \\
+%         \frac{1}{2} & 0           \\
+%     \end{pmatrix}
+% \]
+
+% \[
+%     |A - \lambda E| =
+%     \begin{vmatrix}
+%         0 - \lambda & \frac{1}{2} \\
+%         \frac{1}{2} & 0 - \lambda \\
+%     \end{vmatrix}
+%     = \lambda^2 - \frac{1}{4} = 0
+%     \implies
+%     \lambda{1, 2} = \pm \frac{1}{2}.
+% \]
+
+% \[
+%     \lambda_1 = \frac{1}{2}
+% \]
+
+% \[
+%     - \frac{1}{2} \xi_1' + \frac{1}{2} \xi_2' = 0
+%     \implies
+%     \xi_1' = \xi_2'.
+% \]
+
+% \[
+%     \xi_1 = 1; \xi_2 = 1.
+% \]
+
+% \chapter{Дифференциальные уравнения}
+
+% TODO: определение дифференциального уравнения
+% Дифференциальным уравнением называется уравнение, которое связывает независимую переменную \(x\), функцию \(F(x, )\)
+
+
+% \begin{definition}
+%     Пусть \(A\) — матрица линейного оператора \(\mathcal{A}\). Матрица \(\lambda E - A\) называется \textbf{характеристической матрицей} линейного оператора, уравнение \(|\lambda E - A| = 0\) — \textbf{характеристическим уравнением}. Таким образом, если \(X\) обственный вектор, то число \(\lambda\) является характеристическим корнем.
+% \end{definition}
+
+\chapter{Дифференциальные уравнения}
+
+\section{Основные определения}
+
+Дифференциальное уравнение называется \textbf{обыкновенным}, если оно содержит производные от искомой функции только по одной переменной:
+
+\textbf{Порядком} дифференциального уравнения называется порядок старшей производной, входящей в это уравнение.
+
+\textbf{Обыкновенным дифференциальным уравнением первого порядка} называется соотношение, связывающее искомую функцию, ее аргумент и первую производную от искомой функции:
+\begin{equation}
+    \label{eq:обыкновенная-диффура}
+    F(x, y, y') = 0,
+\end{equation}
+где \(y\) -- искомая функция, \(x\) -- ее аргумент, а \(y' = dy / dx\).
+
+\label{def:диффура-в-нормальной-форме}
+Если уравнение \eqref{eq:обыкновенная-диффура} можно переписать в виде
+\begin{equation}
+    \label{eq:диффура-в-нормальной-форме}
+    y' = f(x, y),
+\end{equation}
+то уравнение \eqref{eq:диффура-в-нормальной-форме} называется уравнением, \textbf{разрешенным относительно производной}, или уравнением \textbf{в нормальной форме}.
+
+В некоторых случаях возникает необходимость использовать \textbf{перевернутое уравнение}:
+\begin{equation}
+    \label{eq:перевернутая-диффура}
+    \frac{dx}{dy} = \frac{1}{f(x, y)},
+\end{equation}
+В место двух уравнений \eqref{eq:диффура-в-нормальной-форме} и \eqref{eq:перевернутая-диффура} можно использовать одно уравнение, записанное в форме
+\begin{equation}
+    \label{eq:частный-случай-уравнения-в-диффурах}
+    dy - f(x, y)dx = 0.
+\end{equation}
+
+Уравнение \eqref{eq:частный-случай-уравнения-в-диффурах} содержит не производную искомой функции, а дифференциалы от ее аргументов. Это частый случай уравнения, записанного в дифференциалах. В общем случае \textbf{уравнение в дифференциалах} имеет вид:
+\begin{equation}
+    \label{eq:общий-случай-уравнения-в-диффурах}
+    M(x, y) dx + N(x, y) dy = 0.
+\end{equation}
+
+В уравнениях \eqref{eq:частный-случай-уравнения-в-диффурах} и \eqref{eq:общий-случай-уравнения-в-диффурах} переменные \(x\) и \(y\) входят равноправно. Запись уравнения в виде \eqref{eq:общий-случай-уравнения-в-диффурах} показывает, что при решении дифференциального уравнения первого порядка любую величину \(x\) или \(y\) можно рассматривать в качестве аргумента, а другую -- принять за искомую функцию.
+
+Уравнение \textbf{в симметрической форме} выглядит следующим образом:
+\begin{equation}
+    \frac{dx}{M(x, y)} = \frac{dy}{N(x, y)}.
+\end{equation}
+
+\section{Задача Коши}
+
+Одной из важнейших задач в теории дифференциальных уравнений является так называемая задача Коши. Для уравнения
+\begin{equation}
+    \label{eq:уравнение-коши}
+    \frac{dy}{dx} = f(x, y),
+\end{equation}
+\textbf{задача Коши} или \textbf{начальная задача} ставится следующим образом: среди всех решений уравнения найти такое решение, которое будет удовлетворять условию:
+\begin{equation}
+    y(x_0) = y_0,
+\end{equation}
+где \(x_0\) и \(y_0\) -- некоторые заданные числа. При этом \(y_0\) называется \textbf{начальным значением} искомой функции, а число \(x_0\) -- \textbf{начальным значением независимой переменной}. В целом же числа \(x_0\) и \(y_0\) называются \textbf{начальными данными}.
+
+Задачу Коши \textbf{геометрически} можно сформулировать так: среди всех интегральных кривых уравнения
+\begin{equation}
+    \frac{dy}{dx} = f(x, y)
+\end{equation}
+найти ту, которая проходит через заданную точку \(M_0 (x_0, y_0)\).
+
+Задача Коши с начальными условиями \(x_0\) и \(y_0\) имеет \textbf{единственное решение}, если \(\exists \lambda > 0\) такое, что в интервале \(|x - x_0| \leq \lambda\) определено решение \(y = y(x)\) такое, что \(y(x_0) = y_0\). При этом не существует решения, определенного в этом же интервале и не совпадающего с решением \(y = y(x)\) хотя бы в одной точке интервала \(|x - x_0| \leq \lambda\), отличной от точки \(x = x_0\).
+
+\begin{theorem}
+    Непрерывная функция \(y = y(x)\) является решением задачи Коши тогда и только тогда, когда выполняется равенство
+    \begin{equation}
+        \label{eq:коши-интеграл}
+        y = y_0 + \int\limits_{x_0}^x f(t, y(t)) dt.
+    \end{equation}
+
+    \begin{proof}
+        Докажем необходимость. Пусть \(y = y(x)\) является решением задачи Коши, тогда справедливо тождество
+        \[
+            y' = f(x, y).
+        \]
+        Интегрируя это тождество в пределах от \(x_0\) до \(x\) и учитывая условие \(x = x_0\) и \(y = y_0\), получаем требуемое равенство \eqref{eq:коши-интеграл}.
+
+        Докажем достаточность. Так как функции \(y = y(x)\) и \(f(x, y)\) непрерывные, то правая часть равенства \eqref{eq:коши-интеграл}, а следовательно, и левая, будут непрерывно дифференцируемыми по \(x\) функциями. Дифференцируя тождество \eqref{eq:коши-интеграл} получаем, что функция \(y = y(x)\) является решением уравнения задачи Коши. Если в равенстве \eqref{eq:коши-интеграл} положить \(x = x_0\), то увидим, что это уравнение также удовлетворяет условию.
+    \end{proof}
+\end{theorem}
+
+\chapter{Методы интегрирования уравнений в нормальной форме}
+
+\section{Неполные уравнения}
+
+Дифференциальное уравнение в нормальной форме называется \textbf{неполным}, если его правая часть зависит только от одного аргумента. Рассмотрим уравнение вида
+\begin{equation}
+    y' = f(x),
+\end{equation}
+где будем считать функцию \(f(x)\) определенной и непрерывной на некотором интервале \((a, b)\).
+
+Правая часть уравнения не зависит от искомой функции \(y(x)\), поэтому область определения есть множество \(D = (a, b) \times (-\infty, +\infty)\). Поскольку правая часть уравнения не зависит от переменной \(y\), то выполнены условия теоремы Пикара и поэтому имеет место существования и единственность решения начальной задачи.
+
+Преобразуем уравнение:
+\begin{gather}
+    y' = f(x) \\
+    \frac{dy}{dx} = f(x) \\
+    dy = f(x)dx \\
+    y = \int f(x)dx + C.
+\end{gather}
+
+Полученная формула определяет общее решение исходного уравнения на множестве \(R = \{ x \in (a, b); |y| < \infty \}\). Особых решений \(y\) исходного уравнения нет.
+
+Если дополнительно задано начальное условие \(y(x_0) = y_0\),  то решение, удовлетворяющее этому условию, определяется формулой
+\begin{equation}
+    y(x, x_0, y_0) = y_0 + \int\limits_{x_0}^x f(t)dt.
+\end{equation}
+
+При фиксированном \(x_0\) и произвольном \(y_0\) эта формула определяет общее решение исходного уравнения на множестве \(\mathbb{R}\) в форме Коши. Также из этой формы следует, что каждое решение уравнения определено на интервале \((a, b)\) и вся полоса \(\mathbb{R}\) заполнена непересекающимися интегральными кривыми.
+
+Предположим теперь, что для некоторого \(\xi \in (a, b)\) будет \(f(\xi) = \infty\). В окрестности этой точки рассмотрим тогда перевернутое уравнение
+\begin{equation}
+    \frac{dx}{dy} = \frac{1}{f(x)}.
+\end{equation}
+
+Это уравнение определено при \(x = \xi\), более того, очевидно, что прямая \(x \equiv \xi\) -- решение этого уравнения. Это решение может быть как частным, так и особым.
+
+\section{Уравнения с разделяющимися переменными}
+
+Дифференциальное уравнение первого порядка, допускающее приведение к виду
+\begin{equation}
+    \label{eq:уравнение-с-разделяющимися-переменными}
+    f_1(x) \varphi_1(y) dx + f_2(x) \varphi_2(y) dy = 0,
+\end{equation}
+где \(f_1(x), f_2(x)\) -- известные функции лишь переменной \(x\), а \(\varphi_1(y), \varphi_2(y)\) -- известные функции лишь переменной \(y\), называется уравнением с разделяющимися переменными.
+
+Для решения этого уравнения нужно произвести разделение переменных, т. е. преобразовать это уравнение так, чтобы при \(dx\) стоял бы множитель, зависящий только от \(x\), а при \(dy\) стоял бы множитель, зависящий только от y. Для этого достаточно обе части уравнения разделить на произведение \(f_2(x) \varphi_(y)\):
+\[
+    \frac{f_1(x)}{f_2(x)} dx + \frac{\varphi_2(y)}{\varphi_1(y)} dy = 0.
+\]
+
+Рассматривая для определенности в последнем равенстве \(y\) как функцию переменной \(x\), получим
+\[
+    \Big[ \frac{f_1(x)}{f_2(x)} + \frac{\varphi_2(y)}{\varphi_1(y)} \cdot y' \Big] dx = 0.
+\]
+
+Отсюда, интегрируя по \(x\), будем иметь
+\[
+    \int \Big[ \frac{f_1(x)}{f_2(x)} + \frac{\varphi_2(y)}{\varphi_1(y)}y' \Big] dx = C.
+\]
+или
+\begin{equation}
+    \label{eq:интегральное-уравнение-с-разделяющимися-переменными}
+    \int \frac{f_1(x)}{f_2(x)} dx + \int \frac{\varphi_2(y)}{\varphi_1(y)} dy = C,
+\end{equation}
+где \(C\) -- произвольная постоянная.
+
+Кроме решений, даваемых формулой \eqref{eq:интегральное-уравнение-с-разделяющимися-переменными}, уравнение \eqref{eq:уравнение-с-разделяющимися-переменными} допускает решение, обращающие в ноль произведение \(f_2(x) \varphi_1(y)\), т. е. являющиеся корнями уравнений \(f_2(x) = 0\) или \(\varphi_1(y) = 0\).
+
+В самом деле, пусть \(x = a\), где \(f_2(a) = 0\), тогда \(dx = 0\) (поскольку дифференциал константы \(a\) равен нулю). Подставляя эту функцию в уравнение, получим
+\[
+    f_1(a) \varphi_1(y) \cdot 0 + f_2(a) \varphi_2(y) dy \equiv 0,
+\]
+т. е. \(x = a\) -- решение уравнения \eqref{eq:уравнение-с-разделяющимися-переменными}. Аналогично можно показать, что функция \(y = b\), где \(\varphi_1(b) = 0\), является также решением уравнения \eqref{eq:уравнение-с-разделяющимися-переменными}. Геометрически эти решения, если они существуют, составляют собой прямые, параллельные осям координат.
+
+\section{Однородные уравнения}
+
+Функция \(f(x, y)\) называется \textbf{однородной измерения \(\alpha\)}, если при любом значении \(\lambda\) выполняется тождество
+\begin{equation}
+    f(\lambda x, \lambda y) \equiv = \lambda^{\alpha} f(x, y).
+\end{equation}
+
+В частности, многочлен
+\[
+    P(x, y) = \sum_{i, j} C_{ij} x^i y^i
+\]
+представляет собой однородную функцию \(n\)-го измерения, если всего его члены имеют одно и тоже измерение, равное \(n\), то есть, если \(i + j = n\).
+
+Дифференциальное уравнение первого порядка
+\begin{equation}
+    P(x, y) dx + Q(x, y) dy = 0
+\end{equation}
+называется \textbf{однородным}, если коэффициенты \(P(x, y)\) и \(Q(x, y)\) при дифференциалах переменных \(x\) и \(y\) однородные функции одного и того же измерения.
+
+\section{Линейные уравнения}
+
+Дифференциальное уравнение 1-го порядка называется \textbf{линейным}, если оно первой степени относительно неизвестной функции \(y\) и ее производной \(y'\) (или дифференциала \(dy\)) и не содержит произведения этих величин. В общем случае линейное уравнение имеет вид
+\begin{equation}
+    \label{eq:линейное-уравнение}
+    \alpha(x) y' + \beta(x) y + \gamma(x) = 0,
+\end{equation}
+где коэффициенты \(\alpha(x)\), \(\beta(x)\) и \(\gamma(x)\) -- данные непрерывные функции в некотором интервале \(x \in (a, b)\).
+
+Предполагая, что \(\alpha(x) \neq 0\), и вводя обозначения
+\[
+    p(x) = \frac{\beta(x)}{\alpha(x)},
+    \qquad
+    q(x) = -\frac{\gamma(x)}{\alpha(x)},
+\]
+уравнение \eqref{eq:линейное-уравнение} можно привести к нормальному виду
+\begin{equation}
+    \label{eq:нормальное-линейное-уравнение}
+    y' + p(x)y = q(x),
+\end{equation}
+где функции \(p(x)\) и \(q(x)\) определены и непрерывны в интервале \(x \in (a, b)\).
+
+Если \(q(x) \equiv 0\), то линейное уравнение \eqref{eq:нормальное-линейное-уравнение} называется \textbf{однородным}, в противном случае -- \textbf{неоднородным}.
+
+\section{Однородные уравнения}
+
+Функция \(F(x, y)\) называется \textbf{однородной степени \(k\)}, если
+\[
+    \forall \lambda > 0 \implies F(\lambda x, \lambda y) = \lambda^k F(x, y).
+\]
+Примером однородной функции может служить любая форма (однородный многочлен) степени \(k\).
+
+Следующие функции являются однородными функциями степени \(0\), \(1\), \(2\) и \(k\) соответственно:
+\[
+    \frac{x - y}{x + y};
+    \quad
+    \frac{x^2 + xy}{x - y};
+    \quad
+    x^2 + y^2 - xy;
+    \quad
+    x^{k - 1}y + y^k.
+\]
+
+Дифференциальное уравнение \(\dfrac{dy}{dx} = f(x, y)\) называется \textbf{однородным}, если \(f(x, y)\) -- однородная функция степени ноль.
+
+Уравнение \(M(x, y)dx + N(x, y)dy = 0\) является однородным, если \(M(x, y)\) и \(N(x, y)\) -- однородные функции одной и той же степени. Замена \(y = zx\) приводит однородное уравнение к уравнению с разделяющимися переменными.
+
+\section{Линейные уравнения первого порядка. Уравнение Бернулли}
+
+Уравнение вида
+\[
+    y' + p(x)y = q(x),
+\]
+где \(p(x)\), \(q(x)\) -- функции, непрерывные на \([a, b]\), называется \textbf{линейным дифференциальным уравнением первого порядка}. Его решение ищут в виде
+\[
+    y(x) = u(x) \cdot v(x),
+\]
+где \(u(x)\), \(v(x)\) -- две неизвестные функции. После подстановки в уравнение выражений для \(y\) и \(y'\) получаем
+\[
+    v \frac{du}{dx} + \Big( \frac{dv}{dx} + p(x)v \Big) u = q(x).
+\]
+В качестве \(v(x)\) выбирают одну из функций, удовлетворяющих уравнению
+\[
+    \frac{dv}{dx} + p(x)v = 0.
+\]
+Тогда функция \(u(x)\) определяется из уравнения
+\[
+    v \frac{du}{dx} = q(x).
+\]
+
+Уравнение вида
+\[
+    y' = p(x)y = q(x)y^\alpha,
+\]
+где \(\alpha \in R (\alpha \neq 0, \alpha \neq 1)\), называется \textbf{уравнением Бернулли}. Путем подстановки \(z = y^{1 - \alpha}\) оно сводится к линейному. Его можно решать и непосредственно, применяя подстановку
+\[
+    y(x) = u(x) \cdot v(x).
+\]
+
+\section{Уравнение в полных дифференциалах}
+
+\subsection{Определение}
+
+Уравнение вида
+\[
+    M(x, y) dx + N(x, y)dy
+\]
+называется \textbf{уравнением в полных дифференциалах}, если его левая часть есть полный дифференциал некоторой функции \(u(x, y)\). В этом случае уравнение можно записать в виде \(du(x, y) = 0\), откуда следует, что соотношение \(u(x, y) = C\) является его общим интегралом.
+
+Выражение
+\[
+    M(x, y)dx + N(x, y)dy,
+\]
+где \(M\), \(N\) -- непрерывные функции вместе со своими частными производными \(\dfrac{\partial M}{\partial y}\) и \(\dfrac{\partial N}{\partial x}\) в некоторой области \(D\), есть \textbf{полный дифференциал} тогда и только тогда, когда \(\dfrac{\partial M}{\partial y} = \dfrac{\partial N}{\partial x}\) во всей области \(D\).
+
+\subsection{Решение уравнений}
+
+Рассмотрим пример. Пусть необходимо решить следующее уравнение:
+\[
+    (3x^2 + 6xy^2) dx + (6x^2y + 4y^3) dy = 0.
+\]
+
+Пусть
+\[
+    M(x, y) = 3x^2 + 6xy^2,
+    \qquad
+    N(x, y) = 6x^2y + 4y^3.
+\]
+
+Так как
+\[
+    \frac{\partial M}{\partial y} = 12xy,
+    \quad
+    \frac{\partial N}{\partial x} = 12xy,
+    \quad
+    \frac{\partial M}{\partial y} = \frac{\partial N}{\partial x},
+\]
+то данное уравнение является уравнением в полных дифференциалах. Значит
+\[
+    Mdx + Ndy = du.
+\]
+Следовательно
+\[
+    Mdx + Ndy = \frac{\partial u}{\partial x} dx + \frac{\partial u}{\partial y}dy
+    \implies
+    \frac{\partial u}{\partial x} = M,
+    \quad
+    \frac{\partial u}{\partial y} = N.
+\]
+\[
+    \begin{dcases}
+        \frac{\partial u}{\partial x} = 3x^2 + 6xy^2, \\
+        \frac{\partial u}{\partial y} = 6x^2y + 4y^3.
+    \end{dcases}
+\]
+
+Проинтегрируем первое уравнение по \(x\), считая \(y\) постоянной:
+\[
+    u(x, y) =
+    \int (3x^2 + 6xy^2)dx =
+    3 \cdot \frac{x^3}{3} + 6y^2 * \frac{x^2}{2} + \varphi(y) =
+    x^3 + 3x^2y^2 + \varphi(y),
+\]
+где \(\varphi(y)\) -- произвольная непрерывно-дифференцируемая функция. Для полученной функции \(u(x, y)\) найдем частную производную по \(y\):
+\[
+    \frac{\partial u}{\partial y} = 6x^2y + \varphi'(y).
+\]
+Объединим это уравнение и второе уравнение системы:
+\begin{gather*}
+    6x^2y + \varphi'(y) = 6x^2y + 4y^3 \\
+    \varphi'(y) = 4y^3 \\
+    \varphi(y) = y^4 + C.
+\end{gather*}
+
+Подставим \(\varphi(y)\) в ранее найденную функцию \(u(x, y)\):
+\[
+    u(x, y) = x^3 + 3x^2y^2 + y^4 + C.
+\]
+
+Общий интеграл дифференциального уравнения:
+\[
+    x^3 + 3x^2y^2 + y^4 = C.
+\]
+
+\section{Дифференциальные уравнения высших порядков, допускающие понижение порядка}
+
+\subsection{Определение}
+
+Общий вид дифференциальных уравнений высшего порядка:
+\[
+    F \Big( x, y, y', y'', \ldots, y^{(n)} \Big) = 0.
+\]
+Допускают понижение порядка следующие типы дифференциальных уравнений:
+\begin{enumerate}
+    \item Уравнение вида \(y^{(n)} = f(x)\) решается путем \(n\)-кратного интегрирования.
+    \item Уравнение вида \(F(x, y', y'') = 0\), явно \textbf{не содержащее искомой функции} \(y(x)\), сводят к уравнению первого порядка путем введения новой неизвестной функции \(z = z(x)\). Полагая \(y'(x) = z(z)\), \(y''(x) = z'(x)\), уравнение принимает вид \(F(x, z, z') = 0\).
+    \item Уравнение вида \(F(y, y', y'') = 0\) явно \textbf{не содержащее независимой переменной} \(x\), интегрируют с помощью подстановки \(p = y'\), где \(p = p(y)\) -- новая не известная функция, зависящая от \(y\). Тогда \(y'' = p \cdot p'\). При этом порядок уравнение понижается на единицу.
+    \item Если левая часть дифференциального уравнения \textbf{есть точная производная} какой-либо функции, то порядок уравнения так же можно понизить.
+\end{enumerate}
+
+\subsection{Примеры точных производных}
+
+\begin{gather*}
+    \frac{y'}{y} = (\ln y)';
+    \qquad
+    \frac{y''}{y'} = (\ln y')';
+    \\
+    xy'' + y' = (xy')';
+    \qquad
+    yy'' + (y')^2 = (yy')';
+    \\
+    \frac{yy'' - (y')^2}{y^2} = \Big( \frac{y'}{y} \Big)'.
+\end{gather*}
+
+\section{Линейные однородные дифференциальные уравнения с постоянными коэффициентами}
+
+Чтобы решить ЛОДУ с постоянными коэффициентами
+\begin{equation}
+    \label{eq:lhde}
+    a_0 y^{(n)} + a_1 y^{(n - 1)} + \ldots + a_{n - 1} y' + a_n y = 0,
+\end{equation}
+надо составить характеристическое уравнение
+\begin{equation}
+    \label{eq:lhde-characteristic}
+    a_0 \lambda^n + a_1 \lambda^{n - 1} + \ldots + a_{n - 1} \lambda + a_n = 0
+\end{equation}
+и найти все его корни \(\lambda_1, \ldots, \lambda_n\).
+
+Общее решение уравнения \eqref{eq:lhde} есть сумма, состоящая из слагаемых вида \(C_i e^{\lambda_i x}\) для каждого простого корня \(\lambda_i\) уравнения \eqref{eq:lhde-characteristic} и слагаемых вида
+\begin{equation}
+    \label{eq:lhde-general}
+    \big( C_{m + 1} + C_{m + 2}x + C_{m + 3}x^2 + \ldots + C_{m + k} x^{k - 1} \big) e^{\lambda x}
+\end{equation}
+для каждого кратного корня \(\lambda\) уравнения \eqref{eq:lhde-characteristic}, где \(k\) -- кратность корня. Все \(C_i\) -- произвольные постоянные.
+
+Для каждой пары комплексных сопряженных корней \(\lambda = \alpha \pm i \beta\) в формулу общего решения включаются слагаемые
+\[
+    C_{m + 1} e^{\alpha x} \cos \beta x + C_{m + 2} e^{\alpha x} \sin \beta x,
+\]
+если эти корни простые, и слагаемые
+\[
+    P_{k - 1}(x) e^{\alpha x} \cos{\beta x} + Q_{k - 1}(x) e^{\alpha x} \sin{\beta x},
+\]
+если каждый из корней \(\alpha + i \beta\) и \(\alpha - i \beta\) имеет кратность \(k\). Здесь \(P_{k - 1}\) и \(Q_{k - 1}\) -- многочлены степени \(k - 1\), аналогичные многочлену в \eqref{eq:lhde-general}, их коэффициенты -- произвольные постоянные.
+
+Например, вид общего решения уравнения второго порядка
+\[
+    y'' + a_1 y' + a_2 y = 0
+\]
+с постоянными коэффициентами зависит от корней характеристического уравнения
+\[
+    \lambda^2 + a_1 \lambda + a_2 = 0.
+\]
+
+Если \(\lambda_1\) и \(\lambda_2\) -- различные и действительные корни, общее решение имеет вид
+\[
+    y = C_1 e^{\lambda_1 x} + C_2 e^{\lambda_2 x}.
+\]
+
+Если \(\lambda_1 = \lambda_2 = \lambda\) -- двукратный действительный корень, общее решение имеет вид
+\[
+    y = C_1 e^{\lambda x} + C_2 x e^{\lambda x}.
+\]
+
+Если \(\lambda_{1, 2} = \alpha \pm i \beta\) -- комплексно-сопряженные корни, общее решение имеет вид
+\[
+    y = e^{\alpha x} (C_1 \cos \beta x + C_2 \sin \beta x).
+\]
+
+\section{Линейные неоднородные дифференциальные уравнения с постоянными коэффициентами}
+
+% TODO: дописать
 
 
 \end{document}
