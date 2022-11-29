@@ -30,12 +30,41 @@
 \pagestyle{plain}
 
 \theoremstyle{definition}
-\newtheorem{theorem}{Теорема}[chapter]
-\newtheorem{corollary}{Следствие}[theorem]
-\newtheorem{lemma}[theorem]{Лемма}
-\newtheorem{property}[theorem]{Свойство}
+\newtheorem{theorem}{Теорема}[section]
+\renewcommand{\thetheorem}{\arabic{theorem}}
+
+\newtheorem{theorem*}{Теорема}
+
+\newtheorem{lemma}{Лемма}[section]
+\renewcommand{\thelemma}{\arabic{lemma}}
+
+\newtheorem{property}{Свойство}[section]
+\renewcommand{\theproperty}{\arabic{property}}
+
 \theoremstyle{definition}
-\newtheorem{definition}{Определение}[chapter]
+\newtheorem{definition}{Определение}[section]
+\renewcommand{\thedefinition}{\arabic{definition}}
+
+\theoremstyle{definition}
+\newtheorem*{definition*}{Определение}
+
+\newtheorem{consequence}{Следствие}[section]
+\makeatletter
+\counterwithin{consequence}{property}
+\counterwithin{consequence}{theorem}
+\makeatother
+\renewcommand{\theconsequence}{\arabic{consequence}}
+
+\newtheorem*{consequence*}{Следствие}
+
+\newtheorem{note}{Замечание}[section]
+\makeatletter
+\counterwithin{note}{property}
+\counterwithin{note}{theorem}
+\makeatother
+\renewcommand{\thenote}{\arabic{note}}
+
+\newtheorem*{note*}{Замечание}
 
 
 \newcommand{\newpar}{$ $\par\nobreak\ignorespaces}
@@ -2798,5 +2827,151 @@
     \end{dcases}
 \]
 Решая данную систему, находим \(C_1'(x)\) и \(C_2'(x)\), откуда после интегрирования определяем \(C_1(x)\) и \(C_2(x)\).
+
+\chapter{Числовые ряды}
+
+\section{Основные понятия}
+
+\begin{definition*}
+    Выражение вида
+    \[
+        \sum_{n = 1}^{\infty} a_n = a_1 + a_2 + \ldots + a_n + \ldots,
+    \]
+    называют \textbf{числовым рядом}. Числа \(a_1, a_2, \ldots, a_n, \ldots\) -- действительные или комплексные числа, называющиеся членами ряда, а \(a_n\) -- \(n\)-ый или общий член ряда.
+\end{definition*}
+
+Ряд задан, если известен общий член ряда \(a_n\), выраженных как функция его номера \(n\): \(a_n = f(n)\).
+
+Сумму первых \(n\) членов числового ряда обозначают через \(S_n\) и называют \(n\)-й частичной суммой ряда:
+\[
+    S_n = a_1 + a_2 + \ldots + a_n.
+\]
+
+Ряд вида
+\[
+    \sum_{k = n + 1}^{\infty} a_k = a_{n + 1} + a_{n + 2} + \ldots
+\]
+называется \(n\)-м остатком ряда \(\displaystyle \sum_{n = 1}^{\infty} a_n\), который получается отбрасыванием его \(n\) первых членов.
+
+Ряд называется \textbf{сходящимся}, если его \(n\)-я частичная сумма \(S_n\) при неограниченном возрастании \(n\) стремится к конечному пределу, т. е. если
+\[
+    \lim_{n \to \infty} = S.
+\]
+Число \(S\) называют \textbf{суммой} ряда. Если же \(n\)-я частичная сумма ряда не стремиться к конечному пределу, то ряд называют \textbf{расходящимся}.
+
+\section{Свойства числовых рядов}
+
+\begin{property}
+    Если ряд
+    \begin{equation}
+        \label{eq:series-prop-1}
+        \sum_{n = 1}^{\infty} a_n = a_1 + a_2 + \ldots + a_n + \ldots
+    \end{equation}
+    сходится и его сумма равна \(S\), то ряд
+    \begin{equation}
+        \label{eq:series-with-constant-prop-1}
+        \sum_{n = 1}^{\infty} \lambda a_n = \lambda a_1 + \lambda a_2 + \ldots + \lambda a_n + \ldots,
+    \end{equation}
+    где \(\lambda\) -- произвольное число, также сходится и его сумма равна \(\lambda S\). Если же ряд \eqref{eq:series-prop-1} расходится и \(\lambda \neq 0\), то и ряд \eqref{eq:series-with-constant-prop-1} расходится.
+
+    \begin{proof}
+        \newpar
+        \textbf{Сходимость}. Пусть \(S_n\) -- \(n\)-я частичная сумма ряда \eqref{eq:series-with-constant-prop-1}. Тогда
+        \[
+            S_n^{(a)} = \lambda a_1 + \lambda a_2 + \ldots + \lambda a_n + \ldots =
+            \lambda (a_1 + a_2 + \ldots + a_n + \ldots) =
+            \lambda S_n.
+        \]
+        \[
+            \lim_{n \to \infty} S_n^{(a)} =
+            \lim_{n \to \infty} \lambda S_n =
+            \lambda \lim_{n \to \infty} S_n =
+            \lambda S.
+        \]
+
+        Так как существует конечный предел частичных сумм, то ряд \eqref{eq:series-with-constant-prop-1} сходится и имеет сумму \(\lambda S\).
+
+        \textbf{Расходимость}. Допустим противное. Пусть ряд \eqref{eq:series-with-constant-prop-1} сходится и имеет сумму \(S_1\). Тогда
+        \[
+            S_1 = \lim_{n \to \infty} S_n^{(a)} =
+            \lim_{n \to \infty} \lambda S_n =
+            \lambda \lim_{n \to \infty} S_n
+            \implies
+            \lim_{n \to \infty} S_n = \frac{S_1}{\lambda}.
+        \]
+        т. е. ряд \eqref{eq:series-prop-1} сходится, что противоречит условию о расходимости данного ряда.
+    \end{proof}
+\end{property}
+
+\begin{property}
+    Если сходится ряд
+    \begin{equation}
+        \label{eq:series-a-prop-2}
+        \sum_{n = 1}^{\infty} a_n = a_1 + a_2 + \ldots + a_n + \ldots
+    \end{equation}
+    и сходится ряд
+    \begin{equation}
+        \label{eq:series-b-prop-2}
+        \sum_{n = 1}^{\infty} b_n = b_1 + b_2 + \ldots + b_n + \ldots,
+    \end{equation}
+    а их суммы равны \(S_a\) и \(S_b\) соответственно, то сходятся и ряды
+    \begin{equation}
+        \label{eq:series-ab-prop-2}
+        \sum_{n = 1}^{\infty} (a_n \pm b_n),
+    \end{equation}
+    причем сумма каждого равна \(S_a \pm S_b\).
+
+    \begin{proof}
+        Пусть \(S_n^{(a)}\), \(S_n^{(b)}\), \(S_n\) -- \(n\)-е частичные суммы рядов \eqref{eq:series-a-prop-2}, \eqref{eq:series-b-prop-2} и \eqref{eq:series-ab-prop-2} соответственно. Тогда
+        \[
+            \lim_{n \to \infty} S_n =
+            \lim_{n \to \infty} (S_n^{(a)} \pm S_n^{(b)}) =
+            \lim_{n \to \infty} S_n^{(a)} \pm \lim_{n \to \infty} S_n^{(b)} =
+            S_a \pm S_b,
+        \]
+        т. е. каждый из рядов \eqref{eq:series-ab-prop-2} сходится и его сумма равна \(S_a \pm S_b\).
+    \end{proof}
+
+    \begin{consequence*}
+        Сумма (разность) сходящегося и расходящегося рядов есть расходящийся ряд.
+    \end{consequence*}
+
+    \begin{note*}
+        Сумма (разность) двух расходящимся рядов может быть как сходящимся, так и расходящимся рядом.
+    \end{note*}
+\end{property}
+
+\begin{property}
+    Если к ряду
+    \begin{equation}
+        \label{eq:series-prop-3}
+        \sum_{n = 1}^{\infty} a_n = a_1 + a_2 + \ldots + a_n + \ldots
+    \end{equation}
+    прибавить (или отбросить) конечное число членов, то полученный ряд и ряд \eqref{eq:series-prop-3} сходятся или расходятся одновременно.
+
+    \begin{proof}
+        Пусть \(S\) -- сумма отброшенных членов ряда, а \(k\) -- наибольший из этих номеров. Будем считать, что на место отброшенных членов ряда поставили нули. Тогда при \(n > k\) выполняется равенство
+        \[
+            S_n - S_n' = S,
+        \]
+        где \(S_n'\) -- \(n\)-я частичная сумма ряда, полученная из ряда \eqref{eq:series-prop-3} путем отбрасывания конечного числа членов. Поэтому
+        \[
+            \lim_{n \to \infty} S_n = S + \lim_{n \to \infty} S_n'.
+        \]
+
+        Пределы в левой и правой части данного равенства одновременно существуют или не существуют, т. е. ряд \eqref{eq:series-prop-3} сходится (расходится) тогда и только тогда, когда сходятся (расходятся) ряды без конечного числа его членов.
+
+        Аналогично доказывается случай приписывания к ряду конечного числа членов.
+    \end{proof}
+    \begin{consequence}
+        Ряд \eqref{eq:series-prop-3} и его \(n\)-й остаток сходятся или расходятся одновременной.
+    \end{consequence}
+    \begin{consequence}
+        Если ряд \eqref{eq:series-prop-3} сходится, то его \(n\)-й остаток \(r_n\) стремится к нулю при \(n \to \infty\), т. е.
+        \[
+            \lim_{n \to \infty} r_n = 0.
+        \]
+    \end{consequence}
+\end{property}
 
 \end{document}
