@@ -2860,6 +2860,7 @@
 Число \(S\) называют \textbf{суммой} ряда. Если же \(n\)-я частичная сумма ряда не стремиться к конечному пределу, то ряд называют \textbf{расходящимся}.
 
 \section{Свойства числовых рядов}
+\label{sec:num-series-props}
 
 \begin{property}
     Если ряд
@@ -3054,5 +3055,77 @@
         Если \(\displaystyle \lim_{n \to \infty} a_n \neq 0\) или не существует, то ряд расходится.
     \end{consequence*}
 \end{theorem*}
+
+\section{Признаки сравнения}
+
+\begin{theorem}
+    \label{thm:series-comparing-1}
+    Пусть даны два знакоположительных ряда \(\displaystyle \sum_{n = 1}^{\infty} a_n\) и \(\displaystyle \sum_{n = 1}^{\infty} b_n\). Если для всех \(n\) выполняется неравенство \(a_n \leq b_n\), то эти ряды сходятся или расходятся одновременно.
+
+    \begin{proof}
+        Пусть \(S_n^{(a)}\) и \(S_n^{(b)}\) -- \(n\)-e частичные суммы этих рядов. Так как \(\forall n \implies a_n \leq b_n\):
+        \[
+            S_n^{(a)} \leq S_n^{(b)}.
+        \]
+
+        Докажем, что если сходится ряд \(\displaystyle \sum_{n = 1}^{\infty} b_n\), то сходится и ряд \(\displaystyle \sum_{n = 1}^{\infty} a_n\). Пусть ряд \(\displaystyle \sum_{n = 1}^{\infty} b_n\) сходится и его сумма равна \(S_b\). Тогда
+        \[
+            \lim_{n \to \infty} S_n^{(b)} = S_b.
+        \]
+
+        Члены этого ряда положительны, поэтому
+        \[
+            S_n^{(b)} < S_b.
+        \]
+
+        Так как \(\forall n \implies a_n \leq b_n\), имеем
+        \[
+            S_n^{(a)} < S_b.
+        \]
+
+        Таким образом, последовательность \(S_1^{(a)}, S_2^{(a)}, \ldots, S_n^{(a)}\) монотонно возрастает и ограничена сверху числом \(S_n\). По признаку существования предела последовательности последовательность \(\{S_n^{(a)}\}\) имеет предел \(\displaystyle \lim_{n \to \infty} S_n^{(a)} = S_a\), т.е. ряд сходится.
+
+        Пусть теперь ряд \(\displaystyle \sum_{n = 1}^{\infty} a_n\) расходится. Так как члены неотрицательны, то
+        \[
+            \lim_{n \to \infty} S_n^{(a)} = \infty.
+        \]
+
+        Так как \(\forall n \implies a_n \leq b_n\), имеем
+        \[
+            \lim_{n \to \infty} S_n^{(b)} = \infty,
+        \]
+        то есть ряд \(\displaystyle \sum_{n = 1}^{\infty} b_n\) расходится.
+    \end{proof}
+
+    \begin{note*}
+        Теорема справедлива и в том случае, когда неравенство \(a_n \leq b_n\) выполняется не для всех членов рядов, а начиная с некоторого номера.
+    \end{note*}
+\end{theorem}
+
+\begin{theorem}[предельный признак сравнения]
+    Пусть даны два знакоположительных ряда \(\displaystyle \sum_{n = 1}^{\infty} a_n\) и \(\displaystyle \sum_{n = 1}^{\infty} b_n\). Если существует конечный, отличный от нуля предел
+    \[
+        \lim_{n \to \infty} \frac{a_n}{b_n} = A
+        \quad
+        (0 < A < \infty),
+    \]
+    то эти ряды сходятся или расходятся одновременно.
+
+    \begin{proof}
+        По определению предела последовательности для всех \(n\), кроме, возможно, их конечного числа, для любого \(\varepsilon > 0\)
+        \[
+            \Big| \frac{a_n}{b_n} - A \Big| < \varepsilon,
+        \]
+        \[
+            (A - \varepsilon) b_n < a_n < (A + \varepsilon) b_n.
+        \]
+
+        Если ряд \(\displaystyle \sum_{n = 1}^{\infty} a_n\) сходится, то из неравенства \((A - \varepsilon) b_n < a_n\) и \hyperref[thm:series-comparing-1]{предыдущей теоремы} следует, что ряд \(\displaystyle \sum_{n = 1}^{\infty} (A - \varepsilon) b_n\) также сходится. Тогда, согласной \hyperref[sec:num-series-props]{свойству числовых рядов}, ряд \(\displaystyle \sum_{n = 1}^{\infty} b_n\) также сходится.
+
+        Если ряд \(\displaystyle \sum_{n = 1}^{\infty} a_n\) расходится, то из неравенства \(a_n < (A + \varepsilon) b_n\), \hyperref[thm:series-comparing-1]{предыдущей теоремы} и \hyperref[sec:num-series-props]{свойства числовых рядов} ряд \(\displaystyle \sum_{n = 1}^{\infty} b_n\) также расходится.
+
+        Аналогично, если ряд \(\displaystyle \sum_{n = 1}^{\infty} b_n\) сходится (расходится), то будет сходиться (расходиться) и ряд \(\displaystyle \sum_{n = 1}^{\infty} a_n\).
+    \end{proof}
+\end{theorem}
 
 \end{document}
