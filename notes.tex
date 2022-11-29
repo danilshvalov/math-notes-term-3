@@ -2974,4 +2974,40 @@
     \end{consequence}
 \end{property}
 
+\section{Ряд геометрической прогрессии}
+
+\begin{definition*}
+    Ряд вида
+    \[
+        a + aq + aq^2 + \ldots + aq^{n - 1} + \ldots,
+        \quad
+        (a \neq 0)
+    \]
+    называется \textbf{рядом геометрической прогрессии}.
+\end{definition*}
+
+Исследуем данный ряд на сходимость. Сумма первых \(n\) членов прогрессии находится по формуле
+\[
+    S_n = \frac{a (1 - q^n)}{1 - q},
+    \quad
+    q \neq 1.
+\]
+
+Найдем предел этой суммы:
+\[
+    \lim_{n \to \infty} S_n =
+    \lim_{n \to \infty} \frac{a (1 - q^n)}{1 - q} =
+    \frac{a}{1 - q} - a \lim_{n \to \infty} \frac{q^n}{1 - q}.
+\]
+
+Рассмотрим следующие случаи:
+\begin{enumerate}
+    \item Если \(|q| < 1\), то \(q^n \to 0\) при \(n \to \infty\), значит \(\displaystyle \lim_{n \to \infty} S_n = \frac{a}{1 - q}\), т. е. ряд сходится и его сумма равна \(\dfrac{a}{1 - q}\).
+    \item Если \(|q| > 1\), то \(q^n \to \infty\) при \(n \to \infty\), значит \(\displaystyle \lim_{n \to \infty} S_n = \infty\), т. е. ряд расходится.
+    \item Если \(q = 1\), получаем ряд \(a + a + a + \ldots\), который расходится, так как \(S_n = na\), значит \(\displaystyle \lim_{n \to \infty} S_n = \infty\).
+    \item Если \(q = -1\), получаем ряд \(a - a + a - a + \ldots\), который расходится, так как \(\displaystyle \lim_{n \to \infty} S\) не существует.
+\end{enumerate}
+
+Таким образом, ряд геометрической прогрессии сходится при \(|q| < 1\) и расходится при \(|q| \geq 1\).
+
 \end{document}
