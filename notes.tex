@@ -33,7 +33,7 @@
 \newtheorem{theorem}{Теорема}[section]
 \renewcommand{\thetheorem}{\arabic{theorem}}
 
-\newtheorem{theorem*}{Теорема}
+\newtheorem*{theorem*}{Теорема}
 
 \newtheorem{lemma}{Лемма}[section]
 \renewcommand{\thelemma}{\arabic{lemma}}
@@ -3026,5 +3026,33 @@
         h = \frac{n}{\dfrac{1}{x_1} + \dfrac{1}{x_2} + \ldots + \dfrac{1}{x_n}}.
     \]
 \end{definition}
+
+\section{Необходимый признак сходимости}
+
+\begin{theorem*}
+    Если ряд сходится, то его общий член \(a_n\) стремится к нулю при \(n \to \infty\), то есть
+    \[
+        \lim_{n \to \infty} a_n = 0.
+    \]
+
+    \begin{proof}
+        Пусть дан сходящийся ряд
+        \[
+            \sum_{n = 1}^{\infty} a_n = a_1 + a_2 + \ldots + a_n + \ldots,
+        \]
+        причем \(\displaystyle \lim_{n \to \infty} S_n = S\). Тогда \(\displaystyle \lim_{n \to \infty} S_{n - 1} = S\) при \(n \to \infty\) и \((n - 1) \to \infty\). Учитывая, что \(a_n = S_n - S_{n - 1}\) при \(n > 1\), получим
+        \[
+            \lim_{n \to \infty} a_n =
+            \lim_{n \to \infty} (S_n - S_{n - 1}) =
+            \lim_{n \to \infty} S_n - \lim_{n \to \infty} S_{n - 1} =
+            S - S = 0.
+        \]
+    \end{proof}
+
+    \begin{consequence*}[достаточное условие расходимости ряда]
+        \newpar
+        Если \(\displaystyle \lim_{n \to \infty} a_n \neq 0\) или не существует, то ряд расходится.
+    \end{consequence*}
+\end{theorem*}
 
 \end{document}
